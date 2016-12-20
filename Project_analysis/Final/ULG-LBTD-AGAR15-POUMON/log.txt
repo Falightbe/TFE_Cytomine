@@ -1,0 +1,263 @@
+Project name : ULG-LBTD-AGAR15-POUMON 
+Project ID : 669418 
+Number of images : 74
+
+Logs : 
+Image 672363, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672363, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672355, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672355, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672347, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672347, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Invalid polygon on image 672311, annotation 8871535
+Job not found : 17
+Job not found : 6981
+Job not found : 17
+Job not found : 6981
+Job not found : 17
+Invalid polygon on image 672278, annotation 8871882
+Invalid polygon on image 672278, annotation 8871870
+Job not found : 6981
+Job not found : 17
+Invalid polygon on image 672267, annotation 8871961
+Invalid polygon on image 672267, annotation 8871959
+Job not found : 17
+Job not found : 6981
+Job not found : 17
+Image 672247, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672247, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672237, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672237, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Job not found : 6981
+Job not found : 17
+Image 672215, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672215, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672198, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672198, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672190, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672190, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672182, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672182, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672168, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672168, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672157, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672157, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Job not found : 17
+Image 672132, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672132, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Job not found : 6981
+Job not found : 17
+Image 672110, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672110, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672102, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672102, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672088, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672088, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672080, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672080, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672069, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672069, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672055, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672055, Term 20202, Reviewed False : NO ANNOTATIONS
+Invalid polygon on image 672055, annotation 8892831
+Job not found : 17
+Image 672047, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672047, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672033, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672033, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672025, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672025, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Image 672017, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 672017, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Job not found : 17
+Image 671992, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 671992, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Job not found : 17
+Image 671967, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 671967, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Invalid polygon on image 671959, annotation 8962689
+Invalid polygon on image 671959, annotation 8961926
+Invalid polygon on image 671959, annotation 8961917
+Invalid polygon on image 671959, annotation 8961905
+Invalid polygon on image 671959, annotation 8961878
+Image 671959, Term 5735, Reviewed True : NO ANNOTATIONS
+Invalid polygon on image 671951, annotation 8964874
+Invalid polygon on image 671951, annotation 8964802
+Invalid polygon on image 671951, annotation 8964735
+Invalid polygon on image 671951, annotation 8963249
+Invalid polygon on image 671951, annotation 8963222
+Invalid polygon on image 671951, annotation 8963220
+Invalid polygon on image 671951, annotation 8963208
+Invalid polygon on image 671951, annotation 8963185
+Invalid polygon on image 671951, annotation 8963166
+Invalid polygon on image 671951, annotation 8963161
+Job not found : 17
+Image 671940, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 671940, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+Invalid polygon on image 671925, annotation 8965076
+Invalid polygon on image 671925, annotation 8965032
+Invalid polygon on image 671925, annotation 8964990
+Invalid polygon on image 671925, annotation 8964971
+Invalid polygon on image 671925, annotation 8964966
+Invalid polygon on image 671925, annotation 8964954
+Job not found : 17
+Invalid polygon on image 671911, annotation 9217094
+Invalid polygon on image 671911, annotation 9217090
+Invalid polygon on image 671911, annotation 9217087
+Invalid polygon on image 671911, annotation 9217084
+Invalid polygon on image 671911, annotation 9217031
+Job not found : 17
+Invalid polygon on image 671903, annotation 9183110
+Invalid polygon on image 671903, annotation 9183107
+Invalid polygon on image 671903, annotation 9183102
+Invalid polygon on image 671903, annotation 9183087
+Invalid polygon on image 671903, annotation 9183056
+Invalid polygon on image 671903, annotation 9183034
+Invalid polygon on image 671903, annotation 9183023
+Invalid polygon on image 671903, annotation 9183019
+Invalid polygon on image 671903, annotation 9183003
+Invalid polygon on image 671903, annotation 9182986
+Invalid polygon on image 671903, annotation 9182972
+Job not found : 17
+Invalid polygon on image 671889, annotation 9186226
+Invalid polygon on image 671889, annotation 9186180
+Invalid polygon on image 671889, annotation 9188048
+Invalid polygon on image 671889, annotation 2184001
+Job not found : 17
+Invalid polygon on image 671881, annotation 9188873
+Invalid polygon on image 671881, annotation 9188806
+Job not found : 17
+Job not found : 17
+Invalid polygon on image 671856, annotation 8875332
+Invalid polygon on image 671856, annotation 8874907
+Image 671856, Term 5735, Reviewed True : NO ANNOTATIONS
+Job not found : 17
+Invalid polygon on image 671837, annotation 9205206
+Job not found : 17
+Invalid polygon on image 671829, annotation 9219999
+Invalid polygon on image 671829, annotation 9219832
+Job not found : 17
+Invalid polygon on image 671821, annotation 9223357
+Invalid polygon on image 671821, annotation 9223354
+Invalid polygon on image 671821, annotation 9223272
+Invalid polygon on image 671821, annotation 9223179
+Invalid polygon on image 671821, annotation 9223124
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Invalid polygon on image 671760, annotation 9210301
+Invalid polygon on image 671760, annotation 9209442
+Invalid polygon on image 671760, annotation 8858606
+Invalid polygon on image 671760, annotation 8858580
+Invalid polygon on image 671760, annotation 8858502
+Invalid polygon on image 671760, annotation 8858424
+Invalid polygon on image 671760, annotation 8858385
+Invalid polygon on image 671760, annotation 8858372
+Invalid polygon on image 671760, annotation 8858304
+Invalid polygon on image 671760, annotation 8858116
+Job not found : 17
+Job not found : 17
+Invalid polygon on image 671724, annotation 9412597
+Job not found : 17
+Invalid polygon on image 671697, annotation 9212218
+Job not found : 17
+Invalid polygon on image 671686, annotation 9243201
+Invalid polygon on image 671686, annotation 9243169
+Invalid polygon on image 671686, annotation 9243146
+Invalid polygon on image 671686, annotation 9243116
+Invalid polygon on image 671686, annotation 9243112
+Invalid polygon on image 671686, annotation 9243092
+Invalid polygon on image 671686, annotation 9243089
+Invalid polygon on image 671686, annotation 9243085
+Invalid polygon on image 671686, annotation 9243079
+Invalid polygon on image 671686, annotation 9243075
+Invalid polygon on image 671686, annotation 8863849
+Invalid polygon on image 671686, annotation 8863836
+Invalid polygon on image 671686, annotation 8863758
+Invalid polygon on image 671686, annotation 8863700
+Invalid polygon on image 671686, annotation 8863611
+Invalid polygon on image 671686, annotation 8863507
+Invalid polygon on image 671686, annotation 8863481
+Invalid polygon on image 671686, annotation 8863468
+Invalid polygon on image 671686, annotation 8863382
+Invalid polygon on image 671686, annotation 8863061
+Invalid polygon on image 671686, annotation 8863009
+Invalid polygon on image 671686, annotation 8862983
+Invalid polygon on image 671686, annotation 8862854
+Invalid polygon on image 671686, annotation 8862776
+Invalid polygon on image 671686, annotation 8862659
+Invalid polygon on image 671686, annotation 8862594
+Invalid polygon on image 671686, annotation 8862542
+Invalid polygon on image 671686, annotation 8862503
+Invalid polygon on image 671686, annotation 8862464
+Invalid polygon on image 671686, annotation 8862360
+Invalid polygon on image 671686, annotation 8862334
+Invalid polygon on image 671686, annotation 8862277
+Invalid polygon on image 671686, annotation 8862264
+Invalid polygon on image 671686, annotation 8862251
+Invalid polygon on image 671686, annotation 8862212
+Invalid polygon on image 671686, annotation 8862160
+Invalid polygon on image 671686, annotation 8862095
+Invalid polygon on image 671686, annotation 8861965
+Invalid polygon on image 671686, annotation 8861887
+Invalid polygon on image 671686, annotation 8861809
+Invalid polygon on image 671686, annotation 8861796
+Invalid polygon on image 671686, annotation 8861770
+Invalid polygon on image 671686, annotation 8861731
+Invalid polygon on image 671686, annotation 8861594
+Invalid polygon on image 671686, annotation 8861536
+Invalid polygon on image 671686, annotation 8861497
+Invalid polygon on image 671686, annotation 8861432
+Invalid polygon on image 671686, annotation 8861406
+Invalid polygon on image 671686, annotation 8861393
+Invalid polygon on image 671686, annotation 8861289
+Invalid polygon on image 671686, annotation 8861276
+Invalid polygon on image 671686, annotation 8861034
+Invalid polygon on image 671686, annotation 8861021
+Job not found : 6979
+Invalid polygon on image 671678, annotation 9212803
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Job not found : 17
+Invalid polygon on image 671592, annotation 9254903
+Job not found : 17
+Job not found : 17
+Image 671560, Term 5735, Reviewed True : NO ANNOTATIONS
+Image 671450, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 671450, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 17
+
+
+It took 00:02:28

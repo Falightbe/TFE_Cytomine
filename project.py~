@@ -166,12 +166,12 @@ class Cytomine_Project(object):
 		self.__csv.write("%d; " %(n_polygones_review - n_polygones_job))
 		
 		print "Area calculations..."
-		not_in_job = review.difference(job);
-		not_in_review = job.difference(review);
-		inter = review.intersection(job);
-#		not_in_job = review;
-#		not_in_review = job;
-#		inter = review;
+#		not_in_job = review.difference(job);
+#		not_in_review = job.difference(review);
+#		inter = review.intersection(job);
+		not_in_job = review;
+		not_in_review = job;
+		inter = review;
 
 
 	

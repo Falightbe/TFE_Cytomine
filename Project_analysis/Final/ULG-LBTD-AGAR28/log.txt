@@ -1,0 +1,10 @@
+Project name : ULG-LBTD-AGAR28 
+Project ID : 82731537 
+Number of images : 20
+
+Logs : 
+Job not found : 6977
+Job not found : 83852271
+
+
+It took 00:02:07

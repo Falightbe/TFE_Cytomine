@@ -1,0 +1,16 @@
+Project name : ULG-LBTD-ADAM 28 4 
+Project ID : 132961573 
+Number of images : 75
+
+Logs : 
+Job not found : 116090381
+Job not found : 136093959
+Job not found : 116090381
+Job not found : 134905835
+Job not found : 116090381
+Job not found : 135131409
+Job not found : 116090381
+Job not found : 116090381
+
+
+It took 00:02:32

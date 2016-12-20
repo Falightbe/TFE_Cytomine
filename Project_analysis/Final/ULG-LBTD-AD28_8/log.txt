@@ -1,0 +1,24 @@
+Project name : ULG-LBTD-AD28_8  
+Project ID : 141183500 
+Number of images : 90
+
+Logs : 
+Job not found : 146532515
+Job not found : 116090381
+Job not found : 142044370
+Job not found : 146729946
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+Job not found : 116090381
+
+
+It took 00:08:31

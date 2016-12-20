@@ -1,0 +1,120 @@
+Project name : ULG-LBTD-AGDC1bis 
+Project ID : 160950554 
+Number of images : 65
+
+Logs : 
+Image 160964701, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160964701, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 6981
+Job not found : 6981
+Job not found : 6981
+Image 160961774, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160961774, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160961768, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160961768, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160961239, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160961239, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160961057, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160961057, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160960879, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160960879, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160960689, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160960689, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160960517, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160960517, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160960349, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160960349, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160960143, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160960143, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160959958, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160959958, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160959773, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160959773, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160959595, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160959595, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 6981
+Image 160959215, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160959215, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160959032, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160959032, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160958889, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160958889, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160958667, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160958667, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160958477, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160958477, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160958471, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160958471, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160958121, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160958121, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169684312
+Image 160957941, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160957941, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169684558
+Image 160957763, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160957763, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169684809
+Image 160957578, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160957578, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169685077
+Image 160957388, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160957388, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160957382, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160957382, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160957032, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160957032, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169685910
+Image 160956852, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160956852, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169686177
+Image 160956670, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160956670, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169686454
+Image 160956482, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160956482, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169686736
+Image 160956304, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160956304, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160956109, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160956109, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169687279
+Image 160956103, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160956103, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160955748, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160955748, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169687846
+Image 160955563, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160955563, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169688099
+Image 160955380, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160955380, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160955200, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160955200, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 169688599
+Image 160955020, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160955020, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954832, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954832, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954826, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954826, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954479, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954479, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954297, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954297, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954109, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954109, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954103, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954103, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160954097, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160954097, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160953573, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160953573, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160953567, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160953567, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160953212, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160953212, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 160953030, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 160953030, Term 20202, Reviewed False : NO ANNOTATIONS
+
+
+It took 00:01:07

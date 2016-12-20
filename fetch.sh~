@@ -1,0 +1,75 @@
+#!/bin/bash 
+
+case "$1" in
+"ULG-LBTD-AD28_2")
+	project_id="126664109"
+	;;
+"ULG-LBTD-E2B-NOV2013")
+	project_id="95267849"
+	;;
+"ULG-LBTD-AD28_8")
+	project_id="141183500"
+	;;
+"ULG-LBTD-ADAM_28_4")
+	project_id="132961573"
+	;;
+"ULG-LBTD-AGAR15-POUMON")
+	project_id="126664109"
+	;;
+"ULG-LBTD-AGAR23")
+	project_id="21903232"
+	;;
+"ULG-LBTD-AGAR25")
+	project_id="21907448"
+	;;
+"ULG-LBTD-AGAR28")
+	project_id="82731537"
+	;;
+"ULG-LBTD-AGAR29")
+	project_id="118492022"
+	;;
+"ULG-LBTD-AGDC10")
+	project_id="181136007"
+	;;
+"ULG-LBTD-AGDC1bis")
+	project_id="160950554"
+	;;
+"ULG-LBTD-AGDC2")
+	project_id="160965094"
+	;;
+"ULG-LBTD-AGIC1")
+	project_id="150079801"
+	;;
+"ULG-LBTD-AGIC2")
+	project_id="151547032"
+	;;
+"ULG-LBTD-AGIC3")
+	project_id="148113329"
+	;;
+"ULG-LBTD-AGIC5")
+	project_id="155192336"
+	;;
+"ULG-LBTD-AGIC6")
+	project_id="151746100"
+	;;
+"ULG-LBTD-AGIC7")
+	project_id="155194683"
+	;;
+"ULG-LBTD-AGIC8")
+	project_id="155194951"
+	;;
+"ULG-LBTD-AGIC9")
+	project_id="180770924"
+	;;
+"ULG-LBTD-AS6")
+	project_id="20207620"
+	;;
+"ULG-LBTD-PGP")
+	project_id="7873585"
+	;;
+	*)
+	;;
+esac
+echo $project_id
+python project.py $project_id
+

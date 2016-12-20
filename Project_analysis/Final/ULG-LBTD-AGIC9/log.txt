@@ -1,0 +1,188 @@
+Project name : ULG-LBTD-AGIC9 
+Project ID : 180770924 
+Number of images : 77
+
+Logs : 
+Image 180847365, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180847365, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 180881760
+Image 180847168, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180847168, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 180881760
+Image 180847158, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180847158, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180847150, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180847150, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180846598, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180846598, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180846083, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180846083, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 183495934
+Job not found : 181667746
+Image 180845706, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180845706, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180845524, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180845524, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180845321, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180845321, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180845026, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180845026, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180844838, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180844838, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180844646, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180844646, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180844461, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180844461, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 183443420
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Image 180843475, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180843475, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 182684600
+Job not found : 181667746
+Job not found : 182682306
+Job not found : 181667746
+Job not found : 182683568
+Job not found : 181667746
+Job not found : 182680795
+Job not found : 181667746
+Job not found : 182680147
+Job not found : 181667746
+Image 180839900, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180839900, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180839707, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180839707, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180839523, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180839523, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180839332, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180839332, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 184327524
+Job not found : 181667746
+Image 180832691, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180832691, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180832548, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180832548, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180832511, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180832511, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Image 180832454, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180832454, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 184327024
+Job not found : 181667746
+Job not found : 184326678
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 184223803
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 184222817
+Job not found : 181667746
+Job not found : 184222472
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 183498196
+Job not found : 181667746
+Job not found : 183499054
+Job not found : 181667746
+Job not found : 183992817
+Job not found : 181667746
+Job not found : 183994505
+Job not found : 181667746
+Job not found : 183994225
+Job not found : 181667746
+Image 180775584, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180775584, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 183991747
+Job not found : 181667746
+Job not found : 183992283
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 183913748
+Job not found : 181667746
+Job not found : 183915352
+Job not found : 181667746
+Image 180772477, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180772477, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 182200190
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Image 180771703, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180771703, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Job not found : 6979
+Job not found : 181667746
+Image 180771139, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 180771139, Term 20202, Reviewed False : NO ANNOTATIONS
+Job not found : 181667746
+
+
+It took 00:04:33

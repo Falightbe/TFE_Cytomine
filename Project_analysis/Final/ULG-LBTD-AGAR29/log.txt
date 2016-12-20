@@ -1,0 +1,16 @@
+Project name : ULG-LBTD-AGAR29 
+Project ID : 118492022 
+Number of images : 34
+
+Logs : 
+Job not found : 126247775
+Job not found : 6981
+Job not found : 6981
+Job not found : 126230623
+Image 118495178, Term 20202, Reviewed True : NO ANNOTATIONS
+Image 118495178, Term 20202, Reviewed False : NO ANNOTATIONS
+Image 118495178, Term 5735, Reviewed True : NO ANNOTATIONS
+Image 118495178, Term 5735, Reviewed False : NO ANNOTATIONS
+
+
+It took 00:02:12

@@ -1,0 +1,7 @@
+Precision adenocarcinomes : mean = 75.020569 ; variance = 626.16491129
+Recall adenocarcinomes : mean = 75.020569 ; variance = 626.16491129
+
+Precision poumons : mean = 95.5019105455 ; variance = 8.47780208809
+Recall poumons : mean = 95.5019105455 ; variance = 8.47780208809
+
+Area ratio difference : mean = -0.0894173181268 ; variance = 0.00207669498644

@@ -1,0 +1,101 @@
+Project name : ULG-LBTD-PGP 
+Project ID : 7873585 
+Number of images : 56
+
+Logs : 
+Invalid polygon on image 7889229, annotation 8869880
+Invalid polygon on image 7889229, annotation 8869842
+Invalid polygon on image 7889229, annotation 8869795
+Invalid polygon on image 7889229, annotation 8869785
+Invalid polygon on image 7889190, annotation 8870796
+Invalid polygon on image 7889190, annotation 8870762
+Invalid polygon on image 7889190, annotation 8870392
+Invalid polygon on image 7889160, annotation 8871850
+Invalid polygon on image 7889150, annotation 9183907
+Invalid polygon on image 7889150, annotation 8872485
+Invalid polygon on image 7889150, annotation 8872484
+Invalid polygon on image 7889150, annotation 8872478
+Invalid polygon on image 7889150, annotation 8872466
+Invalid polygon on image 7889150, annotation 8872460
+Invalid polygon on image 7889150, annotation 8872459
+Invalid polygon on image 7889150, annotation 8872445
+Invalid polygon on image 7889150, annotation 8872437
+Invalid polygon on image 7889150, annotation 8872422
+Invalid polygon on image 7889150, annotation 8872404
+Invalid polygon on image 7889150, annotation 8872399
+Invalid polygon on image 7889150, annotation 8872395
+Invalid polygon on image 7889150, annotation 8872392
+Invalid polygon on image 7889150, annotation 8872349
+Invalid polygon on image 7889150, annotation 8872328
+Invalid polygon on image 7889150, annotation 8872282
+Invalid polygon on image 7889150, annotation 8872275
+Invalid polygon on image 7889150, annotation 8872258
+Invalid polygon on image 7889150, annotation 8872246
+Invalid polygon on image 7889150, annotation 8872191
+Invalid polygon on image 7889150, annotation 8872189
+Invalid polygon on image 7889150, annotation 8872166
+Invalid polygon on image 7889150, annotation 8872129
+Invalid polygon on image 7889150, annotation 8872127
+Invalid polygon on image 7889150, annotation 8872120
+Invalid polygon on image 7889150, annotation 8872074
+Invalid polygon on image 7889150, annotation 8872069
+Invalid polygon on image 7889150, annotation 8872064
+Invalid polygon on image 7889150, annotation 8872057
+Invalid polygon on image 7889150, annotation 8871979
+Invalid polygon on image 7889150, annotation 8576889
+Invalid polygon on image 7889150, annotation 8576824
+Invalid polygon on image 7889150, annotation 8576707
+Invalid polygon on image 7889150, annotation 8576641
+Invalid polygon on image 7889150, annotation 8575977
+Invalid polygon on image 7889150, annotation 8575951
+Invalid polygon on image 7889150, annotation 8575795
+Invalid polygon on image 7889150, annotation 8575522
+Invalid polygon on image 7889150, annotation 8575054
+Invalid polygon on image 7889150, annotation 8575041
+Invalid polygon on image 7889150, annotation 8574950
+Invalid polygon on image 7889150, annotation 8574794
+Invalid polygon on image 7889150, annotation 8574716
+Invalid polygon on image 7889150, annotation 8574703
+Invalid polygon on image 7889150, annotation 8574534
+Invalid polygon on image 7889150, annotation 8574430
+Invalid polygon on image 7889150, annotation 8574196
+Invalid polygon on image 7889150, annotation 8574079
+Invalid polygon on image 7889150, annotation 8573988
+Invalid polygon on image 7889150, annotation 8573143
+Invalid polygon on image 7889150, annotation 8572987
+Invalid polygon on image 7889150, annotation 8572207
+Invalid polygon on image 7889150, annotation 8571687
+Invalid polygon on image 7889150, annotation 8571349
+Invalid polygon on image 7889150, annotation 8571258
+Invalid polygon on image 7889150, annotation 8570660
+Invalid polygon on image 7889150, annotation 8570517
+Invalid polygon on image 7889150, annotation 8570452
+Invalid polygon on image 7889150, annotation 8570400
+Invalid polygon on image 7889150, annotation 8570301
+Invalid polygon on image 7889140, annotation 8874261
+Invalid polygon on image 7889140, annotation 8872722
+Invalid polygon on image 7889140, annotation 8872721
+Invalid polygon on image 7889082, annotation 8988326
+Invalid polygon on image 7889082, annotation 8988306
+Invalid polygon on image 7889082, annotation 8988099
+Invalid polygon on image 7889082, annotation 8949331
+Invalid polygon on image 7889052, annotation 8990853
+Invalid polygon on image 7889042, annotation 8989238
+Invalid polygon on image 7889002, annotation 9163041
+Invalid polygon on image 7889002, annotation 9162294
+Invalid polygon on image 7889002, annotation 9162274
+Invalid polygon on image 7889002, annotation 9161960
+Invalid polygon on image 7888992, annotation 9148596
+Invalid polygon on image 7888962, annotation 9165203
+Invalid polygon on image 7888952, annotation 9165657
+Invalid polygon on image 7888934, annotation 9166918
+Invalid polygon on image 7888904, annotation 9167431
+Invalid polygon on image 7888816, annotation 9175623
+Invalid polygon on image 7888733, annotation 9182689
+Invalid polygon on image 7888733, annotation 9180090
+Invalid polygon on image 7888733, annotation 9179970
+Image 7888733, Term 5735, Reviewed True : NO ANNOTATIONS
+Image 7888733, Term 5735, Reviewed False : NO ANNOTATIONS
+
+
+It took 00:07:25

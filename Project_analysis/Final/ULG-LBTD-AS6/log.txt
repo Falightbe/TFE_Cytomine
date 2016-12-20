@@ -1,0 +1,12 @@
+Project name : ULG-LBTD-AS6 
+Project ID : 20207620 
+Number of images : 60
+
+Logs : 
+Job not found : 323245
+Job not found : 20504550
+Job not found : 323245
+Job not found : 323245
+
+
+It took 00:04:23

@@ -1,0 +1,12 @@
+Project name : ULG-LBTD-AGAR23 
+Project ID : 21903232 
+Number of images : 76
+
+Logs : 
+Job not found : 13
+Job not found : 23438340
+Job not found : 6981
+Job not found : 22753898
+
+
+It took 00:11:21
