@@ -1,1 +1,0 @@
-Precision adenocarcinomes : mean = %f ; variance = %fRecall adenocarcinomes : mean = %f ; variance = %fPrecision poumons : mean = %f ; variance = %fRecall poumons : mean = %f ; variance = %fJob area ratio : mean = %f ; variance = %fReview area ratio : mean = %f ; variance = %f
