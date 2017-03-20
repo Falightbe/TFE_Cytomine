@@ -1,14 +1,16 @@
-import sys
 import time
-import math
 from cytomine import Cytomine
 from cytomine.models import *
-from shapely.geometry import Polygon, Point, MultiPolygon, box
-from shapely.wkt import loads
+from shapely.geometry import MultiPolygon
 from collections import Counter
-from shapely.ops import cascaded_union, unary_union
+from shapely.ops import cascaded_union
 import os 
 from polygon_manip import *
+import numpy as np
+try:
+	import Image, ImageStat
+except:
+	from PIL import Image, ImageStat
 
 TERM_ID_ADE = 20202
 TERM_ID_POU = 5735
@@ -17,7 +19,7 @@ TERM_ID_POU = 5735
 
 class Project_Analyser(object):
 	"""Build data related to Cytomine project and segmentation in local directory"""
-	def __init__(self, host, public_key, private_key, base_path, working_path, project_id, modes, directory, review_term, job_term):
+	def __init__(self, host, public_key, private_key, base_path, working_path, project_id, modes, directory, roi_term, positive_term, roi_max_size= None, roi_zoom = None):
 		# Public attributes
 		self.start_time = time.time()
 		self.n_images = None
@@ -25,29 +27,31 @@ class Project_Analyser(object):
 		self.project_id = project_id
 
 		# Private attributes
-		self.__term_id_ade = job_term
-		self.__term_id_pou = review_term
+		self.__term_id_positive = positive_term
+		self.__term_id_roi = roi_term
 		self.__host = host
 		self.__public_key = public_key
 		self.__private_key = private_key
-		self.__conn = Cytomine(host, public_key, private_key, base_path = base_path, working_path = working_path, verbose= False);
+		self.__conn = Cytomine(host, public_key, private_key, base_path = base_path, working_path = working_path, verbose= True);
 		self.project_name = self.get_name()
-		path = "{}/{}".format(directory, self.project_id)
-		if not os.path.exists(path):
-			os.makedirs(path)
+		self.path = "{}/{}".format(directory, self.project_id)
+		if not os.path.exists(self.path):
+			os.makedirs(self.path)
 
-		self.__filename_txt = "{}/log.txt".format(path, self.project_name)
+		self.__filename_txt = "{}/log.txt".format(self.path, self.project_name)
 		self.__txt = open(self.__filename_txt, 'w')
 
 		if 1 in modes:
-			self.__jr_filename_csv = "{}/jr.csv".format(path, self.project_name)
+			self.__jr_filename_csv = "{}/jr.csv".format(self.path, self.project_name)
 			self.__jr_csv = open(self.__jr_filename_csv, 'w')
 		if 2 in modes:
-			self.__area_filename_csv = "{}/area.csv".format(path, self.project_name)
+			self.__area_filename_csv = "{}/area.csv".format(self.path, self.project_name)
 			self.__area_csv = open(self.__area_filename_csv, 'w')
 		if 3 in modes:
-			self.__color_filename_csv = "{}/color.csv".format(path, self.project_name)
+			self.__color_filename_csv = "{}/color.csv".format(self.path, self.project_name)
 			self.__color_csv = open(self.__color_filename_csv, 'w')
+			self.__roi_max_size = roi_max_size
+			self.__roi_zoom = roi_zoom
 
 		self.__images = None
 		
@@ -57,10 +61,10 @@ class Project_Analyser(object):
 		return project.name
 
 	def get_images(self):
-		image_instances = ImageInstanceCollection();
-		image_instances.project = self.project_id;
-		image_instances = self.__conn.fetch(image_instances);
-		self.__images = image_instances.data();
+		image_instances = ImageInstanceCollection()
+		image_instances.project = self.project_id
+		image_instances = self.__conn.fetch(image_instances)
+		self.__images = image_instances.data()
 		self.n_images = len(self.__images)
 	
 	def annotations(self, reviewed, image_id, term_id, user_id = None):
@@ -81,9 +85,9 @@ class Project_Analyser(object):
 		
 		if len(annotations.data()) == 0 :
 			self.__txt.write("Image {}, Term {}, Reviewed only {} : NO ANNOTATIONS FETCHED\n".format(image_id, term_id, reviewed))
-		list_user_id = [];
+		list_user_id = []
 	        
-		list_polygones = [];
+		list_polygones = []
 		n_polygones = 0
 
 		if 1 in self.modes:
@@ -92,7 +96,7 @@ class Project_Analyser(object):
 			print "Writing annotation information..."
 
 		for a in annotations.data():
-			list_user_id.append(a.user);
+			list_user_id.append(a.user)
 
 			# Build list of polygons corresponding to annotations
 			if 1 in self.modes:
@@ -121,16 +125,33 @@ class Project_Analyser(object):
 				self.__area_csv.write("{};{};{};{};{};{}\n".format(self.project_id, image_id, a.id, a.term[0], reviewed, a.area))
 			
 			# Get image from URL and retrieve HSV data
-			if 3 in self.modes and term_id == 5735:
-				print dir(a)
-				print a.get_annotation_alpha_crop_url(max_size = 256)
-				quit()
+		if 3 in self.modes and term_id == self.__term_id_roi and reviewed:
+			annotation_ids = [a.id for a in annotations.data()]
+			print "Dump ROI annotations : Annotation IDs {} ".format(annotation_ids)
+			image_dir = os.path.join(self.path, "roi")
+			self.__conn.dump_annotations(annotations = annotations,
+							get_image_url_func = Annotation.get_annotation_crop_url,
+							dest_path = image_dir,
+							desired_zoom = self.__roi_zoom)
+
+			for a in annotation_ids:
+				try:
+					im = Image.open(os.path.join(image_dir, str(term_id), "{}_{}.png".format(image_id, a)))
+				except:
+					continue
+				im = im.convert('HSV')
+				pixels = im.getdata()
+				pixels = np.array(pixels)
+				pixel_mean = np.mean(pixels, axis = 0)
+				pixel_std = np.std(pixels, axis = 0)
+				self.__color_csv.write("{};{};{};{};{};{};{};{};{};{};{}\n".format(self.project_id, image_id, annotation_id, term_id, reviewed, pixel_mean[0], pixel_mean[1], pixel_mean[2], pixel_std[0], pixel_std[1], pixel_std[2]))
+
 
 		
 		# Union of the polygons
 		union_polygones = cascaded_union(list_polygones)
 
-		n_annotations = len(annotations.data());
+		n_annotations = len(annotations.data())
 
 		return union_polygones, n_annotations, list_user_id, n_polygones	
 
@@ -144,6 +165,7 @@ class Project_Analyser(object):
 			user_id : user ID
 			job_id : job ID corresponding to user job
 		"""
+
 		count = Counter(list_user_id);
 		most_common = count.most_common()
 		self.__txt.write("Image {} : Most common user ids from review annotations are : {}\n".format(image_id, most_common))
@@ -162,7 +184,7 @@ class Project_Analyser(object):
 			self.__txt.write("Image {}, User {} : User is not an algorithm\n".format(image_id, user_id))
 			return user_id, None
 
-	def image_analysis(self, image_id, term_id):
+	def image_analysis(self, image_id, term_id, userjob_id = None):
 		"""Fetch data from image annotation with a certain term
 		Args:
 			image_id : image ID
@@ -180,32 +202,37 @@ class Project_Analyser(object):
 			self.__jr_csv.write("%d; " %term_id)
 
 		# Find most frequent user id that is a job
+		if userjob_id != None:
+			list_user_id_review = [userjob_id]
 		user_id, job_id = self.find_user_job_id(list_user_id_review, image_id)
 		if job_id is None: # don't know if job_id is None OR user_id is None
 			if 1 in self.modes:
 				self.__jr_csv.write("\n")
 			return
 
-		# Get job annotations
-		job, n_annotations_job, list_user_id_job, n_polygones_job  = self.annotations(False, image_id, term_id, user_id = user_id);
-	
+		# Get predicted annotations
+		predict, n_annotations_predict, list_user_id_predict, n_polygones_predict  = self.annotations(False, image_id, term_id, user_id = user_id);
+		if not(n_annotations_predict):
+			self.__txt.write('Image {}, User {}, Job {} : No predicted annotations found\n'.format(image_id, user_id,job_id))
+			self.__jr_csv.write("\n")
+			return
 		print "Annotation data :"
 		print "Number of reviewed annotations : {}".format(n_annotations_review)
-		print "Number of reviewed annotations : {}".format(n_annotations_job)
+		print "Number of predicted annotations : {}".format(n_annotations_predict)
 		print "User ID : {}, Job ID : {}".format(user_id, job_id)
-		quit()
+
 		if 1 in self.modes:
 			# Area calculations
 			print "Area calculations..."
-			not_in_job = polygone_intersection_area(review, job, 1)
+			not_in_job = polygone_intersection_area(review, predict, 1)
 			print "."
-			not_in_review = polygone_intersection_area(job, review, 1)
+			not_in_review = polygone_intersection_area(predict, review, 1)
 			print "."
-			inter = polygone_intersection_area(review, job, 0)
+			inter = polygone_intersection_area(review, predict, 0)
 			print "."
 
 			# Annotation existence verification
-			if job.area == 0 or review.area == 0:
+			if predict.area == 0 or review.area == 0:
 				self.__jr_csv.write("\n")
 				return
 
@@ -215,6 +242,9 @@ class Project_Analyser(object):
 			# Get job description
 			job_desc = self.__conn.get_job(job_id);
 			if job_desc is not None:
+				print "JOB PARAMETERS : \n{}".format(job_desc.jobParameters)
+
+
 				self.__jr_csv.write('{}; '.format(job_desc.jobParameters))
 			else:
 				self.__txt.write('Image {}, User {}, Job {} : Job not found, cannot retrieve parameters\n'.format(image_id, user_id, job_id))
@@ -222,14 +252,14 @@ class Project_Analyser(object):
 
 			# Write number of annotations
 			self.__jr_csv.write("%d; " %n_annotations_review)
-			self.__jr_csv.write("%d; " %n_annotations_job)
+			self.__jr_csv.write("%d; " %n_annotations_predict)
 			self.__jr_csv.write("%d; " %n_polygones_review)
-			self.__jr_csv.write("%d; " %n_polygones_job)
-			self.__jr_csv.write("%d; " %(n_polygones_review - n_polygones_job))
+			self.__jr_csv.write("%d; " %n_polygones_predict)
+			self.__jr_csv.write("%d; " %(n_polygones_review - n_polygones_predict))
 			# Write areas
 			self.__jr_csv.write("%f; " %(review.area))
-			self.__jr_csv.write("%f; " %(job.area))
-			self.__jr_csv.write("%f; " %(100*(review.area-job.area)/review.area))
+			self.__jr_csv.write("%f; " %(predict.area))
+			self.__jr_csv.write("%f; " %(100*(review.area-predict.area)/review.area))
 			# Write confusion matrix
 			self.__jr_csv.write("%f; " %(inter)) # TP
 			self.__jr_csv.write("%f; " %(not_in_job)) # FN
@@ -240,15 +270,15 @@ class Project_Analyser(object):
 			else :
 				self.__jr_csv.write("0;")
 			# Write Precision
-			if job.area != 0:
-				self.__jr_csv.write("%f; " %(100*inter/job.area))
+			if predict.area != 0:
+				self.__jr_csv.write("%f; " %(100*inter/predict.area))
 			else :
 				self.__jr_csv.write("0;")
 			# End of entry
 			self.__jr_csv.write("\n")
 		
 
-	def launch(self):
+	def launch(self, positive_userjob_id):
 		"""Launch the project analysis"""
 		self.get_images()
 		self.__txt.write('Project name : {} \n'.format(self.project_name))
@@ -258,15 +288,21 @@ class Project_Analyser(object):
 
 		# Write in data files column names
 		if 1 in self.modes:
-			self.__jr_csv.write("Project ID;Image ID;Term ID;Job user ID;Job parameters;Number of Review Annotations;Number of Job Annotations;Number of Review Polygons;Number of Job Polygons;Number of review polygons missed by job;Review Area;Job Area;Area Percentage of review missed by job;TP;FN;FP;Recall;Precision;\n")
+			self.__jr_csv.write("Project ID;Image ID;Term ID;Job user ID;Job parameters;Number of Reviewed Annotations;"
+								"Number of Predicted Annotations;Number of Reviewed Polygons;Number of Predicted Polygons;"
+								"Number of reviewed polygons missed by prediction;Reviewed Area;Predicted Area;Area "
+								"Percentage of review missed by prediction;TP;FN;FP;Recall;Precision;\n")
 		if 2 in self.modes:
 			self.__area_csv.write("Project ID;Image ID;Annotation ID;Term ID;Reviewed;Area\n")
+
+		if 3 in self.modes:
+			self.__color_csv.write("Project ID;Image ID;Annotation ID;Term ID;Reviewed;Mean H;Mean S;Mean V;Standard deviation H;Standard deviation S;Standard deviation V\n")
 
 		for i in self.__images:
 			image_id = i.id
 			print "\nAnalyse image : {}...".format(image_id)
-			self.image_analysis(image_id, self.__term_id_ade)
-			self.image_analysis(image_id, self.__term_id_pou)
+			self.image_analysis(image_id, self.__term_id_positive, positive_userjob_id)
+			self.image_analysis(image_id, self.__term_id_roi)
 
 		seconds = time.time() - self.start_time
 		self.__txt.write("\n\nIt took %s" %time.strftime('%H:%M:%S', time.gmtime(seconds)))

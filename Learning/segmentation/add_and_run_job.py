@@ -23,25 +23,17 @@ __copyright__       = "Copyright 2010-2016 University of Liège, Belgium, http:/
 
 
 import cytomine
-import os, optparse
+import os
 from cytomine.models import *
 
 import cPickle as pickle
 import numpy as np
 
-from sklearn.cross_validation import StratifiedKFold, ShuffleSplit
 from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.metrics import confusion_matrix
-from sklearn.pipeline import Pipeline
-from sklearn.svm import SVC, LinearSVC
-from sklearn.linear_model import LogisticRegression
-from sklearn.utils import check_random_state
-
-from pyxit import pyxitstandalone
 from pyxit.data import build_from_dir
-from pyxit.estimator import PyxitClassifier, MAX_INT, _get_output_from_mask
+from pyxit.estimator import PyxitClassifier, _get_output_from_mask
 
-import argparse, optparse
+import optparse
 import time
 from time import localtime, strftime
 
@@ -158,7 +150,7 @@ def main(argv):
     pyxit_parameters['forest_min_samples_split'] = options.forest_min_samples_split
     pyxit_parameters['pyxit_save_to'] = options.pyxit_save_to
     pyxit_parameters['pyxit_n_jobs'] = options.pyxit_n_jobs
-	pyxit_parameters['pyxit_min_size'] = 0.1
+    pyxit_parameters['pyxit_min_size'] = 0.1
     pyxit_parameters['pyxit_max_size'] = 1
 
     

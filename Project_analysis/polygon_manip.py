@@ -24,10 +24,10 @@ def polygone_intersection_area(p1, p2, mode):
 		...
 	"""
 	# Find polygone boundaries
-	minx =	int(math.floor(min(p1.bounds[0], p2.bounds[0])))
-	miny =	int(min(p1.bounds[1], p2.bounds[1]))
-	maxx =	int(math.ceil(max(p1.bounds[2], p2.bounds[2])))
-	maxy =	int(max(p1.bounds[3], p2.bounds[3]))
+	minx = int(math.floor(min(p1.bounds[0], p2.bounds[0])))
+	miny = int(min(p1.bounds[1], p2.bounds[1]))
+	maxx = int(math.ceil(max(p1.bounds[2], p2.bounds[2])))
+	maxy = int(max(p1.bounds[3], p2.bounds[3]))
 	x = range(minx, maxx, 1000)
 	x.append(maxx)
 	total_area = 0

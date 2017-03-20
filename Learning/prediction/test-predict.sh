@@ -35,38 +35,16 @@ id_project=155192336
 working_path="/home/falight/TFE_Cytomine/Learning/tmp"
 predict_terms=20202 #id of term to be added to annotations produced by the segmentation model
 
-model_file=test2$zoom.pkl
-zoom=2 
-windowsize=24
+model_file_segmenter=classification/models/....pkl
+model_file_classifier=classification/models/....pkl
 colorspace=2
 njobs=10
 tile_size=512 
-tile_min_stddev=5
-tile_max_mean=250
-startx=12500
-starty=200
-roi_term=5735
 predict_step=4
-min_size=4000 
-max_size=100000000
-union_minlength=10 
-union_bufferoverlap=5 
-union_area=5000
-union_min_point_for_simplify=1000  
-union_min_point=500 
-union_max_point=1000
-union_nb_zones_width=5 
-union_nb_zones_height=5 
-cytomine_internal_holes=1
-cytomine_count=0
-cytomine_reviewed_roi=1
-post_classification=false
 verbose=1
-for image in 150090531  #cytomine ids of images (within project) to work on
-do
-    python image_prediction_wholeslide.py --cytomine_host $host --cytomine_public_key $public_key --cytomine_private_key $private_key --cytomine_base_path /api/ --cytomine_id_software $software --cytomine_working_path $working_path --cytomine_id_project $id_project -i $image -z $zoom -t $tile_size --cytomine_tile_min_stddev $tile_min_stddev --cytomine_tile_max_mean $tile_max_mean --startx $startx --starty $starty -j $njobs --cytomine_predict_term $predict_terms --cytomine_roi_term $roi_term --pyxit_target_width $windowsize --pyxit_target_height $windowsize --pyxit_colorspace $colorspace --pyxit_nb_jobs $njobs --pyxit_save_to $working_path/models/$model_file --cytomine_predict_step $predict_step --cytomine_union 1 --cytomine_postproc 0 --cytomine_min_size $min_size --cytomine_union_min_length $union_minlength --cytomine_union_bufferoverlap $union_bufferoverlap --cytomine_union_area $union_area --cytomine_union_min_point_for_simplify $union_min_point_for_simplify  --cytomine_union_min_point $union_min_point --cytomine_union_max_point $union_max_point --cytomine_union_nb_zones_width $union_nb_zones_width --cytomine_union_nb_zones_height $union_nb_zones_height --cytomine_mask_internal_holes $cytomine_internal_holes --cytomine_count $cytomine_count --cytomine_reviewed_roi $cytomine_reviewed_roi --pyxit_post_classification $post_classification --verbose $verbose #--pyxit_post_classification_save_to $working_path/models/post_classification_model.pkl --cytomine_max_size $max_size
+windowsize=24
+python add_and_run_job.py --cytomine_host $host --cytomine_public_key $public_key --cytomine_private_key $private_key --cytomine_base_path /api/ --cytomine_id_software $software --cytomine_working_path $working_path --cytomine_id_project $id_project -t $tile_size  -j $njobs --cytomine_predict_term $predict_terms --pyxit_colorspace $colorspace --pyxit_segmenter_save_to $working_path/$model_file_segmenter --pyxit_classifier_save_to $working_path/$model_file_classifier --cytomine_predict_step $predict_step --pyxit_target_width $windowsize --pyxit_target_height $windowsize --verbose $verbose
 
-done
 
 
 ##2. Edit pyxit parameter values to apply segmentation model (most parameter values are derived from the model file, in theory should keep the same values)

@@ -33,13 +33,13 @@ cytomine_id_software=816476
 cytomine_public_key="e56aa80d-9593-4636-acd7-14ad4e1d333b"
 cytomine_private_key="3afc3636-cbfc-4381-abc7-9e82526e6240"
 cytomine_id_project=150079801
-working_path="/home/falight/TFE_Cytomine/Learning/tmp" #e.g. /bigdata/tmp/cytomine/
+working_path="/home/falight/TFE_Cytomine/Learning/tmp/segmentation" #e.g. /bigdata/tmp/cytomine/
 cytomine_annotation_projects=20207620,21903232,669418 #AS6 et AGAR23 et AGAR15-POUMON
 cytomine_predict_terms=20202,4746,2171300,2171395 #id of terms to be grouped into the positive class (e.g. tumor) separated by ,
 cytomine_excluded_terms=5735 #id of terms that will not be used (neither positive nor negative class) separated by ,
 
 #3. Edit pyxit parameter values to build segmentation model
-model_file=test3$zoom.pkl 
+model_file=20207620_21903232_669418.pkl
 zoom=2
 windowsize=24
 colorspace=2 
