@@ -29,7 +29,7 @@ def main(argv):
 	p.add_option('--cytomine_base_path', type="string", default = '/api/', dest="base_path", help="Cytomine base path")
 	p.add_option('--cytomine_working_path', default="/tmp/", type="string", dest="working_path", help="The working directory (eg: /tmp)")  
 	p.add_option('--project_ids', type="string", dest="project_ids", help="The Cytomine project identifier")
-	p.add_option('--userjob_id', type="int", dest="userjob_id", help="The Cytomine user job id of a specific prediction job to analyse")
+	p.add_option('--userjob_id', default=None, type="int", dest="userjob_id", help="The Cytomine user job id of a specific prediction job to analyse")
 
 	options, arguments = p.parse_args(args = argv)
 
@@ -43,15 +43,19 @@ def main(argv):
 							   base_path = options.base_path, working_path = options.working_path, project_id = p_id,
 							   modes = modes,
 							   directory = options.directory, roi_term = options.roi_term,
-							   positive_term = options.positive_term, roi_max_size = 256, roi_zoom = 5)
+							   positive_term = options.positive_term, roi_max_size = 256, roi_zoom = 5, positive_user_job_id = options.userjob_id)
 		
-		prj.launch(options.userjob_id)
+		prj.launch()
 		# Compute statiscal analysis on data
+		stat_directory = prj.path
 		if 1 in modes:
-			basic_statistics(prj.project_name, "{}/{}".format(options.directory, p_id), {options.positive_term : "Adenocarcinome", options.roi_term : "Poumon"}, 1, options.roi_term, options.positive_term)
+			basic_statistics(prj.project_name, stat_directory, {options.positive_term : "Adenocarcinome", options.roi_term : "Poumon"}, 1, options.roi_term, options.positive_term)
 
 		if 2 in modes:
-			blob_size_statistics(prj.project_name, "{}/{}".format(options.directory, p_id))
+			blob_size_statistics(prj.project_name, stat_directory)
+
+		if 3 in modes:
+			color_statistics(prj.project_name, stat_directory)
 
 
 if __name__ == "__main__":
