@@ -257,15 +257,11 @@ def main(argv) :
 				annotations.data().extend(annotations_prj.data())
 
 			if prj == 21907448 or prj == 155194683 :
-				annotations_prj = conn.get_annotations(id_project = prj, term = 91376951)
+				annotations_prj = conn.get_annotations(id_project = prj, id_term = 91376951)
 				annotations.data().extend(annotations_prj.data())
 			print "Nb annotations so far... = %d" % len(annotations.data())
 		print "Total annotations projects %s = %d" % (parameters['cytomine_annotation_projects'], len(annotations.data()))
-
-
-
-
-		time.sleep(240)
+		time.sleep(10)
 
 		# Set output dir parameters
 		if not os.path.exists(pyxit_parameters['dir_ls']) :
@@ -274,11 +270,11 @@ def main(argv) :
 
 
 		# Dump annotation images locally
-		# conn.dump_annotations(annotations = annotations, get_image_url_func = annotation_get_func,
-		# 									dest_path = pyxit_parameters['dir_ls'],
-		# 									desired_zoom = parameters['cytomine_zoom_level'],
-		# 									excluded_terms = parameters['cytomine_excluded_terms'])
-
+		conn.dump_annotations(annotations = annotations, get_image_url_func = annotation_get_func,
+		 									dest_path = pyxit_parameters['dir_ls'],
+		 									desired_zoom = parameters['cytomine_zoom_level'],
+		 									excluded_terms = parameters['cytomine_excluded_terms'])
+		time.sleep(240)
 		# Put positive terms under the same term and same for negative terms
 		term_directories = os.listdir(pyxit_parameters['dir_ls'])
 
@@ -404,7 +400,7 @@ def main(argv) :
 			print model_name
 
 			# Create model test result folder
-			test_results_folder = os.path.join(parameters['cytomine_working_path'], "test_results", model_name)
+			test_results_folder = os.path.join(parameters['cytomine_working_path'], "test_results_colorspace2", model_name)
 			if not os.path.exists(test_results_folder) :
 				os.makedirs(test_results_folder)
 
@@ -496,7 +492,7 @@ def main(argv) :
 
 
 				test_result_file.close()
-				quit()
+				
 
 	# Plot results
 	if parameters['plot_results'] :
