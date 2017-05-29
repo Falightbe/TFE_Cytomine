@@ -147,7 +147,7 @@ def blob_size_statistics(project_name, directory):
 	plt.savefig(os.path.join(path, "area_hist_ade_predict.png"))
 
 
-def color_statistics(project_name, directory) :
+def color_statistics(pro,ject_name, directory) :
 	path = directory
 	df = pd.read_csv(os.path.join(path, "color.csv"), sep = ';')
 	txt = open(os.path.join(path, "color.txt"), 'w')

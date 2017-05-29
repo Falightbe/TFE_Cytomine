@@ -11,12 +11,12 @@ cytomine_annotation_projects=20207620,21903232,669418,21907448,155194683  #AS6 e
 cytomine_test_projects=95267849,132961573,82731537,118492022,181136007,160950554,150079801,151547032,148113329,155192336,151746100,155194951,180770924
 cytomine_predict_terms=20202,4746,2171300,2171395 #id of terms to be grouped into the positive class (e.g. tumor) separated by ,
 cytomine_excluded_terms=5735 #id of terms that will not be used (neither positive nor negative class) separated by ,
-cytomine_dump=false
+cytomine_dump=true
 zoom=2 #zoom_level at which annotations are dumped
 
 #2. Edit pyxit parameter values to build models (see Maree et al. Technical Report 2014)
 windowsize=16 #resized_size for subwindows
-colorspace=2 #colorspace to encode pixel values
+colorspace=1 #colorspace to encode pixel values
 njobs=10 #number of parallel threads
 interpolation=1 #interpolation method to rescale subwindows to fixed size
 nbt=10 #numer of extra-trees
@@ -27,11 +27,11 @@ min_size=0.1 #minimum size of subwindows (proportionnaly to image size: 0.1 mean
 max_size=0.9 #maximum size of subwindows (...)
 build_models=false
 dump_test_annotations=false # Jamais
-test_models=true
+test_models=false
 plot_results=false
 path_to_project_info="../../Project_analysis/tmp/"
 cytomine_n_test_images_per_project=5
-cv_k_folds=10
+#cv_k_folds=10
 
 #3. Run
 #Note:
@@ -42,4 +42,4 @@ cv_k_folds=10
 #But it the orientation is related to object classes (e.g. 6 and 9 in digit classification) do not use transpose
 #-Code could be modified to specify other filters (e.g. user ids, image ids, increasedarea)
 
-python classification_model_evaluation.py --cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key --cytomine_private_key $cytomine_private_key --cytomine_base_path /api/ --cytomine_id_software $cytomine_id_software --cytomine_working_path $cytomine_working_path --cytomine_id_project $cytomine_id_project --cytomine_annotation_projects $cytomine_annotation_projects --cytomine_test_projects $cytomine_test_projects -z $zoom --cytomine_excluded_terms $cytomine_excluded_terms --cytomine_predict_terms $cytomine_predict_terms --pyxit_target_width $windowsize --pyxit_target_height $windowsize --pyxit_colorspace $colorspace --pyxit_n_jobs $njobs --pyxit_interpolation $interpolation --forest_n_estimators $nbt --forest_max_features $k --pyxit_n_subwindows $subw --svm 1 --cytomine_dump_type 1 --pyxit_transpose true --pyxit_fixed_size false --cytomine_reviewed false --verbose false --cytomine_dump $cytomine_dump --build_models $build_models --test_models $test_models --dump_test_annotations $dump_test_annotations --plot_results $plot_results --path_to_project_info $path_to_project_info --cytomine_n_test_images_per_project $cytomine_n_test_images_per_project --pyxit_save_to $cytomine_working_path/models_colorspace$colorspace --cv_k_folds $cv_k_folds
+python classification_model_evaluation.py --cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key --cytomine_private_key $cytomine_private_key --cytomine_base_path /api/ --cytomine_id_software $cytomine_id_software --cytomine_working_path $cytomine_working_path --cytomine_id_project $cytomine_id_project --cytomine_annotation_projects $cytomine_annotation_projects --cytomine_test_projects $cytomine_test_projects -z $zoom --cytomine_excluded_terms $cytomine_excluded_terms --cytomine_predict_terms $cytomine_predict_terms --pyxit_target_width $windowsize --pyxit_target_height $windowsize --pyxit_colorspace $colorspace --pyxit_n_jobs $njobs --pyxit_interpolation $interpolation --forest_n_estimators $nbt --forest_max_features $k --pyxit_n_subwindows $subw --svm 1 --cytomine_dump_type 1 --pyxit_transpose true --pyxit_fixed_size false --cytomine_reviewed false --verbose false --cytomine_dump $cytomine_dump --build_models $build_models --test_models $test_models --dump_test_annotations $dump_test_annotations --plot_results $plot_results --path_to_project_info $path_to_project_info --cytomine_n_test_images_per_project $cytomine_n_test_images_per_project --pyxit_save_to $cytomine_working_path/models_colorspace$colorspace

@@ -30,13 +30,15 @@ cytomine_host="http://beta.cytomine.be"
 cytomine_id_software=206698810 #identifier of the cytomine classification_prediction software (added by add_software)
 cytomine_public_key="e56aa80d-9593-4636-acd7-14ad4e1d333b"
 cytomine_private_key="3afc3636-cbfc-4381-abc7-9e82526e6240"
-cytomine_id_project=155192336 #identifier of the project in which to work AGIC5
+cytomine_id_project=155192336 # AGIC6
 cytomine_working_path="/home/falight/TFE_Cytomine/Learning/tmp/"
 model_dir="classification/models/"
-model_file=95267849.pkl
+model_file=20207620_21903232_669418.pkl
+cytomine_proba_threshold=0.38
+path_to_project_info="../../Project_analysis/tmp/"
 pyxit_save_to=$cytomine_working_path$model_dir$model_file  #local path to the model (built using code in classification_model_builder/)
-cytomine_id_userjob=158282961  #identifier of the userjob (or regular user) from which to retrieve annotations to classify
-cytomine_id_image=155194542
+cytomine_id_userjob=151746100 #159526157 #158282961  #identifier of the userjob (or regular user) from which to retrieve annotations to classify
+cytomine_id_image=155194542 #155198304 #155194542
 
 #2. Edit pyxit parameter values to apply segmentation model (most parameter values are derived from the model file, in theory should keep the same values)
 cytomine_zoom_level=2 #zoom level to extract annotations (0 = maximum resolution)
@@ -48,6 +50,6 @@ cytomine_dump_type=1 #original crop image of the annotation (2 = with alpha mask
 # Usually, these annotations were previously produced by another job (e.g. a object finder using thresholding).
 # It will upload new annotations (in the userjob layer) with their predicted terms.
 
-python add_and_run_job.py --cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key --cytomine_private_key $cytomine_private_key --cytomine_base_path /api/ --cytomine_id_software $cytomine_id_software --cytomine_working_path $cytomine_working_path --cytomine_id_project $cytomine_id_project --cytomine_zoom_level $cytomine_zoom_level --cytomine_id_userjob $cytomine_id_userjob --cytomine_id_image $cytomine_id_image --pyxit_save_to $pyxit_save_to --cytomine_dump_type $cytomine_dump_type --verbose false
+python add_and_run_job.py --cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key --cytomine_private_key $cytomine_private_key --cytomine_base_path /api/ --cytomine_id_software $cytomine_id_software --cytomine_working_path $cytomine_working_path --cytomine_id_project $cytomine_id_project --cytomine_zoom_level $cytomine_zoom_level --cytomine_proba_threshold $cytomine_proba_threshold --pyxit_save_to $pyxit_save_to --path_to_project_info $path_to_project_info --cytomine_dump_type $cytomine_dump_type --verbose false
 
 
