@@ -26,8 +26,9 @@ import scipy.ndimage
 import cytomine
 from pyxit.data import build_from_dir
 from pyxit.estimator import _get_image_data
-from cytomine import cytomine
 from cytomine.models import Annotation
+from cytomine import cytomine
+
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
