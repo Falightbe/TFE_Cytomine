@@ -328,7 +328,7 @@ def main(argv):
 		mean_area = 0
 		std_area = 0
 		for a in annotations.data():
-			print(dir(a))
+			print(a.__dir__())
 			quit()
 
 		# Set output dir parameters
