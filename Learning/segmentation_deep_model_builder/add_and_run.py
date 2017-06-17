@@ -27,6 +27,7 @@ import cytomine
 from pyxit.data import build_from_dir
 from pyxit.estimator import _get_image_data
 from cytomine import cytomine
+from cytomine.models import Annotation
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
@@ -318,6 +319,16 @@ def main(argv):
 				annotations.data().extend(annotations_prj.data())
 			print("Nb annotations so far... = %d" % len(annotations.data()))
 		print("Total annotations projects %s = %d" % (parameters['cytomine_annotation_projects'], len(annotations.data())))
+
+		mean_height = 0
+		std_height = 0
+		mean_width = 0
+		std_width = 0
+		mean_area = 0
+		std_area = 0
+		for a in annotations.data():
+			print(dir(a))
+			quit()
 
 		# Set output dir parameters
 		if not os.path.exists(parameters['dir_ls']) :
