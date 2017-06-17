@@ -223,6 +223,7 @@ def main(argv):
 	p.add_option('--cytomine_reviewed', type = 'string', default = "False", dest = "cytomine_reviewed", help = "Get reviewed annotations only")
 
 	p.add_option('--cytomine_dump_annotations', type = 'string', default = "0", dest = "cytomine_dump_annotations", help = "Dump training annotations or not")
+	p.add_option('--cytomine_dump_annotation_stats', type = 'string', default = "0", dest = "cytomine_dump_annotation_stats", help = "Calculate stats on dumped annotations or not")
 	p.add_option('--build_model', type = "string", default = "0", dest = "build_model", help = "Turn on (1) or off (0) model building")
 	p.add_option('--cytomine_annotation_projects', type = "string", dest = "cytomine_annotation_projects", help = "Projects from which annotations are extracted")
 	p.add_option('--verbose', type = "string", default = "0", dest = "verbose", help = "Turn on (1) or off (0) verbose mode")
@@ -271,6 +272,7 @@ def main(argv):
 	parameters['pyxit_fixed_size'] = False
 	parameters['cytomine_annotation_projects'] = map(int, options.cytomine_annotation_projects.split(','))
 	parameters['cytomine_reviewed'] = str2bool(options.cytomine_reviewed)
+	parameters['cytomine_dump_annotation_stats'] = str2bool(options.cytomine_dump_annotation_stats)
 	parameters['cytomine_dump_annotations'] = str2bool(options.cytomine_dump_annotations)
 	parameters['build_model'] = str2bool(options.build_model)
 	parameters['dir_ls'] = os.path.join(parameters["cytomine_working_path"],
@@ -321,16 +323,6 @@ def main(argv):
 			print("Nb annotations so far... = %d" % len(annotations.data()))
 		print("Total annotations projects %s = %d" % (parameters['cytomine_annotation_projects'], len(annotations.data())))
 
-		mean_height = 0
-		std_height = 0
-		mean_width = 0
-		std_width = 0
-		mean_area = 0
-		std_area = 0
-		for a in annotations.data():
-			print(a.__dict__)
-			print()
-			quit()
 
 		# Set output dir parameters
 		if not os.path.exists(parameters['dir_ls']) :
@@ -346,6 +338,12 @@ def main(argv):
 
 		# Put positive terms under the same term and same for negative terms
 		term_directories = os.listdir(parameters['dir_ls'])
+
+		# Dumped annotation statistics
+		if parameters['cytomine_dump_annotation_stats']:
+			annotation_height_list = []
+			annotation_width_list = []
+
 
 		pos_path = os.path.join(parameters['dir_ls'], "1")
 		if not os.path.exists(pos_path) :
@@ -364,12 +362,30 @@ def main(argv):
 			if int(dir) in parameters['cytomine_predict_terms'] :
 				for image_file in os.listdir(dir_abs) :
 					os.rename(os.path.join(dir_abs, image_file), os.path.join(pos_path, image_file))
+					if parameters['cytomine_dump_annotation_stats'] :
+						im = Image.open(os.path.join(pos_path, image_file))
+						annot_width, annot_height = im.size
+						annotation_width_list.append(annot_width)
+						annotation_height_list.append(annot_height)
+						im.close()
+
 			else:
 				for image_file in os.listdir(dir_abs) :
 					os.rename(os.path.join(dir_abs, image_file), os.path.join(neg_path, image_file))
+					if parameters['cytomine_dump_annotation_stats'] :
+						im = Image.open(os.path.join(neg_path, image_file))
+						annot_width, annot_height = im.size
+						annotation_width_list.append(annot_width)
+						annotation_height_list.append(annot_height)
+						im.close()
+
 			# Remove empty directory
 			if int(dir) != 0 and int(dir) != 1:
 				os.rmdir(dir_abs)
+
+			print("Dumped annotations statistics : ")
+			print("Height : mean = %, std = %" %((np.mean(annot_height)), (np.mean(annot_height))))
+			print("Width : mean = %, std = %" %((np.mean(annot_width)), (np.mean(annot_width))))
 
 	if parameters['build_model'] :
 		# Model name
