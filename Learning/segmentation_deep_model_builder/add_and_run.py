@@ -198,6 +198,7 @@ def stats_dumped_annotations(positive_dir, negative_dir):
 	negative_annotation_width_list = []
 	n_cannot_open = 0
 
+	print("In stats_dumped_annotations")
 	stats = open("annotation_stats.csv", 'w')
 
 	for image_file in os.listdir(positive_dir) :
@@ -400,7 +401,7 @@ def main(argv):
 
 		for dir in term_directories :
 			dir_abs = os.path.join(parameters['dir_ls'], dir)
-			print("Working on ", dir_abs)
+
 			# Move files
 			if int(dir) in parameters['cytomine_predict_terms'] :
 				for image_file in os.listdir(dir_abs) :
@@ -413,6 +414,7 @@ def main(argv):
 			# Remove empty directory
 			if int(dir) != 0 and int(dir) != 1:
 				os.rmdir(dir_abs)
+
 		if parameters['cytomine_dump_annotation_stats'] :
 			stats_dumped_annotations(pos_path, neg_path)
 
