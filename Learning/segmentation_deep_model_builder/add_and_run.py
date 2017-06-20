@@ -415,8 +415,10 @@ def main(argv):
 			if int(dir) != 0 and int(dir) != 1:
 				os.rmdir(dir_abs)
 
-		if parameters['cytomine_dump_annotation_stats'] :
-			stats_dumped_annotations(pos_path, neg_path)
+	if parameters['cytomine_dump_annotation_stats'] :
+		pos_path = os.path.join(parameters['dir_ls'], "1")
+		neg_path = os.path.join(parameters['dir_ls'], "0")
+		stats_dumped_annotations(pos_path, neg_path)
 
 	if parameters['build_model'] :
 		# Model name
