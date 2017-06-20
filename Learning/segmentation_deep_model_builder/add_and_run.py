@@ -19,6 +19,7 @@ import shapely
 from shapely.geometry.polygon import Polygon
 import shapely.wkt
 import numpy as np
+import pandas as pd
 np.set_printoptions(threshold=np.inf)
 from matplotlib.path import Path
 import scipy.ndimage
@@ -190,6 +191,54 @@ def predict(imgs_test, model, mean, std):
 	return imgs_mask_test
 
 
+def stats_dumped_annotations(positive_dir, negative_dir):
+	positive_annotation_height_list = []
+	positive_annotation_width_list = []
+	negative_annotation_height_list = []
+	negative_annotation_width_list = []
+	n_cannot_open = 0
+
+	stats = open("annotation_stats.csv", 'w')
+
+	for image_file in os.listdir(positive_dir) :
+		try:
+			im = Image.open(os.path.join(positive_dir, image_file))
+		except:
+			n_cannot_open += 1
+			continue
+		annot_width, annot_height = im.size
+		if annot_width < 64 or annot_height < 64 :
+			print("Small positive image (%d, %d) : %s" % (annot_height, annot_width, image_file))
+		positive_annotation_width_list.append(annot_width)
+		positive_annotation_height_list.append(annot_height)
+		im.close()
+
+	for image_file in os.listdir(negative_dir) :
+		try:
+			im = Image.open(os.path.join(negative_dir, image_file))
+		except:
+			n_cannot_open += 1
+			continue
+		annot_width, annot_height = im.size
+		if annot_width < 64 or annot_height < 64 :
+			print("Small negative image (%d, %d) : %s" %(annot_height, annot_width, image_file))
+		negative_annotation_width_list.append(annot_width)
+		negative_annotation_height_list.append(annot_height)
+		im.close()
+
+	d_positive = {'Height' : positive_annotation_height_list, 'Width' : positive_annotation_width_list}
+	d_negative = {'Height' : negative_annotation_height_list, 'Width' : negative_annotation_width_list}
+	positive_df = pd.DataFrame(data = d_positive)
+	negative_df = pd.DataFrame(data = d_negative)
+
+	print("Dumped annotations statistics : ")
+	print("Cannot open %d images" % n_cannot_open)
+	print("\nPositive annotations : ")
+	print(str(positive_df.describe()))
+	print("\nNegative annotations : ")
+	print(str(negative_df.describe()))
+
+
 def main(argv):
 	current_path = os.getcwd() + '/' + os.path.dirname(__file__)
 
@@ -336,15 +385,9 @@ def main(argv):
 							  desired_zoom = parameters['cytomine_zoom_level'],
 							  excluded_terms = parameters['cytomine_excluded_terms'])
 
+
 		# Put positive terms under the same term and same for negative terms
 		term_directories = os.listdir(parameters['dir_ls'])
-
-		# Dumped annotation statistics
-		if parameters['cytomine_dump_annotation_stats']:
-			annotation_height_list = []
-			annotation_width_list = []
-
-
 		pos_path = os.path.join(parameters['dir_ls'], "1")
 		if not os.path.exists(pos_path) :
 			print("Creating positive annotation directory: %s" % pos_path)
@@ -362,30 +405,16 @@ def main(argv):
 			if int(dir) in parameters['cytomine_predict_terms'] :
 				for image_file in os.listdir(dir_abs) :
 					os.rename(os.path.join(dir_abs, image_file), os.path.join(pos_path, image_file))
-					if parameters['cytomine_dump_annotation_stats'] :
-						im = Image.open(os.path.join(pos_path, image_file))
-						annot_width, annot_height = im.size
-						annotation_width_list.append(annot_width)
-						annotation_height_list.append(annot_height)
-						im.close()
 
 			else:
 				for image_file in os.listdir(dir_abs) :
 					os.rename(os.path.join(dir_abs, image_file), os.path.join(neg_path, image_file))
-					if parameters['cytomine_dump_annotation_stats'] :
-						im = Image.open(os.path.join(neg_path, image_file))
-						annot_width, annot_height = im.size
-						annotation_width_list.append(annot_width)
-						annotation_height_list.append(annot_height)
-						im.close()
 
 			# Remove empty directory
 			if int(dir) != 0 and int(dir) != 1:
 				os.rmdir(dir_abs)
-
-			print("Dumped annotations statistics : ")
-			print("Height : mean = %, std = %" %((np.mean(annot_height)), (np.mean(annot_height))))
-			print("Width : mean = %, std = %" %((np.mean(annot_width)), (np.mean(annot_width))))
+		if parameters['cytomine_dump_annotation_stats'] :
+			stats_dumped_annotations(pos_path, neg_path)
 
 	if parameters['build_model'] :
 		# Model name
