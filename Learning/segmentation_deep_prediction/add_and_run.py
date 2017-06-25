@@ -38,6 +38,8 @@ from cytomine_utilities.wholeslide import WholeSlide
 from cytomine_utilities.objectfinder import ObjectFinder
 from cytomine_utilities.reader import Bounds, CytomineReader
 from cytomine_utilities.utils import Utils
+from project import Project_Analyser
+from project_statistics import basic_statistics, blob_size_statistics, color_statistics
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
@@ -484,18 +486,18 @@ def main(argv):
 	parameters['nb_jobs'] = options.nb_jobs
 	parameters['pyxit_target_width'] = options.pyxit_target_width
 	parameters['pyxit_target_height'] = options.pyxit_target_height
-	parameters['pyxit_n_subwindows'] = 100
-	parameters['pyxit_interpolation'] = 1
-	parameters['pyxit_transpose'] = True
-	parameters['pyxit_min_size'] = 0.1
-	parameters['pyxit_max_size'] = 1
-	parameters['pyxit_fixed_size'] = False
-	parameters['forest_n_estimators'] = 10
-	parameters['forest_max_features'] = 28
-	parameters['forest_min_samples_split'] = 10
-	parameters['forest_shared_mem'] = True
-	parameters['svm'] = 0
-	parameters['svm_c'] = 1.0
+	parameters['pyxit_n_subwindows'] = options.pyxit_n_subwindows
+	parameters['pyxit_interpolation'] = options.pyxit_interpolation
+	parameters['pyxit_transpose'] = str2bool(options.pyxit_transpose)
+	parameters['pyxit_min_size'] = options.pyxit_min_size
+	parameters['pyxit_max_size'] = options.pyxit_max_size
+	parameters['pyxit_fixed_size'] = str2bool(options.pyxit_fixed_size)
+	# parameters['forest_n_estimators'] = 10
+	# parameters['forest_max_features'] = 28
+	# parameters['forest_min_samples_split'] = 10
+	# parameters['forest_shared_mem'] = True
+	# parameters['svm'] = 0
+	# parameters['svm_c'] = 1.0
 	parameters['cytomine_reviewed'] = str2bool(options.cytomine_reviewed)
 
 	pyxit_parameters = {}
@@ -526,10 +528,12 @@ def main(argv):
 							 verbose = str2bool(options.verbose))
 
 	# Model name
-	model_name = "nsubw{}_winsize{}x{}_batchsize{}_epochs{}_shuffle{}_valsplit{}"\
-		.format(pyxit_parameters['pyxit_n_subwindows'],
-				pyxit_parameters['pyxit_target_width'],
-				pyxit_parameters['pyxit_target_height'],
+	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}"\
+		.format(parameters['pyxit_n_subwindows'],
+				parameters['pyxit_target_width'],
+				parameters['pyxit_target_height'],
+				int(10*parameters['pyxit_min_size']),
+				int(10 *parameters['pyxit_max_size']),
 				parameters['keras_batch_size'],
 				parameters['keras_n_epochs'],
 				parameters['keras_shuffle'],
@@ -544,16 +548,16 @@ def main(argv):
 
 	# Load model
 	model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
-	prediction_model = load_model(model_weights_file_path, imgs_width = pyxit_parameters['pyxit_target_width'], imgs_height = pyxit_parameters['pyxit_target_height'])
+	prediction_model = load_model(model_weights_file_path, imgs_width = parameters['pyxit_target_width'], imgs_height = parameters['pyxit_target_height'])
 
 
 	# Load already annotated images
-	image_job_filename = os.path.join(parameters['cytomine_working_path'], 'test_image_job_dict')
-	if not os.path.exists(image_job_filename) :
-		image_job_dict = {}
-	else :
-		with open(image_job_filename, 'r') as f :
-			image_job_dict = pickle.load(f)
+	# image_job_filename = os.path.join(parameters['keras_save_to'], 'test_image_job_dict_' + model_name)
+	# if not os.path.exists(image_job_filename) :
+	# 	image_job_dict = {}
+	# else :
+	# 	with open(image_job_filename, 'r') as f :
+	# 		image_job_dict = pickle.load(f)
 
 	# Retrieve images to predict
 	with open(os.path.join(parameters['cytomine_working_path'], "image_folders_record.csv"), 'r') as f :
@@ -571,9 +575,9 @@ def main(argv):
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
 
 		# If already annotated image, skip
-		dict_key = str(id_project) + '-' + str(id_image) # key in job/image dictionary
-		if image_job_dict.has_key(dict_key):
-			continue
+		# dict_key = str(id_project) + '-' + str(id_image) # key in job/image dictionary
+		# if image_job_dict.has_key(dict_key):
+		# 	continue
 
 		# Create a new userjob if connected as human user
 		print("Create Job and UserJob...")
@@ -799,12 +803,12 @@ def main(argv):
 
 					# Reshape data
 					n_subw = len(_X)
-					_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 3))
+					_X = np.reshape(_X, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height'], 3))
 
 					# Predict subwindow masks
 					print("Prediction of %d subwindows for tile %d " % (n_subw, wsi))
 					_Y = predict(_X, prediction_model, mean = training_sample_mean, std = training_sample_std)
-					_Y = np.reshape(_Y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
+					_Y = np.reshape(_Y, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height']))
 
 					# Build tile mask from subwindow predictions
 					tile_mask = np.zeros((height, width), dtype = np.float)
@@ -1113,8 +1117,8 @@ def main(argv):
 
 		print ("END image %d." % i)
 
-		# Save job used to annotate image
-		image_job_dict[dict_key] = job.userJob
+		# # Save job used to annotate image
+		# image_job_dict[dict_key] = job.userJob
 
 		break
 		progress += progress_delta
@@ -1122,9 +1126,42 @@ def main(argv):
 	# break : image loop
 	job = conn.update_job_status(job, status = job.TERMINATED, progress = 100, status_comment =  "Finish Job..")
 
-	# Dump dictionary containing which job annotated which image
-	with open(image_job_filename, 'w') as f :
-		pickle.dump(image_job_dict, f)
+	# # Dump dictionary containing which job annotated which image
+	# with open(image_job_filename, 'w') as f :
+	# 	pickle.dump(image_job_dict, f)
+
+
+
+	# Prediction analysis
+	projects = map(int, options.project_ids.split(','))
+	modes = [1, 2]
+	directory = os.path.join(parameters['cytomine_working_path'], 'analysis_{}'.format(strftime("%Y-%m-%d-%H:%M:%S", localtime())))
+	for p_id in projects :
+		# Build data in local directory
+		prj = Project_Analyser(parameters['cytomine_host'], public_key = parameters['cytomine_public_key'], private_key = parameters['cytomine_private_key'],
+							   base_path = parameters['cytomine_base_path'], working_path = parameters['cytomine_working_path'], project_id = p_id,
+							   modes = modes,
+							   directory = directory, roi_term = parameters['cytomine_roi_term'],
+							   positive_term = parameters['cytomine_predicted_annotation_term'], roi_zoom = 5,
+							   positive_user_job_id = job.userJob)
+
+		prj.launch()
+		# Compute statiscal analysis on data
+		stat_directory = prj.path
+		basic_statistics(prj.project_name, stat_directory,
+						 {parameters['cytomine_predicted_annotation_term'] : "Adenocarcinome", options.roi_term : "Poumon"}, 1,
+						 parameters['cytomine_roi_term'], parameters['cytomine_predicted_annotation_term'])
+
+		blob_size_statistics(prj.project_name, stat_directory)
+
+		color_statistics(prj.project_name, stat_directory)
+
+	with open('log.txt', 'w') as f :
+		print >> f, '*'*80
+		print >> f, parameters
+		print >> f, directory
+		print >> f , "\n\n\n"
+
 	sys.exit()
 
 

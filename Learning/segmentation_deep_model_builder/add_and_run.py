@@ -7,6 +7,7 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
 
+import matplotlib.pyplot as plt
 try:
 	import Image, ImageStat
 except:
@@ -238,6 +239,14 @@ def stats_dumped_annotations(positive_dir, negative_dir):
 	print(str(positive_df.describe()))
 	print("\nNegative annotations : ")
 	print(str(negative_df.describe()))
+
+
+	plt.scatter(positive_annotation_height_list, positive_annotation_width_list, color = 'r', label = 'Positive annotations')
+	plt.scatter(negative_annotation_height_list, negative_annotation_width_list, color = 'b', label = 'Negative annotations')
+	plt.xlabel('Height')
+	plt.ylabel('Width')
+	legend = plt.legend(loc = 'lower right', framealpha = 0.1)
+	plt.show()
 
 
 def main(argv):
