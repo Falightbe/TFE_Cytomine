@@ -93,8 +93,8 @@ project_ids=155194683,155194951,180770924,20207620,7873585
 
 
 #################################################### Launch python #####################################################
-python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_model_builder/add_and_run.py \
 #python add_and_run.py \
+python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_model_builder/add_and_run.py \
 --cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key \
 --cytomine_private_key $cytomine_private_key \
 --cytomine_base_path /api/ \
@@ -124,8 +124,8 @@ python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_
 --keras_save_to $keras_save_to \
 --nb_jobs $nb_jobs
 
+#python add_and_run.py  \
 python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_prediction/add_and_run.py \
-python add_and_run.py  \
 --cytomine_host $cytomine_host \
 --cytomine_public_key $cytomine_public_key \
 --cytomine_private_key $cytomine_private_key \
