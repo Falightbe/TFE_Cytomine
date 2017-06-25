@@ -30,8 +30,8 @@ pyxit_max_size=0.9
 nb_jobs=10
 
 # Keras model parameters
-keras_save_to="/home/falight/TFE_Cytomine/Learning/segmentation_deep_model_builder/models"
-#keras_save_to="/home/mass/ifilesets/ULG/s121985/nobackup/Learning/segmentation_deep_model_builder/models"
+#keras_save_to="/home/falight/TFE_Cytomine/Learning/segmentation_deep_model_builder/models"
+keras_save_to="/home/mass/ifilesets/ULG/s121985/nobackup/Learning/segmentation_deep_model_builder/models"
 keras_batch_size=128
 keras_n_epochs=30
 keras_shuffle=true
