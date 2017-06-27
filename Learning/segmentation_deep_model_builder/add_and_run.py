@@ -322,13 +322,12 @@ def main(argv):
 	parameters['nb_jobs'] = options.nb_jobs
 	parameters['pyxit_target_width'] = options.pyxit_target_width
 	parameters['pyxit_target_height'] = options.pyxit_target_height
-	parameters['dir_ls'] = ""
-	parameters['pyxit_n_subwindows'] = 100
-	parameters['pyxit_interpolation'] = 1
-	parameters['pyxit_transpose'] = True
-	parameters['pyxit_min_size'] = 0.1
-	parameters['pyxit_max_size'] = 1
-	parameters['pyxit_fixed_size'] = False
+	parameters['pyxit_n_subwindows'] = options.pyxit_n_subwindows
+	parameters['pyxit_interpolation'] = options.pyxit_interpolation
+	parameters['pyxit_transpose'] = str2bool(options.pyxit_transpose)
+	parameters['pyxit_min_size'] = options.pyxit_min_size
+	parameters['pyxit_max_size'] = options.pyxit_max_size
+	parameters['pyxit_fixed_size'] = str2bool(options.pyxit_fixed_size)
 	parameters['cytomine_annotation_projects'] = map(int, options.cytomine_annotation_projects.split(','))
 	parameters['cytomine_reviewed'] = str2bool(options.cytomine_reviewed)
 	parameters['cytomine_dump_annotation_stats'] = str2bool(options.cytomine_dump_annotation_stats)
@@ -431,10 +430,12 @@ def main(argv):
 
 	if parameters['build_model'] :
 		# Model name
-		model_name = "nsubw{}_winsize{}x{}_batchsize{}_epochs{}_shuffle{}_valsplit{}"\
-			.format(pyxit_parameters['pyxit_n_subwindows'],
-					pyxit_parameters['pyxit_target_width'],
-					pyxit_parameters['pyxit_target_height'],
+		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}"\
+			.format(parameters['pyxit_n_subwindows'],
+					parameters['pyxit_target_width'],
+					parameters['pyxit_target_height'],
+					parameters['pyxit_min_size'],
+					parameters['pyxit_max_size'],
 					parameters['keras_batch_size'],
 					parameters['keras_n_epochs'],
 					parameters['keras_shuffle'],
@@ -481,7 +482,7 @@ def main(argv):
 			os.makedirs(parameters['keras_save_to'])
 
 		model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
-		quit()
+
 		mean, std = train(_X, _y,
 						  model_weights_file_path,
 						  imgs_width = pyxit_parameters['pyxit_target_width'],

@@ -532,12 +532,12 @@ def main(argv):
 		.format(parameters['pyxit_n_subwindows'],
 				parameters['pyxit_target_width'],
 				parameters['pyxit_target_height'],
-				int(10*parameters['pyxit_min_size']),
-				int(10 *parameters['pyxit_max_size']),
+				parameters['pyxit_min_size'],
+				parameters['pyxit_max_size'],
 				parameters['keras_batch_size'],
 				parameters['keras_n_epochs'],
 				parameters['keras_shuffle'],
-				parameters['keras_validation_split'])
+				parameters['keras_validation_split']).replace(".", "")
 	print("Model_name :", model_name)
 
 	# Retrieve mean and std used to normalize training data
