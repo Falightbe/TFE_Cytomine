@@ -438,7 +438,7 @@ def main(argv):
 					parameters['keras_batch_size'],
 					parameters['keras_n_epochs'],
 					parameters['keras_shuffle'],
-					parameters['keras_validation_split'])
+					parameters['keras_validation_split']).replace(".", "")
 		print("Model_name :", model_name)
 
 		pyxit = PyxitClassifier(None,
@@ -477,7 +477,11 @@ def main(argv):
 		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
 
 		# Train FCN
+		if not os.path.exists(parameters['keras_save_to']) :
+			os.makedirs(parameters['keras_save_to'])
+
 		model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
+		quit()
 		mean, std = train(_X, _y,
 						  model_weights_file_path,
 						  imgs_width = pyxit_parameters['pyxit_target_width'],
