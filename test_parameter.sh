@@ -15,18 +15,18 @@ cytomine_excluded_terms=5735 #id of terms that will not be used (neither positiv
 #################################################### Model building ####################################################
 # Pyxit parameters for subwindow extraction for training
 cytomine_id_software_model_building=207421104 # Software Segmentation_Model_Predict can now be used in project  ULG-LBTD-E2B-NOV2013
-window_size=32 #
+window_size=128 # Tune
 pyxit_colorspace=2
 pyxit_nb_jobs=10
 verbose=true
 cytomine_reviewed=false
 cytomine_zoom_level=2
 pyxit_transpose=true
-pyxit_n_subwindows=10
+pyxit_n_subwindows=1 # Tune
 pyxit_fixed_size=true
 pyxit_interpolation=1
-pyxit_min_size=0.5
-pyxit_max_size=0.9
+pyxit_min_size=1 # Tune
+pyxit_max_size=1 # Tune
 nb_jobs=10
 
 # Keras model parameters
@@ -53,10 +53,10 @@ cytomine_reviewed_roi=true
 cytomine_min_size=4000
 cytomine_max_size=100000000
 cytomine_zoom_level=2
-cytomine_tile_size=512
+cytomine_tile_size=512 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
-cytomine_tile_overlap=32 #
+cytomine_tile_overlap=8 # Tune
 cytomine_union_min_length=10
 cytomine_union_bufferoverlap=5
 cytomine_union_area=5000
@@ -70,7 +70,7 @@ startx=12500
 starty=200
 
 # Pyxit parameters
-cytomine_predict_step=8
+cytomine_predict_step=128 # Tune
 pyxit_post_classification=false
 pyxit_post_classification_save_to=""
 
