@@ -552,38 +552,15 @@ def main(argv):
 	model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
 	prediction_model = load_model(model_weights_file_path, imgs_width = parameters['pyxit_target_width'], imgs_height = parameters['pyxit_target_height'])
 
-	# Create a new userjob if connected as human user
-	print("Create Job and UserJob...")
-	id_software = parameters['cytomine_id_software']
-	current_user = conn.get_current_user()
-	run_by_user_job = False
-	if not current_user.algo :
-		print("adduserJob...")
-		user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
-		print("set_credentialsimport ...")
-		conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
-		print("done")
-	else :
-		user_job = current_user
-		print("Already running as userjob")
-		run_by_user_job = True
-	job = conn.get_job(user_job.job)
 
-	job = conn.update_job_status(job, status_comment = "Publish software parameters values")
-	if not run_by_user_job :
-		job_parameters_values = conn.add_job_parameters(user_job.job,
-														conn.get_software(
-															parameters['cytomine_id_software']),
-														parameters)
-	job = conn.update_job_status(job, status = job.RUNNING, progress = 0,
-								 status_comment = "Loading data...")
 
 	# Write in log file
-	beginning_time = time.time()
+	beginning_time = localtime()
 	log_file = open('log.txt', 'w')
 	print >> log_file, '*'*80
-	print >> log_file, "\nBeginning Time : " + beginning_time
-	print >> log_file, "\nUserjob ID : " + job.userJob
+	print >> log_file, '*' * 80
+	print >> log_file, '*' * 80
+	print >> log_file, "\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time)
 	print >> log_file, "\nParameters : \n" + parameters
 
 	# Retrieve images to predict
@@ -602,6 +579,38 @@ def main(argv):
 		id_project = int(image_name.split('project-')[1].split('/crop')[0])
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
+
+		# Create a new userjob if connected as human user
+		print("Create Job and UserJob...")
+		id_software = parameters['cytomine_id_software']
+		current_user = conn.get_current_user()
+		run_by_user_job = False
+		if not current_user.algo :
+			print("adduserJob...")
+			user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
+			print("set_credentialsimport ...")
+			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
+			print("done")
+		else :
+			user_job = current_user
+			print("Already running as userjob")
+			run_by_user_job = True
+		job = conn.get_job(user_job.job)
+
+		job = conn.update_job_status(job, status_comment = "Publish software parameters values")
+		if not run_by_user_job :
+			job_parameters_values = conn.add_job_parameters(user_job.job,
+															conn.get_software(
+																parameters['cytomine_id_software']),
+															parameters)
+		job = conn.update_job_status(job, status = job.RUNNING, progress = 0,
+									 status_comment = "Loading data...")
+
+		# Write in log file
+		print >> log_file, "\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime())
+		print >> log_file, "\nProject ID : " + id_project
+		print >> log_file, "\nImage ID : " + id_image
+		print >> log_file, "\nUserjob ID : " + job.userJob
 
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
@@ -1118,8 +1127,11 @@ def main(argv):
 		# # Save job used to annotate image
 		# image_job_dict[dict_key] = job.userJob
 
+		# Write in log file
 		end_image_time = time.time()
-		average_image_time += end_image_time - beginning_image_time
+		image_prediction_time = end_image_time - beginning_image_time
+		print >> log_file, "\n It took : " + image_prediction_time
+		average_image_time += image_prediction_time
 
 		progress += progress_delta
 		i += 1
@@ -1160,10 +1172,10 @@ def main(argv):
 
 	# Write in log file
 	average_image_time /= i_image
-	print >> log_file, "\nBeginning Time : " + beginning_time
-	print >> log_file, "\nEnd Time : " + time.time()
-	print >> log_file, "\n Average prediction time for an image : %d" % average_image_time
-	print >> log_file, "\nUserjob ID : " + job.userJob
+	print >> log_file, "\n\n\n\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time)
+	print >> log_file, "\nEnd Time : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime())
+	print >> log_file, "\n Average prediction time for an image : %s" % strftime("%H:%M:%S", average_image_time)
+	print >> log_file, "\n Number of images : " + i_image
 
 	print >> log_file, "\n\n\n"
 	log_file.close()
