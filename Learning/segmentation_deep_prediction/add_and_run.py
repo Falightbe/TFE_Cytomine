@@ -556,12 +556,12 @@ def main(argv):
 
 	# Write in log file
 	beginning_time = localtime()
-	log_file = open('log.txt', 'w')
-	print >> log_file, '*'*80
-	print >> log_file, '*' * 80
-	print >> log_file, '*' * 80
-	print >> log_file, "\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time)
-	print >> log_file, "\nParameters : \n" + parameters
+	log_file = open('log.txt', 'a')
+	log_file.write('*'*80)
+	log_file.write('*' * 80)
+	log_file.write('*' * 80)
+	log_file.write("\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
+	log_file.write("\nParameters : \n" + parameters)
 
 	# Retrieve images to predict
 	with open(os.path.join(parameters['cytomine_working_path'], "image_folders_record.csv"), 'r') as f :
@@ -607,10 +607,10 @@ def main(argv):
 									 status_comment = "Loading data...")
 
 		# Write in log file
-		print >> log_file, "\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime())
-		print >> log_file, "\nProject ID : " + id_project
-		print >> log_file, "\nImage ID : " + id_image
-		print >> log_file, "\nUserjob ID : " + job.userJob
+		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
+		log_file.write("\nProject ID : " + id_project)
+		log_file.write("\nImage ID : " + id_image)
+		log_file.write("\nUserjob ID : " + job.userJob)
 
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
@@ -1130,7 +1130,7 @@ def main(argv):
 		# Write in log file
 		end_image_time = time.time()
 		image_prediction_time = end_image_time - beginning_image_time
-		print >> log_file, "\n It took : " + image_prediction_time
+		log_file.write("\n It took : " + image_prediction_time)
 		average_image_time += image_prediction_time
 
 		progress += progress_delta
@@ -1172,12 +1172,12 @@ def main(argv):
 
 	# Write in log file
 	average_image_time /= i_image
-	print >> log_file, "\n\n\n\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time)
-	print >> log_file, "\nEnd Time : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime())
-	print >> log_file, "\n Average prediction time for an image : %s" % strftime("%H:%M:%S", average_image_time)
-	print >> log_file, "\n Number of images : " + i_image
+	log_file.write("\n\n\n\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
+	log_file.write("\nEnd Time : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
+	log_file.write("\n Average prediction time for an image : %s" % strftime("%H:%M:%S", average_image_time))
+	log_file.write("\n Number of images : " + i_image)
 
-	print >> log_file, "\n\n\n"
+	log_file.write("\n\n\n")
 	log_file.close()
 	sys.exit()
 
