@@ -94,35 +94,35 @@ project_ids=155194683,155194951,180770924,20207620,7873585
 
 #################################################### Launch python #####################################################
 #python add_and_run.py \
-python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_model_builder/add_and_run.py \
---cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key \
---cytomine_private_key $cytomine_private_key \
---cytomine_base_path /api/ \
---cytomine_id_software $cytomine_id_software_model_building \
---cytomine_working_path $cytomine_working_path \
---cytomine_id_project $cytomine_id_project \
---cytomine_annotation_projects $cytomine_annotation_projects \
---verbose $verbose -z $cytomine_zoom_level \
---cytomine_excluded_terms $cytomine_excluded_terms \
---cytomine_predict_terms $cytomine_predict_terms \
---pyxit_target_width $window_size \
---pyxit_target_height $window_size \
---pyxit_colorspace $pyxit_colorspace \
---pyxit_nb_jobs $pyxit_nb_jobs \
---pyxit_n_subwindows $pyxit_n_subwindows \
---pyxit_transpose $pyxit_transpose \
---pyxit_fixed_size $pyxit_fixed_size \
---pyxit_interpolation $pyxit_interpolation \
---cytomine_reviewed $cytomine_reviewed \
---cytomine_dump_annotations $cytomine_dump_annotations \
---cytomine_dump_annotation_stats $cytomine_dump_annotation_stats \
---build_model $build_model \
---keras_batch_size $keras_batch_size \
---keras_n_epochs $keras_n_epochs \
---keras_shuffle $keras_shuffle \
---keras_validation_split $keras_validation_split \
---keras_save_to $keras_save_to \
---nb_jobs $nb_jobs
+#python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_model_builder/add_and_run.py \
+#--cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key \
+#--cytomine_private_key $cytomine_private_key \
+#--cytomine_base_path /api/ \
+#--cytomine_id_software $cytomine_id_software_model_building \
+#--cytomine_working_path $cytomine_working_path \
+#--cytomine_id_project $cytomine_id_project \
+#--cytomine_annotation_projects $cytomine_annotation_projects \
+#--verbose $verbose -z $cytomine_zoom_level \
+#--cytomine_excluded_terms $cytomine_excluded_terms \
+#--cytomine_predict_terms $cytomine_predict_terms \
+#--pyxit_target_width $window_size \
+#--pyxit_target_height $window_size \
+#--pyxit_colorspace $pyxit_colorspace \
+#--pyxit_nb_jobs $pyxit_nb_jobs \
+#--pyxit_n_subwindows $pyxit_n_subwindows \
+#--pyxit_transpose $pyxit_transpose \
+#--pyxit_fixed_size $pyxit_fixed_size \
+#--pyxit_interpolation $pyxit_interpolation \
+#--cytomine_reviewed $cytomine_reviewed \
+#--cytomine_dump_annotations $cytomine_dump_annotations \
+#--cytomine_dump_annotation_stats $cytomine_dump_annotation_stats \
+#--build_model $build_model \
+#--keras_batch_size $keras_batch_size \
+#--keras_n_epochs $keras_n_epochs \
+#--keras_shuffle $keras_shuffle \
+#--keras_validation_split $keras_validation_split \
+#--keras_save_to $keras_save_to \
+#--nb_jobs $nb_jobs
 
 #python add_and_run.py  \
 python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_prediction/add_and_run.py \
