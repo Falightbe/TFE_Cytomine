@@ -558,8 +558,7 @@ def main(argv):
 	beginning_time = localtime()
 	log_file = open('log.txt', 'a')
 	log_file.write('*'*80)
-	log_file.write('*' * 80)
-	log_file.write('*' * 80)
+	log_file.write('\n')
 	log_file.write("\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
 	log_file.write("\nParameters : \n")
 	log_file.write(parameters.__str__())
@@ -609,9 +608,9 @@ def main(argv):
 
 		# Write in log file
 		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
-		log_file.write("\nProject ID : " + id_project)
-		log_file.write("\nImage ID : " + id_image)
-		log_file.write("\nUserjob ID : " + job.userJob)
+		log_file.write("\nProject ID : %d" % id_project)
+		log_file.write("\nImage ID : %d" % id_image)
+		log_file.write("\nUserjob ID : %d" % job.userJob)
 
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
@@ -1131,7 +1130,7 @@ def main(argv):
 		# Write in log file
 		end_image_time = time.time()
 		image_prediction_time = end_image_time - beginning_image_time
-		log_file.write("\n It took : " + image_prediction_time)
+		log_file.write("\n It took : %d seconds" % image_prediction_time)
 		average_image_time += image_prediction_time
 
 		progress += progress_delta
@@ -1173,7 +1172,7 @@ def main(argv):
 	log_file.write("\n\n\n\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
 	log_file.write("\nEnd Time : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 	log_file.write("\n Average prediction time for an image : %s" % strftime("%H:%M:%S", average_image_time))
-	log_file.write("\n Number of images : " + i_image)
+	log_file.write("\n Number of images : %d" % i_image)
 
 	log_file.write("\n\n\n")
 	log_file.close()
