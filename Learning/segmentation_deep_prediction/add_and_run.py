@@ -1140,9 +1140,6 @@ def main(argv):
 
 	job = conn.update_job_status(job, status = job.TERMINATED, progress = 100, status_comment =  "Finish Job..")
 
-	# # Dump dictionary containing which job annotated which image
-	# with open(image_job_filename, 'w') as f :
-	# 	pickle.dump(image_job_dict, f)
 
 
 
