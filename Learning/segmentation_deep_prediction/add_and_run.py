@@ -562,7 +562,7 @@ def main(argv):
 	log_file.write('*' * 80)
 	log_file.write("\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
 	log_file.write("\nParameters : \n")
-	log_file.write(parameters)
+	log_file.write(parameters.__str__())
 
 	# Retrieve images to predict
 	with open(os.path.join(parameters['cytomine_working_path'], "image_folders_record.csv"), 'r') as f :
