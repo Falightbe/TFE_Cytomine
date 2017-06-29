@@ -706,7 +706,7 @@ def main(argv):
 				print("Image file :", image_filename)
 				if not os.path.isfile(image_filename) :
 					print("IMAGE FILE READ FROM WHOLESLIDE")
-					quit()
+
 					save_image = False
 					read = False
 					while (not read) :
