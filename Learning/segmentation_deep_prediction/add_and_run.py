@@ -362,7 +362,7 @@ def predict(imgs_test, model, mean, std):
 
 
 def main(argv):
-	current_path = os.getcwd() + '/' + os.path.dirname(__file__)
+	current_path = os.path.dirname(__file__)
 
 	# Define command line options
 	p = optparse.OptionParser(description='Cytomine Segmentation prediction', prog='Cytomine segmentation prediction', version='0.1')
@@ -519,6 +519,8 @@ def main(argv):
 	if options.verbose :
 		print(parameters)
 
+
+
 	# Create Cytomine connection
 	conn = cytomine.Cytomine(parameters["cytomine_host"],
 							 parameters["cytomine_public_key"],
@@ -567,9 +569,11 @@ def main(argv):
 	progress = 0
 	progress_delta = 100 / len(image_folders)
 	i_image = 0
+	average_image_time = 0
 
 	# Go through all images
 	for image_name in image_folders :
+		beginning_image_time = time.time()
 		id_project = int(image_name.split('project-')[1].split('/crop')[0])
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
@@ -1120,10 +1124,14 @@ def main(argv):
 		# # Save job used to annotate image
 		# image_job_dict[dict_key] = job.userJob
 
-		break
+		end_image_time = time.time()
+		average_image_time += end_image_time - beginning_image_time
+
 		progress += progress_delta
 		i += 1
-	# break : image loop
+		i_image += 1
+		break
+
 	job = conn.update_job_status(job, status = job.TERMINATED, progress = 100, status_comment =  "Finish Job..")
 
 	# # Dump dictionary containing which job annotated which image
@@ -1156,10 +1164,13 @@ def main(argv):
 
 		color_statistics(prj.project_name, stat_directory)
 
+	average_image_time /= i_image
 	with open('log.txt', 'w') as f :
 		print >> f, '*'*80
-		print >> f, parameters
-		print >> f, directory
+		print >> f, "Parameters : \n" + parameters
+		print >> f, "\nDirectory : \n" + directory
+		print >> f, "\n Userjob ID : \n" + job.userJob
+		print >> f, "\n Average prediction time for an image : %d" % average_image_time
 		print >> f , "\n\n\n"
 
 	sys.exit()
