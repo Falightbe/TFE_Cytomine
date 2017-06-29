@@ -552,14 +552,39 @@ def main(argv):
 	model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
 	prediction_model = load_model(model_weights_file_path, imgs_width = parameters['pyxit_target_width'], imgs_height = parameters['pyxit_target_height'])
 
+	# Create a new userjob if connected as human user
+	print("Create Job and UserJob...")
+	id_software = parameters['cytomine_id_software']
+	current_user = conn.get_current_user()
+	run_by_user_job = False
+	if not current_user.algo :
+		print("adduserJob...")
+		user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
+		print("set_credentialsimport ...")
+		conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
+		print("done")
+	else :
+		user_job = current_user
+		print("Already running as userjob")
+		run_by_user_job = True
+	job = conn.get_job(user_job.job)
 
-	# Load already annotated images
-	# image_job_filename = os.path.join(parameters['keras_save_to'], 'test_image_job_dict_' + model_name)
-	# if not os.path.exists(image_job_filename) :
-	# 	image_job_dict = {}
-	# else :
-	# 	with open(image_job_filename, 'r') as f :
-	# 		image_job_dict = pickle.load(f)
+	job = conn.update_job_status(job, status_comment = "Publish software parameters values")
+	if not run_by_user_job :
+		job_parameters_values = conn.add_job_parameters(user_job.job,
+														conn.get_software(
+															parameters['cytomine_id_software']),
+														parameters)
+	job = conn.update_job_status(job, status = job.RUNNING, progress = 0,
+								 status_comment = "Loading data...")
+
+	# Write in log file
+	beginning_time = time.time()
+	log_file = open('log.txt', 'w')
+	print >> log_file, '*'*80
+	print >> log_file, "\nBeginning Time : " + beginning_time
+	print >> log_file, "\nUserjob ID : " + job.userJob
+	print >> log_file, "\nParameters : \n" + parameters
 
 	# Retrieve images to predict
 	with open(os.path.join(parameters['cytomine_working_path'], "image_folders_record.csv"), 'r') as f :
@@ -577,37 +602,6 @@ def main(argv):
 		id_project = int(image_name.split('project-')[1].split('/crop')[0])
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
-
-		# If already annotated image, skip
-		# dict_key = str(id_project) + '-' + str(id_image) # key in job/image dictionary
-		# if image_job_dict.has_key(dict_key):
-		# 	continue
-
-		# Create a new userjob if connected as human user
-		print("Create Job and UserJob...")
-		id_software = parameters['cytomine_id_software']
-		current_user = conn.get_current_user()
-		run_by_user_job = False
-		if not current_user.algo :
-			print("adduserJob...")
-			user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
-			print("set_credentialsimport ...")
-			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
-			print("done")
-		else :
-			user_job = current_user
-			print("Already running as userjob")
-			run_by_user_job = True
-		job = conn.get_job(user_job.job)
-
-		job = conn.update_job_status(job, status_comment = "Publish software parameters values")
-		if not run_by_user_job :
-			job_parameters_values = conn.add_job_parameters(user_job.job,
-															conn.get_software(
-																parameters['cytomine_id_software']),
-															parameters)
-		job = conn.update_job_status(job, status = job.RUNNING, progress = 0,
-									 status_comment = "Loading data...")
 
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
@@ -1130,7 +1124,7 @@ def main(argv):
 		progress += progress_delta
 		i += 1
 		i_image += 1
-		break
+
 
 	job = conn.update_job_status(job, status = job.TERMINATED, progress = 100, status_comment =  "Finish Job..")
 
@@ -1141,38 +1135,38 @@ def main(argv):
 
 
 	# Prediction analysis
-	projects = map(int, options.project_ids.split(','))
-	modes = [1, 2]
-	directory = os.path.join(parameters['cytomine_working_path'], 'analysis_{}'.format(strftime("%Y-%m-%d-%H:%M:%S", localtime())))
-	for p_id in projects :
-		# Build data in local directory
-		prj = Project_Analyser(parameters['cytomine_host'], public_key = parameters['cytomine_public_key'], private_key = parameters['cytomine_private_key'],
-							   base_path = parameters['cytomine_base_path'], working_path = parameters['cytomine_working_path'], project_id = p_id,
-							   modes = modes,
-							   directory = directory, roi_term = parameters['cytomine_roi_term'],
-							   positive_term = parameters['cytomine_predicted_annotation_term'], roi_zoom = 5,
-							   positive_user_job_id = job.userJob)
+	# projects = map(int, options.project_ids.split(','))
+	# modes = [1, 2]
+	# directory = os.path.join(parameters['cytomine_working_path'], 'analysis_{}'.format(strftime("%Y-%m-%d-%H:%M:%S", localtime())))
+	# for p_id in projects :
+	# 	# Build data in local directory
+	# 	prj = Project_Analyser(parameters['cytomine_host'], public_key = parameters['cytomine_public_key'], private_key = parameters['cytomine_private_key'],
+	# 						   base_path = parameters['cytomine_base_path'], working_path = parameters['cytomine_working_path'], project_id = p_id,
+	# 						   modes = modes,
+	# 						   directory = directory, roi_term = parameters['cytomine_roi_term'],
+	# 						   positive_term = parameters['cytomine_predicted_annotation_term'], roi_zoom = 5,
+	# 						   positive_user_job_id = job.userJob)
+	#
+	# 	prj.launch()
+	# 	# Compute statiscal analysis on data
+	# 	stat_directory = prj.path
+	# 	basic_statistics(prj.project_name, stat_directory,
+	# 					 {parameters['cytomine_predicted_annotation_term'] : "Adenocarcinome", options.roi_term : "Poumon"}, 1,
+	# 					 parameters['cytomine_roi_term'], parameters['cytomine_predicted_annotation_term'])
+	#
+	# 	blob_size_statistics(prj.project_name, stat_directory)
+	#
+	# 	color_statistics(prj.project_name, stat_directory)
 
-		prj.launch()
-		# Compute statiscal analysis on data
-		stat_directory = prj.path
-		basic_statistics(prj.project_name, stat_directory,
-						 {parameters['cytomine_predicted_annotation_term'] : "Adenocarcinome", options.roi_term : "Poumon"}, 1,
-						 parameters['cytomine_roi_term'], parameters['cytomine_predicted_annotation_term'])
-
-		blob_size_statistics(prj.project_name, stat_directory)
-
-		color_statistics(prj.project_name, stat_directory)
-
+	# Write in log file
 	average_image_time /= i_image
-	with open('log.txt', 'w') as f :
-		print >> f, '*'*80
-		print >> f, "Parameters : \n" + parameters
-		print >> f, "\nDirectory : \n" + directory
-		print >> f, "\n Userjob ID : \n" + job.userJob
-		print >> f, "\n Average prediction time for an image : %d" % average_image_time
-		print >> f , "\n\n\n"
+	print >> log_file, "\nBeginning Time : " + beginning_time
+	print >> log_file, "\nEnd Time : " + time.time()
+	print >> log_file, "\n Average prediction time for an image : %d" % average_image_time
+	print >> log_file, "\nUserjob ID : " + job.userJob
 
+	print >> log_file, "\n\n\n"
+	log_file.close()
 	sys.exit()
 
 
