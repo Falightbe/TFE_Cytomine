@@ -554,9 +554,10 @@ def main(argv):
 
 	# Write in log file
 	beginning_time = localtime()
-	log_file = open('log.txt', 'a')
+
 	log_csv = open("log%s.csv" % strftime("%Y-%m-%d-%H:%M:%S", beginning_time), 'w')
 	log_csv.write("Project ID; Image ID; Userjob ID; Prediction time; Number of tiles\n")
+	log_file = open('log.txt', 'a')
 	log_file.write('*'*80)
 	log_file.write('\n')
 	log_file.write("\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
