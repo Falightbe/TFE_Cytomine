@@ -56,7 +56,7 @@ cytomine_zoom_level=2
 cytomine_tile_size=512 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
-cytomine_tile_overlap=8 # Tune
+cytomine_tile_overlap=5 # OSEF ce n'est pas utilisé
 cytomine_union_min_length=10
 cytomine_union_bufferoverlap=5
 cytomine_union_area=5000
@@ -70,7 +70,7 @@ startx=12500
 starty=200
 
 # Pyxit parameters
-cytomine_predict_step=128 # Tune
+cytomine_predict_step=64 # Tune
 pyxit_post_classification=false
 pyxit_post_classification_save_to=""
 
@@ -132,7 +132,6 @@ python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_
 --cytomine_base_path /api/  \
 --cytomine_id_software $cytomine_id_software_prediction  \
 --cytomine_working_path $cytomine_working_path  \
---cytomine_id_project $cytomine_id_project  \
 --cytomine_tile_size $cytomine_tile_size  \
 --cytomine_predict_step $cytomine_predict_step  \
 --cytomine_tile_overlap $cytomine_tile_overlap  \

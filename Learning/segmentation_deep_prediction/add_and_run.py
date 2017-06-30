@@ -373,7 +373,6 @@ def main(argv):
 	p.add_option('--cytomine_base_path', type="string", default = '/api/', dest="cytomine_base_path", help="Cytomine base path")
 	p.add_option('--cytomine_id_software', type="int", dest="cytomine_id_software", help="The Cytomine software identifier")
 	p.add_option('--cytomine_working_path', default="/tmp/", type="string", dest="cytomine_working_path", help="The working directory (eg: /tmp)")
-	p.add_option('--cytomine_id_project', type="int", dest="cytomine_id_project", help="The Cytomine project identifier")
 	p.add_option('--cytomine_union', type="string", default="0", dest="cytomine_union", help="Turn on union of geometries")
 	p.add_option('--cytomine_postproc', type="string", default="0", dest="cytomine_postproc", help="Turn on postprocessing")
 	p.add_option('--cytomine_count', type="string", default="0", dest="cytomine_count", help="Turn on object counting")
@@ -443,7 +442,6 @@ def main(argv):
 	parameters['cytomine_base_path'] = options.cytomine_base_path
 	parameters['cytomine_working_path'] = options.cytomine_working_path
 	parameters['cytomine_base_path'] = options.cytomine_base_path
-	parameters['cytomine_id_project'] = options.cytomine_id_project
 	parameters['cytomine_id_software'] = options.cytomine_id_software
 	parameters['cytomine_predict_terms'] = map(int, options.cytomine_predict_terms.split(','))
 	parameters['cytomine_predicted_annotation_term'] = parameters['cytomine_predict_terms'][0]
@@ -575,8 +573,8 @@ def main(argv):
 	i_image = 0
 	average_image_time = 0
 
-	first_image_id = 160963234
-	first_boolean = False
+	# first_image_id = 160963234
+	# first_boolean = False
 	# Go through all images
 	for image_name in image_folders :
 		beginning_image_time = time.time()
@@ -584,36 +582,25 @@ def main(argv):
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
 
-		if first_image_id != id_image:
-			if not first_boolean:
-				continue
-		else:
-			first_boolean = True
-			continue
+		# if first_image_id != id_image:
+		# 	if not first_boolean:
+		# 		continue
+		# else:
+		# 	first_boolean = True
+		# 	continue
 
 		# Create a new userjob if connected as human user
 		print("Create Job and UserJob...")
-		id_software = parameters['cytomine_id_software']
-		current_user = conn.get_current_user()
-		run_by_user_job = False
-		if not current_user.algo :
-			print("adduserJob...")
-			user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
-			print("set_credentialsimport ...")
-			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
-			print("done")
-		else :
-			user_job = current_user
-			print("Already running as userjob")
-			run_by_user_job = True
+		user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
+		print("set_credentials ...")
+		conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
+		print("done")
+
 		job = conn.get_job(user_job.job)
 
 		job = conn.update_job_status(job, status_comment = "Publish software parameters values")
-		if not run_by_user_job :
-			job_parameters_values = conn.add_job_parameters(user_job.job,
-															conn.get_software(
-																parameters['cytomine_id_software']),
-															parameters)
+
+		conn.add_job_parameters(user_job.job, conn.get_software(parameters['cytomine_id_software']), parameters)
 		job = conn.update_job_status(job, status = job.RUNNING, progress = 0,
 									 status_comment = "Loading data...")
 
@@ -693,7 +680,7 @@ def main(argv):
 														 parameters['cytomine_tile_size'],
 														 parameters['cytomine_tile_size']),
 								zoom = zoom,
-								overlap = parameters['cytomine_tile_overlap'] + 1)
+								overlap = parameters['pyxit_target_width']+1)
 		# opencv object image corresponding to a tile
 		# cv_image = cv.CreateImageHeader((reader.window_position.width, reader.window_position.height), cv.IPL_DEPTH_8U, 1)
 		wsi = 0
@@ -885,7 +872,7 @@ def main(argv):
 					# # Save of confidence map locally
 					print ("Creating output tile file locally")
 					output = Image.fromarray(np.uint8(votes))
-					output_folder = "%s/prediction/output/project-%d/tiles/" %(parameters["cytomine_working_path"], parameters["cytomine_id_project"])
+					output_folder = "%s/prediction/output/project-%d/tiles/" %(parameters["cytomine_working_path"], id_project)
 					if not os.path.exists(output_folder):
 						os.makedirs(output_folder)
 					outputfilename = os.path.join(output_folder, "%d-zoom_%d-tile_%d_xxOUTPUT-%dx%d.png" % (id_image, zoom, wsi, pyxit_target_width, pyxit_target_height))
