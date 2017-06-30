@@ -557,6 +557,8 @@ def main(argv):
 	# Write in log file
 	beginning_time = localtime()
 	log_file = open('log.txt', 'a')
+	log_csv = open("log%s.csv" % strftime("%Y-%m-%d-%H:%M:%S", beginning_time), 'w')
+	log_csv.write("Project ID; Image ID; Userjob ID; Prediction time; Number of tiles\n")
 	log_file.write('*'*80)
 	log_file.write('\n')
 	log_file.write("\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
@@ -573,12 +575,20 @@ def main(argv):
 	i_image = 0
 	average_image_time = 0
 
+	first_image_id = 150083509
+	first_boolean = False
 	# Go through all images
 	for image_name in image_folders :
 		beginning_image_time = time.time()
 		id_project = int(image_name.split('project-')[1].split('/crop')[0])
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
+
+		if first_image_id != id_image:
+			if not first_boolean:
+				continue
+		else:
+			first_boolean = True
 
 		# Create a new userjob if connected as human user
 		print("Create Job and UserJob...")
@@ -690,6 +700,7 @@ def main(argv):
 
 		print ("Starting browsing the image using tiles")
 		posx,posy,poswidth,posheight = reader.window_position.x, reader.window_position.y, reader.window_position.width,reader.window_position.height
+
 		while True :
 
 			# Get rasterized roi mask to match with this tile (if no ROI used, the roi_mask was built before and
@@ -1130,7 +1141,9 @@ def main(argv):
 		# Write in log file
 		end_image_time = time.time()
 		image_prediction_time = end_image_time - beginning_image_time
-		log_file.write("\n It took : %d seconds" % image_prediction_time)
+		log_file.write("\nNumber of tiles : %d" % wsi)
+		log_file.write("\nIt took %d seconds" % image_prediction_time)
+		log_csv.write("%d;%d;%d;%d;%d\n" %(id_project, id_image, user_job.job, image_prediction_time, wsi))
 		average_image_time += image_prediction_time
 
 		progress += progress_delta
@@ -1176,6 +1189,7 @@ def main(argv):
 
 	log_file.write("\n\n\n")
 	log_file.close()
+	log_csv.close()
 	sys.exit()
 
 
