@@ -575,7 +575,7 @@ def main(argv):
 	i_image = 0
 	average_image_time = 0
 
-	first_image_id = 150083509
+	first_image_id = 160963234
 	first_boolean = False
 	# Go through all images
 	for image_name in image_folders :
@@ -589,6 +589,7 @@ def main(argv):
 				continue
 		else:
 			first_boolean = True
+			continue
 
 		# Create a new userjob if connected as human user
 		print("Create Job and UserJob...")
