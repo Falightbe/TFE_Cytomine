@@ -786,8 +786,8 @@ def main(argv):
 					half_width = math.floor(pyxit_target_width / 2)
 					half_height = math.floor(pyxit_target_height / 2)
 					# Coordinates of extracted subwindows
-					y_roi = range(pyxit_target_height / 2, height - pyxit_target_height / 2, predictionstep)
-					x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2, predictionstep)
+					y_roi = range(pyxit_target_height / 2, height - pyxit_target_height / 2 + 1, predictionstep)
+					x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2 + 1, predictionstep)
 
 
 					print("y_roi :")
