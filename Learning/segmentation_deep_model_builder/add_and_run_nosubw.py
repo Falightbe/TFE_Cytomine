@@ -508,9 +508,9 @@ def main(argv):
 		# image_datagen.fit(images, augment = True, seed = seed)
 		# mask_datagen.fit(masks, augment = True, seed = seed)
 
-		image_generator = image_datagen.flow(images, y, class_mode = None, seed = seed)
+		image_generator = image_datagen.flow(images, y,seed = seed, shuffle = False)
 
-		mask_generator = mask_datagen.flow_from_directory(masks, y, class_mode = None, seed = seed)
+		mask_generator = mask_datagen.flow_from_directory(masks, y, seed = seed, shuffle = False)
 
 		# combine generators into one which yields image and masks
 		train_generator = zip(image_generator, mask_generator)
