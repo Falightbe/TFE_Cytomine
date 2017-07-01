@@ -596,7 +596,7 @@ def main(argv):
 		#Create a new userjob if connected as human user
 		current_user = conn.get_current_user()
 		run_by_user_job = False
-		if current_user.algo==False:
+		if True:
 			user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
 			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
 			log_file.write("In if")
