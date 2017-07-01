@@ -124,9 +124,9 @@ def image_mask_builder(filenames, classes, colorspace):
 	for file, c in zip(filenames, classes):
 		whole_image = Image.open(file)
 		whole_image.convert('RGBA')
-		image = whole_image.getdata(3)
-		whole_image.conver('HSV')
-		mask = whole_image.getdata()
+		mask = whole_image.getdata(3)
+		whole_image.convert('HSV')
+		image = whole_image.getdata()
 		images.append(image)
 		masks.append(mask)
 	return images, masks
