@@ -789,8 +789,7 @@ def main(argv):
 					y_roi = range(pyxit_target_height / 2, height - pyxit_target_height / 2 + 1, predictionstep)
 					x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2 + 1, predictionstep)
 
-					n_jobs = parameters['nb_jobs']
-					n_jobs, _, starts = _partition_images(n_jobs, len(y_roi))
+					n_jobs, _, starts = _partition_images(parameters['nb_jobs'], len(y_roi))
 
 					# Parallel extraction of subwindows in the current tile
 					all_data = Parallel(n_jobs = n_jobs)(
@@ -813,7 +812,12 @@ def main(argv):
 
 					# Predict subwindow masks
 					print("Prediction of %d subwindows for tile %d " % (n_subw, wsi))
-					_Y = predict(_X, prediction_model, mean = training_sample_mean, std = training_sample_std)
+					# _Y = predict(_X, prediction_model, mean = training_sample_mean, std = training_sample_std)
+					n_jobs, _, starts = _partition_images(parameters['nb_jobs'], len(n_subw))
+					_Y = Parallel(n_jobs = n_jobs)(
+						delayed(predict)(_X[starts[i]:starts[i+1]], prediction_model, mean = training_sample_mean, std = training_sample_std) for i in xrange(n_jobs))
+
+
 					_Y = np.reshape(_Y, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height']))
 
 					# Build tile mask from subwindow predictions
@@ -946,6 +950,7 @@ def main(argv):
 					print ("TIME : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 					geometries = []
 
+
 			else :
 				print ("This tile (%05d) is not included in any ROI, so we skip processing" % wsi)
 
@@ -983,6 +988,7 @@ def main(argv):
 			print ("Elapsed time UNION: %d s" % (end - start))
 			print ("TIME : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 			os.chdir(old_path)
+			quit()
 
 		# Postprocessing to remove small/large annotations according to min/max area
 		if parameters['cytomine_postproc'] :
