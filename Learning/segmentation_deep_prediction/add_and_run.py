@@ -597,15 +597,12 @@ def main(argv):
 		current_user = conn.get_current_user()
 		run_by_user_job = False
 		if current_user.algo==False:
-			print "adduserJob..."
-			user_job = conn.add_user_job(parameters['cytomine_id_software'], parameters['cytomine_id_project'])
-			print "set_credentials..."
+			user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
 			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
-			print "done"
 			log_file.write("In if")
 		else:
 			user_job = current_user
-			print "Already running as userjob"
+			print("Already running as userjob")
 			run_by_user_job = True
 			log_file.write("In else")
 		job = conn.get_job(user_job.job)
