@@ -572,14 +572,6 @@ def main(argv):
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
 
-		# if first_image_id != id_image:
-		# 	if not first_boolean:
-		# 		continue
-		# else:
-		# 	first_boolean = True
-		# 	continue
-		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
-
 		if id_project != previous_id_project:
 			# New connexion to Cytomine
 			conn = cytomine.Cytomine(parameters["cytomine_host"],
@@ -614,11 +606,11 @@ def main(argv):
 		previous_id_project = id_project
 
 		# Write in log file
+		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 		log_file.write("\nProject ID : %d" % id_project)
 		log_file.write("\nImage ID : %d" % id_image)
 		log_file.write("\nUserjob ID : %d" % job.userJob)
 
-		continue
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
 		job = conn.update_job_status(job, status = job.RUNNING, progress = progress, status_comment = progress_msg)
