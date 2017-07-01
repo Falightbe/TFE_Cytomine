@@ -129,6 +129,8 @@ def image_mask_builder(filenames, classes, colorspace):
 		image = whole_image.getdata()
 		images.append(image)
 		masks.append(mask)
+	images = np.array(images)
+	masks = np.array(masks)
 	return images, masks
 
 
