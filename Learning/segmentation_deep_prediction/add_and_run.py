@@ -1179,6 +1179,8 @@ def main(argv):
 	# 	color_statistics(prj.project_name, stat_directory)
 
 	# Write in log file
+	print(average_image_time)
+	print(i_image)
 	average_image_time /= i_image
 	log_file.write("\n\n\n\nBeginning Time : %s" % strftime("%Y-%m-%d %H:%M:%S", beginning_time))
 	log_file.write("\nEnd Time : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
