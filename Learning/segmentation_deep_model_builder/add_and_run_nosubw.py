@@ -519,10 +519,12 @@ def main(argv):
 		print(type(images))
 		print(type(masks))
 		print(type(labels))
-		print(labels)
+		print(images[0:10])
+		print(masks[0:10])
+		print(labels[0:10])
 		image_generator = image_datagen.flow(images, labels, seed = seed, shuffle = False)
 
-		mask_generator = mask_datagen.flow_from_directory(masks, labels, seed = seed, shuffle = False)
+		mask_generator = mask_datagen.flow(masks, labels, seed = seed, shuffle = False)
 
 		# combine generators into one which yields image and masks
 		train_generator = zip(image_generator, mask_generator)
