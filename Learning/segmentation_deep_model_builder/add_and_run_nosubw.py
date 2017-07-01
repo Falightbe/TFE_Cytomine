@@ -121,16 +121,22 @@ def image_mask_builder(filenames, classes, colorspace):
 	print(classes)
 	images = []
 	masks = []
+	n = len(filenames)
+	labels = np.zeros((n, 2))
+	i = 0
 	for file, c in zip(filenames, classes):
 		whole_image = Image.open(file)
 		whole_image.convert('RGBA')
 		mask = whole_image.getdata(3)
 		whole_image.convert('HSV')
 		image = whole_image.getdata()
+		labels[i, c] = 1
 		images.append(image)
 		masks.append(mask)
+		i += 1
 	images = np.array(images)
 	masks = np.array(masks)
+	labels = np.array(labels)
 	return images, masks
 
 
