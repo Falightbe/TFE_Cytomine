@@ -810,8 +810,8 @@ def main(argv):
 
 
 					# Reshape data
-					_X = image.getdata()
-					n_subw = 1
+					# _X = image.getda#ta()
+					# n_subw = 1
 					_X = np.reshape(_X, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height'], 3))
 
 					# Predict subwindow masks
