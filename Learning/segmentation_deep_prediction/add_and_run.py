@@ -790,8 +790,10 @@ def main(argv):
 					x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2, predictionstep)
 
 
-					print("y_roi : %d" % y_roi)
-					print("x_roi : %d" % x_roi)
+					print("y_roi :")
+					print(y_roi)
+					print("x_roi :")
+					print(x_roi)
 					n_jobs = parameters['nb_jobs']
 					n_jobs, _, starts = _partition_images(n_jobs, len(y_roi))
 
