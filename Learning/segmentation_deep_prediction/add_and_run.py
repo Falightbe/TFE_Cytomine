@@ -836,7 +836,7 @@ def main(argv):
 						print("Box %d :" % it)
 						print(box)
 						print("\n")
-						i+=1
+						it+=1
 						tile_mask[min_y:max_y, min_x:max_x] += mask
 					quit()
 					# Divide by number of overlaps on a pixel
