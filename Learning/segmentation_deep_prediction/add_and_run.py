@@ -833,7 +833,7 @@ def main(argv):
 						min_y = box[1]
 						max_x = box[2]
 						max_y = box[3]
-						print("Box %d :" % i)
+						print("Box %d :" % it)
 						print(box)
 						print("\n")
 						i+=1
