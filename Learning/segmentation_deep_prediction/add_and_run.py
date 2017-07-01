@@ -813,7 +813,7 @@ def main(argv):
 					# Predict subwindow masks
 					print("Prediction of %d subwindows for tile %d " % (n_subw, wsi))
 					# _Y = predict(_X, prediction_model, mean = training_sample_mean, std = training_sample_std)
-					n_jobs, _, starts = _partition_images(parameters['nb_jobs'], len(n_subw))
+					n_jobs, _, starts = _partition_images(parameters['nb_jobs'], n_subw)
 					_Y = Parallel(n_jobs = n_jobs)(
 						delayed(predict)(_X[starts[i]:starts[i+1]], prediction_model, mean = training_sample_mean, std = training_sample_std) for i in xrange(n_jobs))
 
