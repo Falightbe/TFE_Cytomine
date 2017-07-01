@@ -116,6 +116,23 @@ def preprocess_mask(imgs, imgs_width, imgs_height):
 	return imgs_p
 
 
+def image_mask_builder(filenames, classes, colorspace):
+	print(filenames)
+	print(classes)
+	images = []
+	masks = []
+	for file, c in zip(filenames, classes):
+		whole_image = Image.open(file)
+		image = _get_image_data(image, colorspace)
+		assert (whole_image.mode == "RGBA")
+		mask = np.array(whole_image.split()[3].getdata())
+		y = np.zeros(mask.shape)
+		y[mask == 255] = c
+		images.append(image)
+		masks.append(mask)
+	return images, masks
+
+
 def train(imgs_train, imgs_mask_train, model_weights_filename, imgs_width, imgs_height, batch_size = 64, epochs = 30, shuffle = True, validation_split = 0.2):
 	# create_test_data('/home/falight/TFE_Cytomine/Learning/tmp/deep_segm/images')
 	#
@@ -472,6 +489,7 @@ def main(argv):
 		n_images = len(y)
 		print("Number of images : ", n_images)
 
+		images, masks = image_mask_builder(X, y, parameters['pyxit_colorspace'])
 		# ImageDataGenerator :  two instances with the same arguments
 		data_gen_args = dict(rotation_range = 180.,
 							 width_shift_range = 0.1,
@@ -491,15 +509,9 @@ def main(argv):
 		# image_datagen.fit(images, augment = True, seed = seed)
 		# mask_datagen.fit(masks, augment = True, seed = seed)
 
-		image_generator = image_datagen.flow_from_directory(
-			'data/images',
-			class_mode = None,
-			seed = seed)
+		image_generator = image_datagen.flow(images, y, class_mode = None, seed = seed)
 
-		mask_generator = mask_datagen.flow_from_directory(
-			'data/masks',
-			class_mode = None,
-			seed = seed)
+		mask_generator = mask_datagen.flow_from_directory(masks, y, class_mode = None, seed = seed)
 
 		# combine generators into one which yields image and masks
 		train_generator = zip(image_generator, mask_generator)
