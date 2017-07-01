@@ -589,28 +589,40 @@ def main(argv):
 		# else:
 		# 	first_boolean = True
 		# 	continue
-
+		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 		# Create a new userjob if connected as human user
-		print("Create Job and UserJob...")
-		user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
-		print("set_credentials ...")
-		conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
-		print("done")
-
+		print "Create Job and UserJob..."
+		id_software = parameters['cytomine_id_software']
+		#Create a new userjob if connected as human user
+		current_user = conn.get_current_user()
+		run_by_user_job = False
+		if current_user.algo==False:
+			print "adduserJob..."
+			user_job = conn.add_user_job(parameters['cytomine_id_software'], parameters['cytomine_id_project'])
+			print "set_credentials..."
+			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
+			print "done"
+			log_file.write("In if")
+		else:
+			user_job = current_user
+			print "Already running as userjob"
+			run_by_user_job = True
+			log_file.write("In else")
 		job = conn.get_job(user_job.job)
 
 		job = conn.update_job_status(job, status_comment = "Publish software parameters values")
+		if run_by_user_job==False:
+			job_parameters_values = conn.add_job_parameters(user_job.job, conn.get_software(parameters['cytomine_id_software']), parameters)
+		job = conn.update_job_status(job, status = job.RUNNING, progress = 0, status_comment = "Loading data...")
 
-		conn.add_job_parameters(user_job.job, conn.get_software(parameters['cytomine_id_software']), parameters)
-		job = conn.update_job_status(job, status = job.RUNNING, progress = 0,
-									 status_comment = "Loading data...")
 
 		# Write in log file
-		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
+
 		log_file.write("\nProject ID : %d" % id_project)
 		log_file.write("\nImage ID : %d" % id_image)
 		log_file.write("\nUserjob ID : %d" % job.userJob)
 
+		continue
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
 		job = conn.update_job_status(job, status = job.RUNNING, progress = progress, status_comment = progress_msg)
