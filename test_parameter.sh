@@ -53,7 +53,7 @@ cytomine_reviewed_roi=true
 cytomine_min_size=4000
 cytomine_max_size=100000000
 cytomine_zoom_level=2
-cytomine_tile_size=512 # Tune
+cytomine_tile_size=509 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
 cytomine_tile_overlap=128 # OSEF ca sert à rien
@@ -70,7 +70,7 @@ startx=12500
 starty=200
 
 # Pyxit parameters
-cytomine_predict_step=128 # Tune
+cytomine_predict_step=127 # Tune
 pyxit_post_classification=false
 pyxit_post_classification_save_to=""
 
