@@ -510,7 +510,8 @@ def main(argv):
 		# image_datagen.fit(images, augment = True, seed = seed)
 		# mask_datagen.fit(masks, augment = True, seed = seed)
 
-		image_generator = image_datagen.flow(images, y,seed = seed, shuffle = False)
+		y = np.array(y)
+		image_generator = image_datagen.flow(images, y, seed = seed, shuffle = False)
 
 		mask_generator = mask_datagen.flow_from_directory(masks, y, seed = seed, shuffle = False)
 
