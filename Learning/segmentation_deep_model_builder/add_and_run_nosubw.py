@@ -123,7 +123,7 @@ def image_mask_builder(filenames, classes, colorspace):
 	masks = []
 	for file, c in zip(filenames, classes):
 		whole_image = Image.open(file)
-		image = _get_image_data(image, colorspace)
+		image = _get_image_data(whole_image, colorspace)
 		assert (whole_image.mode == "RGBA")
 		mask = np.array(whole_image.split()[3].getdata())
 		y = np.zeros(mask.shape)
