@@ -519,6 +519,7 @@ def main(argv):
 		print(type(images))
 		print(type(masks))
 		print(type(labels))
+		print(labels)
 		image_generator = image_datagen.flow(images, y, seed = seed, shuffle = False)
 
 		mask_generator = mask_datagen.flow_from_directory(masks, y, seed = seed, shuffle = False)
