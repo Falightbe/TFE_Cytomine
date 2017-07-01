@@ -681,7 +681,7 @@ def main(argv):
 														 parameters['cytomine_tile_size'],
 														 parameters['cytomine_tile_size']),
 								zoom = zoom,
-								overlap = parameters['cytomine_tile_overlap'])
+								overlap =  parameters['pyxit_target_width']+1)
 		# opencv object image corresponding to a tile
 		# cv_image = cv.CreateImageHeader((reader.window_position.width, reader.window_position.height), cv.IPL_DEPTH_8U, 1)
 		wsi = 0
@@ -846,15 +846,15 @@ def main(argv):
 					# Delete predictions at borders
 					print ("Delete borders")
 					for i in xrange(0, width) :
-						for j in xrange(0, parameters['cytomine_tile_overlap'] / 2) :
+						for j in xrange(0, parameters['pyxit_target_width'] / 2) :
 							tile_mask[i, j] = 0
-						for j in xrange(height - parameters['cytomine_tile_overlap'] / 2, height) :
+						for j in xrange(height - parameters['pyxit_target_width'] / 2, height) :
 							tile_mask[i, j] = 0
 
 					for j in xrange(0, height) :
-						for i in xrange(0, parameters['cytomine_tile_overlap'] / 2) :
+						for i in xrange(0, parameters['pyxit_target_width'] / 2) :
 							tile_mask[i, j] = 0
-						for i in xrange(width - parameters['cytomine_tile_overlap'] / 2, width) :
+						for i in xrange(width - parameters['pyxit_target_width'] / 2, width) :
 							tile_mask[i, j] = 0
 
 					# Put pixels with less than 0.5 confidence to 0
