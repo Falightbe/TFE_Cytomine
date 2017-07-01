@@ -591,7 +591,7 @@ def main(argv):
 		# 	continue
 		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 		# Create a new userjob if connected as human user
-		print "Create Job and UserJob..."
+		print("Create Job and UserJob...")
 		id_software = parameters['cytomine_id_software']
 		#Create a new userjob if connected as human user
 		current_user = conn.get_current_user()
