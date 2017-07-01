@@ -777,36 +777,36 @@ def main(argv):
 					print ("Tile file: %s" % image_filename)
 					print ("Extraction of subwindows in tile %d" % wsi)
 					width, height = image.size
-					# # nb_iter is the number of subwindows we extract in the tile, if predictionstep is 1 we extract all existing subwindows
-					# nb_iter = ((height - 2 * pyxit_target_height) * (width - 2 * pyxit_target_width)) / (
-					# predictionstep * predictionstep)
-					#
-					# # pbar = ProgressBar(maxval=nb_iter).start()
-					# print ("%d subwindows to extract" % nb_iter)
-					# half_width = math.floor(pyxit_target_width / 2)
-					# half_height = math.floor(pyxit_target_height / 2)
-					# # Coordinates of extracted subwindows
-					# y_roi = range(pyxit_target_height / 2, height - pyxit_target_height / 2, predictionstep)
-					# x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2, predictionstep)
-					#
-					# n_jobs = parameters['nb_jobs']
-					# n_jobs, _, starts = _partition_images(n_jobs, len(y_roi))
-					#
-					# # Parallel extraction of subwindows in the current tile
-					# all_data = Parallel(n_jobs = n_jobs)(
-					# 	delayed(_parallel_crop_boxes)(
-					# 		y_roi[starts[i] :starts[i + 1]],
-					# 		x_roi,
-					# 		image_filename,
-					# 		half_width,
-					# 		half_height,
-					# 		parameters['pyxit_colorspace'])
-					# 	for i in xrange(n_jobs))
-					#
-					#
-					# # Reduce
-					# boxes = np.vstack(boxe for boxe, _ in all_data)
-					# _X = np.vstack([X for _, X in all_data])
+					# nb_iter is the number of subwindows we extract in the tile, if predictionstep is 1 we extract all existing subwindows
+					nb_iter = ((height - 2 * pyxit_target_height) * (width - 2 * pyxit_target_width)) / (
+					predictionstep * predictionstep)
+
+					# pbar = ProgressBar(maxval=nb_iter).start()
+					print ("%d subwindows to extract" % nb_iter)
+					half_width = math.floor(pyxit_target_width / 2)
+					half_height = math.floor(pyxit_target_height / 2)
+					# Coordinates of extracted subwindows
+					y_roi = range(pyxit_target_height / 2, height - pyxit_target_height / 2, predictionstep)
+					x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2, predictionstep)
+
+					n_jobs = parameters['nb_jobs']
+					n_jobs, _, starts = _partition_images(n_jobs, len(y_roi))
+
+					# Parallel extraction of subwindows in the current tile
+					all_data = Parallel(n_jobs = n_jobs)(
+						delayed(_parallel_crop_boxes)(
+							y_roi[starts[i] :starts[i + 1]],
+							x_roi,
+							image_filename,
+							half_width,
+							half_height,
+							parameters['pyxit_colorspace'])
+						for i in xrange(n_jobs))
+
+
+					# Reduce
+					boxes = np.vstack(boxe for boxe, _ in all_data)
+					_X = np.vstack([X for _, X in all_data])
 
 
 					# Reshape data
@@ -819,20 +819,20 @@ def main(argv):
 					_Y = predict(_X, prediction_model, mean = training_sample_mean, std = training_sample_std)
 					_Y = np.reshape(_Y, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height']))
 
-					# # Build tile mask from subwindow predictions
-					# tile_mask = np.zeros((height, width), dtype = np.float)
-					# # print("Tile mask: ", tile_mask)
-					# for box, mask in zip(boxes, _Y):
-					# 	min_x = box[0]
-					# 	min_y = box[1]
-					# 	max_x = box[2]
-					# 	max_y = box[3]
-					# 	tile_mask[min_y:max_y, min_x:max_x] += mask
-					#
-					# # Divide by number of overlaps on a pixel
-					# tile_mask = tile_mask * predictionstep * predictionstep /(pyxit_target_width * pyxit_target_height)
+					# Build tile mask from subwindow predictions
+					tile_mask = np.zeros((height, width), dtype = np.float)
+					# print("Tile mask: ", tile_mask)
+					for box, mask in zip(boxes, _Y):
+						min_x = box[0]
+						min_y = box[1]
+						max_x = box[2]
+						max_y = box[3]
+						tile_mask[min_y:max_y, min_x:max_x] += mask
 
-					tile_mask = _Y[0]
+					# Divide by number of overlaps on a pixel
+					tile_mask = tile_mask * predictionstep * predictionstep /(pyxit_target_width * pyxit_target_height)
+
+					# tile_mask = _Y[0]
 					# Delete predictions at borders
 					print ("Delete borders")
 					for i in xrange(0, width) :
