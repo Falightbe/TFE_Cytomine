@@ -137,7 +137,7 @@ def image_mask_builder(filenames, classes, colorspace):
 	images = np.array(images)
 	masks = np.array(masks)
 	labels = np.array(labels)
-	return images, masks
+	return images, masks, labels
 
 
 def train(imgs_train, imgs_mask_train, model_weights_filename, imgs_width, imgs_height, batch_size = 64, epochs = 30, shuffle = True, validation_split = 0.2):
@@ -496,7 +496,7 @@ def main(argv):
 		n_images = len(y)
 		print("Number of images : ", n_images)
 
-		images, masks = image_mask_builder(X, y, parameters['pyxit_colorspace'])
+		images, masks, labels = image_mask_builder(X, y, parameters['pyxit_colorspace'])
 		# ImageDataGenerator :  two instances with the same arguments
 		data_gen_args = dict(rotation_range = 180.,
 							 width_shift_range = 0.1,
@@ -516,10 +516,9 @@ def main(argv):
 		# image_datagen.fit(images, augment = True, seed = seed)
 		# mask_datagen.fit(masks, augment = True, seed = seed)
 
-		y = np.array(y)
 		print(type(images))
 		print(type(masks))
-		print(type(y))
+		print(type(labels))
 		image_generator = image_datagen.flow(images, y, seed = seed, shuffle = False)
 
 		mask_generator = mask_datagen.flow_from_directory(masks, y, seed = seed, shuffle = False)
