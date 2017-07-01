@@ -511,6 +511,9 @@ def main(argv):
 		# mask_datagen.fit(masks, augment = True, seed = seed)
 
 		y = np.array(y)
+		print(type(images))
+		print(type(masks))
+		print(type(y))
 		image_generator = image_datagen.flow(images, y, seed = seed, shuffle = False)
 
 		mask_generator = mask_datagen.flow_from_directory(masks, y, seed = seed, shuffle = False)
