@@ -789,6 +789,9 @@ def main(argv):
 					y_roi = range(pyxit_target_height / 2, height - pyxit_target_height / 2, predictionstep)
 					x_roi = range(pyxit_target_width / 2, width - pyxit_target_width / 2, predictionstep)
 
+
+					print("y_roi : %d" % y_roi)
+					print("x_roi : %d" % x_roi)
 					n_jobs = parameters['nb_jobs']
 					n_jobs, _, starts = _partition_images(n_jobs, len(y_roi))
 
@@ -822,13 +825,18 @@ def main(argv):
 					# Build tile mask from subwindow predictions
 					tile_mask = np.zeros((height, width), dtype = np.float)
 					# print("Tile mask: ", tile_mask)
+					it = 0
 					for box, mask in zip(boxes, _Y):
 						min_x = box[0]
 						min_y = box[1]
 						max_x = box[2]
 						max_y = box[3]
+						print("Box %d :" % i)
+						print(box)
+						print("\n")
+						i+=1
 						tile_mask[min_y:max_y, min_x:max_x] += mask
-
+					quit()
 					# Divide by number of overlaps on a pixel
 					tile_mask = tile_mask * predictionstep * predictionstep /(pyxit_target_width * pyxit_target_height)
 

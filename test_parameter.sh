@@ -70,7 +70,7 @@ startx=12500
 starty=200
 
 # Pyxit parameters
-cytomine_predict_step=128 # Tune
+cytomine_predict_step=64 # Tune
 pyxit_post_classification=false
 pyxit_post_classification_save_to=""
 
@@ -94,7 +94,7 @@ project_ids=155194683,155194951,180770924,20207620,7873585
 
 #################################################### Launch python #####################################################
 #python add_and_run.py \
-#python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_model_builder/add_and_run.py \
+#python /home/mass/ifilesets/ULG/s121985/TFE_Cytomine/Learning/segmentation_deep_model_builder/add_and_run_nosubw.py \
 #--cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key \
 #--cytomine_private_key $cytomine_private_key \
 #--cytomine_base_path /api/ \
