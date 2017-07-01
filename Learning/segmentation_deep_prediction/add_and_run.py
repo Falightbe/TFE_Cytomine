@@ -818,13 +818,18 @@ def main(argv):
 
 					# Build tile mask from subwindow predictions
 					tile_mask = np.zeros((height, width), dtype = np.float)
+					it = 0
 					for box, mask in zip(boxes, _Y):
 						min_x = box[0]
 						min_y = box[1]
 						max_x = box[2]
 						max_y = box[3]
 						tile_mask[min_y:max_y, min_x:max_x] += mask
-
+						print(it)
+						print(box)
+						print("\n")
+						it += 1
+					quit()
 					# Divide by number of overlaps on a pixel
 					tile_mask = tile_mask * predictionstep * predictionstep /(pyxit_target_width * pyxit_target_height)
 
