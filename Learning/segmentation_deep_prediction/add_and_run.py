@@ -517,16 +517,6 @@ def main(argv):
 	if options.verbose :
 		print(parameters)
 
-
-
-	# Create Cytomine connection
-	conn = cytomine.Cytomine(parameters["cytomine_host"],
-							 parameters["cytomine_public_key"],
-							 parameters["cytomine_private_key"],
-							 base_path = parameters['cytomine_base_path'],
-							 working_path = parameters['cytomine_working_path'],
-							 verbose = str2bool(options.verbose))
-
 	# Model name
 	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}"\
 		.format(parameters['pyxit_n_subwindows'],
@@ -551,10 +541,8 @@ def main(argv):
 	prediction_model = load_model(model_weights_file_path, imgs_width = parameters['pyxit_target_width'], imgs_height = parameters['pyxit_target_height'])
 
 
-
 	# Write in log file
 	beginning_time = localtime()
-
 	log_csv = open("log%s.csv" % strftime("%Y-%m-%d-%H:%M:%S", beginning_time), 'w')
 	log_csv.write("Project ID; Image ID; Userjob ID; Prediction time; Number of tiles\n")
 	log_file = open('log.txt', 'a')
@@ -573,6 +561,7 @@ def main(argv):
 	progress_delta = 100 / len(image_folders)
 	i_image = 0
 	average_image_time = 0
+	previous_id_project = 0
 
 	# first_image_id = 160963234
 	# first_boolean = False
@@ -590,13 +579,23 @@ def main(argv):
 		# 	first_boolean = True
 		# 	continue
 		log_file.write("\n\n***** %s *****" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
+
+		if id_project != previous_id_project:
+			# New connexion to Cytomine
+			conn = cytomine.Cytomine(parameters["cytomine_host"],
+									 parameters["cytomine_public_key"],
+									 parameters["cytomine_private_key"],
+									 base_path = parameters['cytomine_base_path'],
+									 working_path = parameters['cytomine_working_path'],
+									 verbose = str2bool(options.verbose))
+
 		# Create a new userjob if connected as human user
 		print("Create Job and UserJob...")
 		id_software = parameters['cytomine_id_software']
 		#Create a new userjob if connected as human user
 		current_user = conn.get_current_user()
 		run_by_user_job = False
-		if True:
+		if current_user.algo==False:
 			user_job = conn.add_user_job(parameters['cytomine_id_software'], id_project)
 			conn.set_credentials(str(user_job.publicKey), str(user_job.privateKey))
 			log_file.write("In if")
@@ -607,14 +606,14 @@ def main(argv):
 			log_file.write("In else")
 		job = conn.get_job(user_job.job)
 
+		# Update job parameters
 		job = conn.update_job_status(job, status_comment = "Publish software parameters values")
 		if run_by_user_job==False:
 			job_parameters_values = conn.add_job_parameters(user_job.job, conn.get_software(parameters['cytomine_id_software']), parameters)
 		job = conn.update_job_status(job, status = job.RUNNING, progress = 0, status_comment = "Loading data...")
-
+		previous_id_project = id_project
 
 		# Write in log file
-
 		log_file.write("\nProject ID : %d" % id_project)
 		log_file.write("\nImage ID : %d" % id_image)
 		log_file.write("\nUserjob ID : %d" % job.userJob)
@@ -1147,6 +1146,7 @@ def main(argv):
 		progress += progress_delta
 		i += 1
 		i_image += 1
+
 
 
 	job = conn.update_job_status(job, status = job.TERMINATED, progress = 100, status_comment =  "Finish Job..")
