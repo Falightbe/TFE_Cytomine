@@ -681,7 +681,7 @@ def main(argv):
 														 parameters['cytomine_tile_size'],
 														 parameters['cytomine_tile_size']),
 								zoom = zoom,
-								overlap =  parameters['pyxit_target_width']+1)
+								overlap =  parameters['pyxit_target_width']+2)
 		# opencv object image corresponding to a tile
 		# cv_image = cv.CreateImageHeader((reader.window_position.width, reader.window_position.height), cv.IPL_DEPTH_8U, 1)
 		wsi = 0
@@ -755,7 +755,7 @@ def main(argv):
 				tilestddev = ImageStat.Stat(image).stddev
 				print ("Tile stddev pixel values: %d %d %d" % (tilestddev[0], tilestddev[1], tilestddev[2]))
 				extrema = ImageStat.Stat(image).extrema
-				print ("extrema: min R:%d G:%d B:%d" % (extrema[0][0], extrema[1][0], extrema[2][0]))
+				print ("extrema: min R:%d G:%d B:%d" % (extrema[0][0], extrema[1][012712], extrema[2][0]))
 
 				# Criteria to determine if tile is empty, specific to this application
 				mindev = parameters['cytomine_tile_min_stddev']
@@ -873,13 +873,13 @@ def main(argv):
 					print ("TIME : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 
 					# # Save of confidence map locally
-					print ("Creating output tile file locally")
-					output = Image.fromarray(np.uint8(votes))
-					output_folder = "%s/prediction/output/project-%d/tiles/" %(parameters["cytomine_working_path"], id_project)
-					if not os.path.exists(output_folder):
-						os.makedirs(output_folder)
-					outputfilename = os.path.join(output_folder, "%d-zoom_%d-tile_%d_xxOUTPUT-%dx%d.png" % (id_image, zoom, wsi, pyxit_target_width, pyxit_target_height))
-					output.save(outputfilename, "PNG")
+					# print ("Creating output tile file locally")
+					# output = Image.fromarray(np.uint8(votes))
+					# output_folder = "%s/prediction/output/project-%d/tiles/" %(parameters["cytomine_working_path"], id_project)
+					# if not os.path.exists(output_folder):
+					# 	os.makedirs(output_folder)
+					# outputfilename = os.path.join(output_folder, "%d-zoom_%d-tile_%d_xxOUTPUT-%dx%d.png" % (id_image, zoom, wsi, pyxit_target_width, pyxit_target_height))
+					# output.save(outputfilename, "PNG")
 
 					# Convert and transfer annotations of current tile
 					if parameters['cytomine_mask_internal_holes'] :
