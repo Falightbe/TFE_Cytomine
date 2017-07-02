@@ -28,7 +28,7 @@ from cytomine import cytomine
 
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
-
+print("Import")
 
 smooth = 1.
 
@@ -279,8 +279,7 @@ def stats_dumped_annotations(positive_dir, negative_dir):
 
 
 def main(argv):
-	current_path = os.getcwd() + '/' + os.path.dirname(__file__)
-
+	print("Main")
 	# Define command line options
 	p = optparse.OptionParser(description='Cytomine Segmentation prediction', prog='Cytomine segmentation prediction', version='0.1')
 
@@ -458,6 +457,7 @@ def main(argv):
 		stats_dumped_annotations(pos_path, neg_path)
 
 	if parameters['build_model'] :
+		print("Build_model...")
 		# Model name
 		model_name = "all_in_batchsize{}_epochs{}"\
 			.format(parameters['keras_batch_size'],
