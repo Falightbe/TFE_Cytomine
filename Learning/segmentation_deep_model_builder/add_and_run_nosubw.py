@@ -131,8 +131,8 @@ def image_mask_builder(filenames, classes, colorspace):
 		whole_image.convert('HSV')
 		image = np.array(whole_image.getdata())
 		labels[i, c] = 1
-		images.append(image)
-		masks.append(mask)
+		images.append(list(image))
+		masks.append(list(mask))
 		i += 1
 	images = np.array(images)
 	masks = np.array(masks)

@@ -755,7 +755,7 @@ def main(argv):
 				tilestddev = ImageStat.Stat(image).stddev
 				print ("Tile stddev pixel values: %d %d %d" % (tilestddev[0], tilestddev[1], tilestddev[2]))
 				extrema = ImageStat.Stat(image).extrema
-				print ("extrema: min R:%d G:%d B:%d" % (extrema[0][0], extrema[1][012712], extrema[2][0]))
+				print ("extrema: min R:%d G:%d B:%d" % (extrema[0][0], extrema[1][0], extrema[2][0]))
 
 				# Criteria to determine if tile is empty, specific to this application
 				mindev = parameters['cytomine_tile_min_stddev']
