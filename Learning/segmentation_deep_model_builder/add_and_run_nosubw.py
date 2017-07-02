@@ -17,18 +17,12 @@ except:
 import os, optparse
 from pyxit.estimator import PyxitClassifier, _get_output_from_mask
 
-import shapely
-from shapely.geometry.polygon import Polygon
-import shapely.wkt
 import numpy as np
 import pandas as pd
 np.set_printoptions(threshold=np.inf)
-from matplotlib.path import Path
-import scipy.ndimage
 
 import cytomine
 from pyxit.data import build_from_dir
-from pyxit.estimator import _get_image_data
 from cytomine.models import Annotation
 from cytomine import cytomine
 
@@ -528,8 +522,6 @@ def main(argv):
 
 		# combine generators into one which yields image and masks
 		train_generator = zip(image_generator, mask_generator)
-
-
 
 		# Creating and compiling model
 		if not os.path.exists(parameters['keras_save_to']) :
