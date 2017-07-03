@@ -966,7 +966,7 @@ def main(argv):
 			print ("Union of polygons for job %d and image %d, term: %d" % (job.userJob, id_image, parameters['cytomine_predicted_annotation_term']))
 			start = time.time()
 			host = parameters["cytomine_host"].replace("http://", "")
-			unioncommand = "groovy -cp \"../../lib/jars/*\" ../../lib/union4.groovy http://%s %s %s %d %d %d %d %d %d %d %d %d %d" % (
+			unioncommand = "groovy -cp \"/home/mass/GRD/mwang/Cytomine/Cytomine-python-datamining/lib/jars/*\" /home/mass/GRD/mwang/Cytomine/Cytomine-python-datamining/lib/union4.groovy http://%s %s %s %d %d %d %d %d %d %d %d %d %d" % (
 							host,
 							user_job.publicKey, user_job.privateKey,
 							id_image, job.userJob,
