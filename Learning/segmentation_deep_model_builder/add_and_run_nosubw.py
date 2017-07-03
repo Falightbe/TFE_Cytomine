@@ -1,5 +1,6 @@
-from __future__ import print_function
 
+from __future__ import print_function
+print("Import")
 from skimage.transform import resize
 from keras.models import Model as Model_keras
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, UpSampling2D
@@ -7,20 +8,20 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
 from keras.preprocessing.image import ImageDataGenerator
-
+print("Import")
 import matplotlib.pyplot as plt
 try:
 	import Image, ImageStat
 except:
 	from PIL import Image, ImageStat
-
+print("Import")
 import os, optparse
 from pyxit.estimator import PyxitClassifier, _get_output_from_mask
 
 import numpy as np
 import pandas as pd
 np.set_printoptions(threshold=np.inf)
-
+print("Import")
 import cytomine
 from pyxit.data import build_from_dir
 from cytomine.models import Annotation
@@ -111,8 +112,6 @@ def preprocess_mask(imgs, imgs_width, imgs_height):
 
 
 def image_mask_builder(filenames, classes, colorspace):
-	print(filenames)
-	print(classes)
 	images = []
 	masks = []
 	n = len(filenames)
@@ -120,10 +119,8 @@ def image_mask_builder(filenames, classes, colorspace):
 	i = 0
 	for file, c in zip(filenames, classes):
 		whole_image = Image.open(file)
-		whole_image.convert('RGBA')
 		mask = np.array(whole_image.getdata(3))
-		whole_image.convert('HSV')
-		image = np.array(whole_image.getdata())
+		image = np.array(whole_image.getdata())[:,0:3]
 		labels[i, c] = 1
 		images.append(list(image))
 		masks.append(list(mask))
