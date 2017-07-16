@@ -978,6 +978,7 @@ def main(argv):
 							parameters['cytomine_union_max_point'], # union_maxPoint,
 							parameters['cytomine_union_nb_zones_width'], # union_nbzonesWidth,
 							parameters['cytomine_union_nb_zones_height']) # union_nbzonesHeight)
+			print(unioncommand)
 			old_path = os.getcwd()
 			os.chdir(current_path)
 			os.system(unioncommand)
