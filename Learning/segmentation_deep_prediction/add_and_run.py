@@ -1143,7 +1143,7 @@ def main(argv):
 		progress += progress_delta
 		i += 1
 		i_image += 1
-		quit()
+
 
 
 
