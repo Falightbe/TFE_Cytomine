@@ -38,8 +38,6 @@ from cytomine_utilities.wholeslide import WholeSlide
 from cytomine_utilities.objectfinder import ObjectFinder
 from cytomine_utilities.reader import Bounds, CytomineReader
 from cytomine_utilities.utils import Utils
-from project import Project_Analyser
-from project_statistics import basic_statistics, blob_size_statistics, color_statistics
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
