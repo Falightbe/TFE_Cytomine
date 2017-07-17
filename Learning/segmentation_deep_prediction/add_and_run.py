@@ -680,7 +680,7 @@ def main(argv):
 														 parameters['cytomine_tile_size'],
 														 parameters['cytomine_tile_size']),
 								zoom = zoom,
-								overlap =  parameters['pyxit_target_width']+1)
+								overlap =  parameters['pyxit_target_width'] + 2)
 		# opencv object image corresponding to a tile
 		# cv_image = cv.CreateImageHeader((reader.window_position.width, reader.window_position.height), cv.IPL_DEPTH_8U, 1)
 		wsi = 0
