@@ -70,7 +70,7 @@ startx=12500
 starty=200
 
 # Pyxit parameters
-cytomine_predict_step=64 # Tune
+cytomine_predict_step=32 # Tune
 pyxit_post_classification=false
 pyxit_post_classification_save_to=""
 
