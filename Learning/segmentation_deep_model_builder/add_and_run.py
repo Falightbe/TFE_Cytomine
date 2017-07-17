@@ -500,8 +500,7 @@ def main(argv):
 						  batch_size = parameters['keras_batch_size'],
 						  epochs = parameters['keras_n_epochs'],
 						  shuffle = parameters['keras_shuffle'],
-						  validation_split = parameters['keras_validation_split']
-						  )
+						  validation_split = parameters['keras_validation_split'])
 
 		# Save mean and std used to normalize training data
 		mean_std_save_file_path = os.path.join(parameters['keras_save_to'], "meanstd_" + model_name + ".txt")
