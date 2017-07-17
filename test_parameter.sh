@@ -39,7 +39,7 @@ keras_validation_split=0.2
 
 # Run parameters
 cytomine_dump_annotations=true
-cytomine_dump_annotation_stats=true
+cytomine_dump_annotation_stats=false
 build_model=true
 cytomine_annotation_projects=20207620,21903232,669418,21907448,155194683  #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7
 
