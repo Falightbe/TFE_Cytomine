@@ -805,6 +805,7 @@ def main(argv):
 
 					# Predict subwindow masks
 					print("Prediction of %d subwindows for tile %d " % (n_subw, wsi))
+					print(_X.shape)
 					_Y = predict(_X, prediction_model, mean = training_sample_mean, std = training_sample_std)
 					# n_jobs, _, starts = _partition_images(parameters['nb_jobs'], n_subw)
 					# print(n_jobs)
