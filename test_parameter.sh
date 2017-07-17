@@ -32,8 +32,8 @@ nb_jobs=10
 # Keras model parameters
 #keras_save_to="/home/falight/TFE_Cytomine/Learning/segmentation_deep_model_builder/models"
 keras_save_to="tmp/segmentation_deep/models"
-keras_batch_size=128
-keras_n_epochs=150
+keras_batch_size=64
+keras_n_epochs=400
 keras_shuffle=true
 keras_validation_split=0.2
 
