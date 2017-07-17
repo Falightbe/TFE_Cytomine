@@ -7,7 +7,7 @@ from cytomine import Cytomine
 from cytomine.models import *
 from shapely.geometry import MultiPolygon
 from shapely.ops import cascaded_union
-
+import pandas as pd
 from polygon_manip import *
 
 try :
@@ -21,6 +21,46 @@ TERM_ID_POU = 5735
 
 class Project_Analyser(object) :
 	"""Build data related to Cytomine project and segmentation in local directory"""
+	def __init__(self, host, public_key, private_key, base_path, working_path, images_file, modes, directory, roi_term,
+				 positive_term, roi_zoom = None):
+		# Public attributes
+		self.start_time = time.time()
+		self.n_images = None
+		self.modes = modes
+		self.project_id = None
+
+		# Private attributes
+		self.__term_id_positive = positive_term
+		self.__term_id_roi = roi_term
+		self.__host = host
+		self.__public_key = public_key
+		self.__private_key = private_key
+		self.__conn = Cytomine(host, public_key, private_key, base_path = base_path, working_path = working_path,
+							   verbose = False)
+
+		dir_name = images_file.split(".")[0]
+		self.path = os.path.join(directory, str(dir_name))
+		if not os.path.exists(self.path) :
+			os.makedirs(self.path)
+		self.project_name = ""
+		self.project_id = -1
+		self.__filename_txt = "{}/log.txt".format(self.path)
+		self.__txt = open(self.__filename_txt, 'w')
+
+		if 1 in modes:
+			self.__image_info_filename_csv = "{}/image_info.csv".format(self.path)
+			self.__image_info_csv = open(self.__image_info_filename_csv, 'w')
+		if 2 in modes:
+			self.__area_filename_csv = "{}/area.csv".format(self.path)
+			self.__area_csv = open(self.__area_filename_csv, 'w')
+		if 3 in modes:
+			self.__color_filename_csv = "{}/color.csv".format(self.path)
+			self.__color_csv = open(self.__color_filename_csv, 'w')
+			self.__roi_zoom = roi_zoom
+
+		self.__images = None
+		self.get_images_from_file(images_file)
+
 
 	def __init__(self, host, public_key, private_key, base_path, working_path, project_id, modes, directory, roi_term,
 				 positive_term, roi_zoom = None, positive_user_job_id = None):
@@ -62,7 +102,8 @@ class Project_Analyser(object) :
 			self.__color_csv = open(self.__color_filename_csv, 'w')
 			self.__roi_zoom = roi_zoom
 
-		self.__images = None
+		self.__images = []
+		self.get_images()
 
 	def get_name(self):
 		project = self.__conn.get_project(self.project_id)
@@ -74,6 +115,25 @@ class Project_Analyser(object) :
 		image_instances = self.__conn.fetch(image_instances)
 		self.__images = image_instances.data()
 		self.n_images = len(self.__images)
+
+	def get_images_from_file(self, image_file):
+		df = pd.read_csv(os.path.join(image_file), sep = ';')
+		project_id_array = df['Project ID'].unique()
+		for project_id in project_id_array:
+			image_instances = ImageInstanceCollection()
+			image_instances.project = project_id
+			image_instances = self.__conn.fetch(image_instances)
+			images = image_instances.data()
+			print(images.shape)
+			print(images.type)
+			image_ids_in_project = df.loc[df['Project ID'] == project_id].as_matrix(['Image ID'])
+			for image in images:
+				# If the image is not in the file
+				if image.id not in image_ids_in_project:
+					images.remove(image)
+			self.__images.append(images)
+		self.n_images = len(self.__images)
+
 
 	def annotations(self, reviewed, image_id, term_id, user_id = None):
 		"""Fetches data about annotations 
@@ -303,7 +363,6 @@ class Project_Analyser(object) :
 
 	def launch(self) :
 		"""Launch the project analysis"""
-		self.get_images()
 		self.__txt.write('Project name : {} \n'.format(self.project_name))
 		self.__txt.write('Project ID : {} \n'.format(self.project_id))
 		self.__txt.write('Number of images : {}\n\n'.format(self.n_images))
@@ -326,6 +385,7 @@ class Project_Analyser(object) :
 		for i in self.__images :
 			image_id = i.id
 			print "\nAnalyse image : {}...".format(image_id)
+			self.project_id = i.project
 			self.image_analysis(image_id, self.__term_id_positive)
 			self.image_analysis(image_id, self.__term_id_roi)
 
