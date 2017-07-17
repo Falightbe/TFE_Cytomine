@@ -355,6 +355,7 @@ def predict(imgs_test, model, mean, std):
 
 	# Predicting masks on test data
 	print('Predicting masks on test data...')
+	print(imgs_test.shape)
 	imgs_mask_test = model.predict(imgs_test, verbose=1)
 	return imgs_mask_test
 
