@@ -94,7 +94,7 @@ def get_unet(imgs_width, imgs_height):
 
 	model = Model_keras(inputs=[inputs], outputs=[conv10])
 
-	model.compile(optimizer=Adam(lr=1e-5), loss='binary_crossentropy', metrics=['accuracy', dice_coef])
+	model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=['accuracy', dice_coef])
 
 	return model
 
