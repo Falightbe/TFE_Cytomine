@@ -849,7 +849,7 @@ def main(argv):
 							tile_mask[i, j] = 0
 
 					# Put pixels with less than 0.5 confidence to 0
-					percentage = 0.6
+					percentage = 0.5
 					tile_mask[tile_mask < percentage] = 0.
 
 					# 	votes = votes*255
