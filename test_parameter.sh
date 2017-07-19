@@ -19,7 +19,7 @@ window_size=128 # Tune
 pyxit_colorspace=2
 pyxit_nb_jobs=10
 verbose=true
-cytomine_reviewed=true
+cytomine_reviewed=false
 cytomine_zoom_level=2
 pyxit_transpose=true
 pyxit_n_subwindows=1 # Tune
@@ -41,8 +41,8 @@ keras_validation_split=0.2
 cytomine_dump_annotations=true
 cytomine_dump_annotation_stats=true
 build_model=false
-cytomine_annotation_projects=160965094  #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7 + AGDC2
-#20207620,21903232,669418,21907448,155194683,
+cytomine_annotation_projects=21907448,155194683 #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7 + AGDC2
+#20207620,21903232,669418,21907448,155194683,160965094
 
 ###################################################### Prediction ######################################################
 cytomine_id_software_prediction=207434390 # Software Segmentation_Model_Predict can now be used in project  ULG-LBTD-E2B-NOV2013
