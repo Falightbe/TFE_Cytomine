@@ -573,7 +573,7 @@ def main(argv):
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
 
 
-		if id_image == 160963234:
+		if id_image == 151558171:
 			start = True
 
 		if not start :
