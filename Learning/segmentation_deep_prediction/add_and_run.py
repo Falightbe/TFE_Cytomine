@@ -562,23 +562,12 @@ def main(argv):
 	average_image_time = 0
 	previous_id_project = 0
 
-	# first_image_id = 160963234
-	# first_boolean = False
 	# Go through all images
-	start = False
 	for image_name in image_folders :
 		beginning_image_time = time.time()
 		id_project = int(image_name.split('project-')[1].split('/crop')[0])
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
-
-
-		if id_image == 151558171:
-			start = True
-
-		if not start :
-			continue
-
 
 		if id_project != previous_id_project:
 			# New connexion to Cytomine
