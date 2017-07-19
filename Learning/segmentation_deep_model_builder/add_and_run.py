@@ -247,16 +247,16 @@ def stats_dumped_annotations(positive_dir, negative_dir):
 	# plt.ylabel('Width')
 	# ax.set_yscale('log')
 	# ax.set_xscale('log')
-	#
 
-	plt.figure()
-	ax = plt.gca()
-	ax.scatter(positive_annotation_height_list, positive_annotation_width_list, c = 'r', s = 1, alpha = 0.6, label = 'Positive annotations')
-	ax.scatter(negative_annotation_height_list, negative_annotation_width_list, c = 'b', s = 1, alpha = 0.6, label = 'Negative annotations')
-	ax.set_yscale('log')
-	ax.set_xscale('log')
-	legend = plt.legend(loc = 'lower right', framealpha = 0.1)
-	plt.show()
+	# Plot
+	# plt.figure()
+	# ax = plt.gca()
+	# ax.scatter(positive_annotation_height_list, positive_annotation_width_list, c = 'r', s = 1, alpha = 0.6, label = 'Positive annotations')
+	# ax.scatter(negative_annotation_height_list, negative_annotation_width_list, c = 'b', s = 1, alpha = 0.6, label = 'Negative annotations')
+	# ax.set_yscale('log')
+	# ax.set_xscale('log')
+	# legend = plt.legend(loc = 'lower right', framealpha = 0.1)
+	# plt.show()
 
 
 def main(argv):
