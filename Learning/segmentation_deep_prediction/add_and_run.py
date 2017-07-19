@@ -618,7 +618,6 @@ def main(argv):
 		log_file.write("\nProject ID : %d" % id_project)
 		log_file.write("\nImage ID : %d" % id_image)
 		log_file.write("\nUserjob ID : %d" % job.userJob)
-
 		# Update job status
 		progress_msg = "Analyzing image %s (%d / %d )..." % (id_image, i_image, len(image_folders))
 		job = conn.update_job_status(job, status = job.RUNNING, progress = progress, status_comment = progress_msg)
@@ -969,6 +968,8 @@ def main(argv):
 		# tile.
 		# We use a groovy/JTS script that downloads annotation geometries and perform union locally to relieve
 		# the Cytomine server
+
+		log_file.write("\nBefore union : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 		if parameters['cytomine_union'] :
 			print ("In union")
 			print ("TIME : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
@@ -996,6 +997,7 @@ def main(argv):
 			print ("TIME : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 			os.chdir(old_path)
 
+		log_file.write("\nAfter union : %s" % strftime("%Y-%m-%d %H:%M:%S", localtime()))
 
 		# Postprocessing to remove small/large annotations according to min/max area
 		if parameters['cytomine_postproc'] :
