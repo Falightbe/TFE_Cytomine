@@ -41,7 +41,7 @@ from cytomine_utilities.utils import Utils
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
-n_channels = 3
+n_channels = 1
 smooth = 1.
 
 
@@ -221,7 +221,7 @@ def dice_coef_loss(y_true, y_pred):
 
 
 def get_unet(imgs_width, imgs_height):
-	inputs = Input((imgs_width, imgs_height, 3))
+	inputs = Input((imgs_width, imgs_height, n_channels))
 	conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(inputs)
 	conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv1)
 	pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
@@ -267,9 +267,9 @@ def get_unet(imgs_width, imgs_height):
 
 
 def preprocess(imgs, imgs_width, imgs_height):
-	imgs_p = np.ndarray((imgs.shape[0], imgs_width, imgs_height, 3), dtype=np.uint8)
+	imgs_p = np.ndarray((imgs.shape[0], imgs_width, imgs_height, n_channels), dtype=np.uint8)
 	for i in range(imgs.shape[0]):
-		imgs_p[i] = resize(imgs[i], (imgs_width, imgs_height, 3), preserve_range=True)
+		imgs_p[i] = resize(imgs[i], (imgs_width, imgs_height, n_channels), preserve_range=True)
 	imgs_p = imgs_p[..., np.newaxis]
 	return imgs_p
 
@@ -517,7 +517,7 @@ def main(argv):
 		print(parameters)
 
 	# Model name
-	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}"\
+	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}"\
 		.format(parameters['pyxit_n_subwindows'],
 				parameters['pyxit_target_width'],
 				parameters['pyxit_target_height'],
@@ -526,7 +526,8 @@ def main(argv):
 				parameters['keras_batch_size'],
 				parameters['keras_n_epochs'],
 				parameters['keras_shuffle'],
-				parameters['keras_validation_split']).replace(".", "")
+				parameters['keras_validation_split'],
+				pyxit_parameters['pyxit_colorspace']).replace(".", "")
 	print("Model_name :", model_name)
 
 	# Retrieve mean and std used to normalize training data
@@ -799,7 +800,7 @@ def main(argv):
 
 					# Reshape data
 					n_subw = len(_X)
-					_X = np.reshape(_X, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height'], 3))
+					_X = np.reshape(_X, (n_subw, parameters['pyxit_target_width'], parameters['pyxit_target_height'], n_channels))
 
 					# Predict subwindow masks
 					print("Prediction of %d subwindows for tile %d " % (n_subw, wsi))
@@ -1067,8 +1068,8 @@ def main(argv):
 				conn2.fetch_url_into_file(url, filename, False, True)
 				np_image = cv2.imread(filename, -1)
 				if np_image is not None :
-					alpha = np.array(np_image[:, :, 3])
-					image = np.array(np_image[:, :, 0 :3])
+					alpha = np.array(np_image[:, :, n_channels])
+					image = np.array(np_image[:, :, 0 :n_channels])
 				# image[alpha == 0] = (255,255,255)  #to replace surrounding by white
 				cv2.imwrite(filename, image)
 			print ("Building attributes from ", os.path.dirname(os.path.dirname(folder_name)))
