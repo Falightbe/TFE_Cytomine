@@ -30,7 +30,7 @@ from pyxit.data import build_from_dir
 from pyxit.estimator import _get_image_data
 from cytomine.models import Annotation
 from cytomine import cytomine
-
+n_channels = 4
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
@@ -54,7 +54,7 @@ def dice_coef_loss(y_true, y_pred):
 
 
 def get_unet(imgs_width, imgs_height):
-	inputs = Input((imgs_width, imgs_height, 3))
+	inputs = Input((imgs_width, imgs_height, n_channels))
 	conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(inputs)
 	conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv1)
 	pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
@@ -100,9 +100,9 @@ def get_unet(imgs_width, imgs_height):
 
 
 def preprocess(imgs, imgs_width, imgs_height):
-	imgs_p = np.ndarray((imgs.shape[0], imgs_width, imgs_height, 3), dtype=np.uint8)
+	imgs_p = np.ndarray((imgs.shape[0], imgs_width, imgs_height, n_channels), dtype=np.uint8)
 	for i in range(imgs.shape[0]):
-		imgs_p[i] = resize(imgs[i], (imgs_width, imgs_height, 3), preserve_range=True)
+		imgs_p[i] = resize(imgs[i], (imgs_width, imgs_height, n_channels), preserve_range=True)
 	imgs_p = imgs_p[..., np.newaxis]
 	return imgs_p
 
@@ -484,7 +484,7 @@ def main(argv):
 		print("Number of subwindows : ", n_subw)
 
 		# Reshape data structure
-		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 3))
+		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
 		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
 
 		# Train FCN

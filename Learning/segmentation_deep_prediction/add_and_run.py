@@ -41,7 +41,7 @@ from cytomine_utilities.utils import Utils
 
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
-
+n_channels = 3
 smooth = 1.
 
 
