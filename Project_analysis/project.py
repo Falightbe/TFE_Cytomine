@@ -21,7 +21,7 @@ TERM_ID_POU = 5735
 
 class Project_Analyser(object) :
 	"""Build data related to Cytomine project and segmentation in local directory"""
-	def __init__(self, host, public_key, private_key, base_path, working_path, images_file, modes, directory, roi_term,
+	def __init__(self, host, public_key, private_key, base_path, working_path, image_file, modes, directory, roi_term,
 				 positive_term, roi_zoom = None):
 		# Public attributes
 		self.start_time = time.time()
@@ -38,7 +38,9 @@ class Project_Analyser(object) :
 		self.__conn = Cytomine(host, public_key, private_key, base_path = base_path, working_path = working_path,
 							   verbose = False)
 
-		dir_name = images_file.split(".")[0]
+
+
+		dir_name = image_file.split(".")[0]
 		self.path = os.path.join(directory, str(dir_name))
 		if not os.path.exists(self.path) :
 			os.makedirs(self.path)
@@ -58,52 +60,10 @@ class Project_Analyser(object) :
 			self.__color_csv = open(self.__color_filename_csv, 'w')
 			self.__roi_zoom = roi_zoom
 
-		self.__images = None
-		self.get_images_from_file(images_file)
-
-
-	def __init__(self, host, public_key, private_key, base_path, working_path, project_id, modes, directory, roi_term,
-				 positive_term, roi_zoom = None, positive_user_job_id = None):
-		# Public attributes
-		self.start_time = time.time()
-		self.n_images = None
-		self.modes = modes
-		self.project_id = project_id
-
-		# Private attributes
-		self.__term_id_positive = positive_term
-		self.__term_id_roi = roi_term
-		self.__host = host
-		self.__public_key = public_key
-		self.__private_key = private_key
-		self.__conn = Cytomine(host, public_key, private_key, base_path = base_path, working_path = working_path,
-							   verbose = False)
-		self.__positive_userjob_id = positive_user_job_id
-		self.project_name = self.get_name()
-
-		if positive_user_job_id is None :
-			self.path = os.path.join(directory, str(self.project_id))
-		else :
-			self.path = os.path.join(directory, str(self.project_id), str(self.__positive_userjob_id))
-		if not os.path.exists(self.path) :
-			os.makedirs(self.path)
-
-		self.__filename_txt = "{}/log.txt".format(self.path, self.project_name)
-		self.__txt = open(self.__filename_txt, 'w')
-
-		if 1 in modes:
-			self.__image_info_filename_csv = "{}/image_info.csv".format(self.path, self.project_name)
-			self.__image_info_csv = open(self.__image_info_filename_csv, 'w')
-		if 2 in modes:
-			self.__area_filename_csv = "{}/area.csv".format(self.path, self.project_name)
-			self.__area_csv = open(self.__area_filename_csv, 'w')
-		if 3 in modes:
-			self.__color_filename_csv = "{}/color.csv".format(self.path, self.project_name)
-			self.__color_csv = open(self.__color_filename_csv, 'w')
-			self.__roi_zoom = roi_zoom
-
 		self.__images = []
-		self.get_images()
+		self.image_job_dict = {}
+		self.get_images_from_file(image_file)
+
 
 	def get_name(self):
 		project = self.__conn.get_project(self.project_id)
@@ -118,21 +78,12 @@ class Project_Analyser(object) :
 
 	def get_images_from_file(self, image_file):
 		df = pd.read_csv(os.path.join(image_file), sep = ';')
-		project_id_array = df['Project ID'].unique()
-		for project_id in project_id_array:
-			image_instances = ImageInstanceCollection()
-			image_instances.project = project_id
-			image_instances = self.__conn.fetch(image_instances)
-			images = image_instances.data()
-			print(images.shape)
-			print(images.type)
-			image_ids_in_project = df.loc[df['Project ID'] == project_id].as_matrix(['Image ID'])
-			for image in images:
-				# If the image is not in the file
-				if image.id not in image_ids_in_project:
-					images.remove(image)
-			self.__images.append(images)
-		self.n_images = len(self.__images)
+
+		table = df.as_matrix(['Project ID', 'Image ID', 'Userjob ID'])
+		for line in table:
+			self.image_job_dict[line[1]] = [line[0], line[2]]
+		self.n_images = len(self.image_job_dict)
+
 
 
 	def annotations(self, reviewed, image_id, term_id, user_id = None):
@@ -257,6 +208,8 @@ class Project_Analyser(object) :
 		# Check the job id
 
 		user = self.__conn.get_user(id_user = user_id)
+		print(dir(user))
+		print(type(user))
 		if user.algo :
 			return user_id, user.job
 		else :
@@ -283,8 +236,10 @@ class Project_Analyser(object) :
 
 		# Find most frequent user id that is a job
 		if self.__positive_userjob_id is not None and term_id == self.__term_id_positive:
-			list_user_id_review = [self.__positive_userjob_id]
-		user_id, job_id = self.find_user_job_id(list_user_id_review, image_id)
+			job_id = self.__positive_userjob_id
+			user_id = self.__positive_userjob_id + 1
+		else :
+			user_id, job_id = self.find_user_job_id(list_user_id_review, image_id)
 		if job_id is None : # don't know if job_id is None OR user_id is None
 			if 1 in self.modes :
 				self.__image_info_csv.write("\n")
@@ -382,10 +337,12 @@ class Project_Analyser(object) :
 			self.__color_csv.write(
 				"Project ID;Image ID;Annotation ID;Term ID;Reviewed;Mean H;Mean S;Mean V;Standard deviation H;Standard deviation S;Standard deviation V\n")
 
-		for i in self.__images :
-			image_id = i.id
+		for i in self.image_job_dict :
+			image_id = i
+			self.project_id = self.image_job_dict[image_id][0]
+			self.__positive_userjob_id = self.image_job_dict[image_id][1]
 			print "\nAnalyse image : {}...".format(image_id)
-			self.project_id = i.project
+
 			self.image_analysis(image_id, self.__term_id_positive)
 			self.image_analysis(image_id, self.__term_id_roi)
 

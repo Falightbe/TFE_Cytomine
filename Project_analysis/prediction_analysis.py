@@ -19,6 +19,7 @@ def main(argv):
 	# Statistical analysis options
 	p.add_option('--directory', type="string", dest="directory", help='The statistical data local directory')
 	p.add_option('--modes', type="string", dest="modes", default = '', help='The mode code')
+	p.add_option('--image_file', type = "string", dest = "image_file", default = '', help = 'The file containing image userjob information')
 	p.add_option('--roi_term', type='int', dest='roi_term', help="term id of roi term (ROI, lung)")
 	p.add_option('--positive_term', type='int', dest='positive_term', help="term id of the term of positive prediction (tumor)")
 
@@ -40,10 +41,11 @@ def main(argv):
 	for p_id in projects: 
 		# Build data in local directory
 		prj = Project_Analyser(host = options.host, public_key = options.public_key, private_key = options.private_key,
-							   base_path = options.base_path, working_path = options.working_path, project_id = p_id,
+							   base_path = options.base_path, working_path = options.working_path,
+							   image_file = options.image_file,
 							   modes = modes,
 							   directory = options.directory, roi_term = options.roi_term,
-							   positive_term = options.positive_term, roi_max_size = 256, roi_zoom = 5, positive_user_job_id = options.userjob_id)
+							   positive_term = options.positive_term, roi_zoom = 5)
 		
 		prj.launch()
 		# Compute statiscal analysis on data
