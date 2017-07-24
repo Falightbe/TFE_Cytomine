@@ -15,12 +15,12 @@ cytomine_excluded_terms=5735 #id of terms that will not be used (neither positiv
 #################################################### Model building ####################################################
 # Pyxit parameters for subwindow extraction for training
 cytomine_id_software_model_building=207421104 # Software Segmentation_Model_Predict can now be used in project  ULG-LBTD-E2B-NOV2013
-window_size=64 # Tune
+window_size=128 # Tune
 pyxit_colorspace=2
 pyxit_nb_jobs=10
 verbose=true
 cytomine_reviewed=false
-cytomine_zoom_level=3
+cytomine_zoom_level=1
 pyxit_transpose=true
 pyxit_n_subwindows=4 # Tune
 pyxit_fixed_size=true
