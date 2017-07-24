@@ -64,6 +64,49 @@ class Project_Analyser(object) :
 		self.image_job_dict = {}
 		self.get_images_from_file(image_file)
 
+	# def __init__(self, host, public_key, private_key, base_path, working_path, project_id, modes, directory, roi_term,
+	# 			 positive_term, roi_zoom = None, positive_user_job_id = None):
+	# 	# Public attributes
+	# 	self.start_time = time.time()
+	# 	self.n_images = None
+	# 	self.modes = modes
+	# 	self.project_id = project_id
+	#
+	# 	# Private attributes
+	# 	self.__term_id_positive = positive_term
+	# 	self.__term_id_roi = roi_term
+	# 	self.__host = host
+	# 	self.__public_key = public_key
+	# 	self.__private_key = private_key
+	# 	self.__conn = Cytomine(host, public_key, private_key, base_path = base_path, working_path = working_path,
+	# 						   verbose = False)
+	# 	self.__positive_userjob_id = positive_user_job_id
+	# 	self.project_name = self.get_name()
+	#
+	# 	if positive_user_job_id is None :
+	# 		self.path = os.path.join(directory, str(self.project_id))
+	# 	else :
+	# 		self.path = os.path.join(directory, str(self.project_id), str(self.__positive_userjob_id))
+	# 	if not os.path.exists(self.path) :
+	# 		os.makedirs(self.path)
+	#
+	# 	self.__filename_txt = "{}/log.txt".format(self.path, self.project_name)
+	# 	self.__txt = open(self.__filename_txt, 'w')
+	#
+	# 	if 1 in modes:
+	# 		self.__image_info_filename_csv = "{}/image_info.csv".format(self.path, self.project_name)
+	# 		self.__image_info_csv = open(self.__image_info_filename_csv, 'w')
+	# 	if 2 in modes:
+	# 		self.__area_filename_csv = "{}/area.csv".format(self.path, self.project_name)
+	# 		self.__area_csv = open(self.__area_filename_csv, 'w')
+	# 	if 3 in modes:
+	# 		self.__color_filename_csv = "{}/color.csv".format(self.path, self.project_name)
+	# 		self.__color_csv = open(self.__color_filename_csv, 'w')
+	# 		self.__roi_zoom = roi_zoom
+	#
+	# 	self.__images = []
+	# 	self.get_images()
+
 
 	def get_name(self):
 		project = self.__conn.get_project(self.project_id)
@@ -208,8 +251,6 @@ class Project_Analyser(object) :
 		# Check the job id
 
 		user = self.__conn.get_user(id_user = user_id)
-		print(dir(user))
-		print(type(user))
 		if user.algo :
 			return user_id, user.job
 		else :
@@ -237,7 +278,8 @@ class Project_Analyser(object) :
 		# Find most frequent user id that is a job
 		if self.__positive_userjob_id is not None and term_id == self.__term_id_positive:
 			job_id = self.__positive_userjob_id
-			user_id = self.__positive_userjob_id + 1
+			job = self.__conn.get_job(job_id)
+			user_id = job.userJob
 		else :
 			user_id, job_id = self.find_user_job_id(list_user_id_review, image_id)
 		if job_id is None : # don't know if job_id is None OR user_id is None
@@ -340,7 +382,7 @@ class Project_Analyser(object) :
 		for i in self.image_job_dict :
 			image_id = i
 			self.project_id = self.image_job_dict[image_id][0]
-			self.__positive_userjob_id = self.image_job_dict[image_id][1]
+			self.__positive_userjob_id = None
 			print "\nAnalyse image : {}...".format(image_id)
 
 			self.image_analysis(image_id, self.__term_id_positive)

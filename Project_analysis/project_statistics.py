@@ -15,6 +15,7 @@ def basic_statistics(project_name, directory, terms, ratio_comparison = 0, term_
 	print term_positive
 	print term_roi
 
+	plt.figure()
 	colour = 'b'
 	for term, label in terms.items() :
 		precision[term] = df.loc[df['Term ID'] == term].as_matrix(['Precision'])
@@ -79,7 +80,7 @@ def basic_statistics(project_name, directory, terms, ratio_comparison = 0, term_
 			print "{} : {}".format(idx[i], area_ratio_diff[i])
 		print
 
-
+		plt.figure()
 		plt.scatter(area_ratio_predict, area_ratio_review)
 		plt.plot([0,1],[0,1], c = 'r')
 		plt.title('Area ratio prediction VS review (%s)' %project_name)
