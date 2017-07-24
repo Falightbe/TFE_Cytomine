@@ -440,7 +440,7 @@ def main(argv):
 
 	if parameters['build_model'] :
 		# Model name
-		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}"\
+		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}"\
 			.format(parameters['pyxit_n_subwindows'],
 					parameters['pyxit_target_width'],
 					parameters['pyxit_target_height'],
@@ -450,7 +450,8 @@ def main(argv):
 					parameters['keras_n_epochs'],
 					parameters['keras_shuffle'],
 					parameters['keras_validation_split'],
-					pyxit_parameters['pyxit_colorspace']).replace(".", "")
+					pyxit_parameters['pyxit_colorspace'],
+					parameters['cytomine_zoom_level']).replace(".", "")
 		print("Model_name :", model_name)
 
 		pyxit = PyxitClassifier(None,
