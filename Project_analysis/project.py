@@ -382,7 +382,7 @@ class Project_Analyser(object) :
 		for i in self.image_job_dict :
 			image_id = i
 			self.project_id = self.image_job_dict[image_id][0]
-			self.__positive_userjob_id = None
+			self.__positive_userjob_id = self.image_job_dict[image_id][1]
 			print "\nAnalyse image : {}...".format(image_id)
 
 			self.image_analysis(image_id, self.__term_id_positive)
