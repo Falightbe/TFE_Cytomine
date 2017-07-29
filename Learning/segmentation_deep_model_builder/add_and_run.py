@@ -73,26 +73,50 @@ def get_unet(imgs_width, imgs_height):
 
 	conv5 = Conv2D(512, (3, 3), activation='relu', padding='same')(pool4)
 	conv5 = Conv2D(512, (3, 3), activation='relu', padding='same')(conv5)
+	pool5 = MaxPooling2D(pool_size = (2, 2))(conv5)
 
-	up6 = concatenate([Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(conv5), conv4], axis=3)
-	conv6 = Conv2D(256, (3, 3), activation='relu', padding='same')(up6)
-	conv6 = Conv2D(256, (3, 3), activation='relu', padding='same')(conv6)
+	conv6 = Conv2D(1024, (3, 3), activation = 'relu', padding = 'same')(pool5)
+	conv6 = Conv2D(1024, (3, 3), activation = 'relu', padding = 'same')(conv6)
+	pool6 = MaxPooling2D(pool_size = (2, 2))(conv6)
 
-	up7 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv6), conv3], axis=3)
-	conv7 = Conv2D(128, (3, 3), activation='relu', padding='same')(up7)
-	conv7 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv7)
+	conv7 = Conv2D(2048, (3, 3), activation = 'relu', padding = 'same')(pool6)
+	conv7 = Conv2D(2048, (3, 3), activation = 'relu', padding = 'same')(conv7)
+	pool7 = MaxPooling2D(pool_size = (2, 2))(conv7)
 
-	up8 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv7), conv2], axis=3)
-	conv8 = Conv2D(64, (3, 3), activation='relu', padding='same')(up8)
-	conv8 = Conv2D(64, (3, 3), activation='relu', padding='same')(conv8)
+	conv8 = Conv2D(4096, (3, 3), activation = 'relu', padding = 'same')(pool7)
+	conv8 = Conv2D(4096, (3, 3), activation = 'relu', padding = 'same')(conv8)
 
-	up9 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv8), conv1], axis=3)
-	conv9 = Conv2D(32, (3, 3), activation='relu', padding='same')(up9)
-	conv9 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv9)
+	up9 = concatenate([Conv2DTranspose(2048, (2, 2), strides = (2, 2), padding = 'same')(conv8), conv7], axis = 3)
+	conv9 = Conv2D(2048, (3, 3), activation = 'relu', padding = 'same')(up9)
+	conv9 = Conv2D(2048, (3, 3), activation = 'relu', padding = 'same')(conv9)
 
-	conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
+	up10 = concatenate([Conv2DTranspose(1024, (2, 2), strides = (2, 2), padding = 'same')(conv9), conv6], axis = 3)
+	conv10 = Conv2D(1024, (3, 3), activation = 'relu', padding = 'same')(up10)
+	conv10 = Conv2D(1024, (3, 3), activation = 'relu', padding = 'same')(conv10)
 
-	model = Model_keras(inputs=[inputs], outputs=[conv10])
+	up11 = concatenate([Conv2DTranspose(512, (2, 2), strides = (2, 2), padding = 'same')(conv10), conv5], axis = 3)
+	conv11 = Conv2D(256, (3, 3), activation = 'relu', padding = 'same')(up11)
+	conv11 = Conv2D(256, (3, 3), activation = 'relu', padding = 'same')(conv11)
+
+	up12 = concatenate([Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(conv11), conv4], axis=3)
+	conv12 = Conv2D(256, (3, 3), activation='relu', padding='same')(up12)
+	conv12 = Conv2D(256, (3, 3), activation='relu', padding='same')(conv12)
+
+	up13 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv12), conv3], axis=3)
+	conv13 = Conv2D(128, (3, 3), activation='relu', padding='same')(up13)
+	conv13 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv13)
+
+	up14 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv13), conv2], axis=3)
+	conv14 = Conv2D(64, (3, 3), activation='relu', padding='same')(up14)
+	conv14 = Conv2D(64, (3, 3), activation='relu', padding='same')(conv14)
+
+	up15 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv14), conv1], axis=3)
+	conv15 = Conv2D(32, (3, 3), activation='relu', padding='same')(up15)
+	conv15 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv15)
+
+	conv16 = Conv2D(1, (1, 1), activation='sigmoid')(conv15)
+
+	model = Model_keras(inputs=[inputs], outputs=[conv16])
 
 	model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=['accuracy', dice_coef])
 
@@ -440,7 +464,7 @@ def main(argv):
 
 	if parameters['build_model'] :
 		# Model name
-		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}"\
+		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until_vector"\
 			.format(parameters['pyxit_n_subwindows'],
 					parameters['pyxit_target_width'],
 					parameters['pyxit_target_height'],
