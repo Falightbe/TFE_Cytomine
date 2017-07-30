@@ -525,7 +525,7 @@ def main(argv):
 		print(parameters)
 
 	# Model name
-	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}"\
+	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4"\
 		.format(parameters['pyxit_n_subwindows'],
 				parameters['pyxit_target_width'],
 				parameters['pyxit_target_height'],
