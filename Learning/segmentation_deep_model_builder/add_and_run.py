@@ -6,6 +6,7 @@ from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, UpSampling2D,
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
+from keras.preprocessing.image import ImageDataGenerator
 
 import matplotlib.pyplot as plt
 try:
@@ -484,26 +485,7 @@ def main(argv):
 
 
 		# ImageDataGenerator :  two instances with the same arguments
-		data_gen_args = dict(rotation_range = 180.,# Train FCN
-		if not os.path.exists(parameters['keras_save_to']) :
-			os.makedirs(parameters['keras_save_to'])
-
-		model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
-
-		mean, std = train(_X, _y,
-						  model_weights_file_path,
-						  imgs_width = pyxit_parameters['pyxit_target_width'],
-						  imgs_height = pyxit_parameters['pyxit_target_height'],
-						  batch_size = parameters['keras_batch_size'],
-						  epochs = parameters['keras_n_epochs'],
-						  shuffle = parameters['keras_shuffle'],
-						  validation_split = parameters['keras_validation_split'])
-
-		# Save mean and std used to normalize training data
-		mean_std_save_file_path = os.path.join(parameters['keras_save_to'], "meanstd_" + model_name + ".txt")
-		mean_std_save_file = open(mean_std_save_file_path, 'w')
-		mean_std_save_file.write(str(mean)+'\n')
-		mean_std_save_file.write(str(std)+'\n')
+		data_gen_args = dict(rotation_range = 180.,
 							 width_shift_range = 0.1,
 							 height_shift_range = 0.1,
 							 zoom_range = 0.2,
