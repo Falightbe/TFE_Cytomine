@@ -144,11 +144,11 @@ def train(imgs_train, imgs_mask_train, model_weights_filename, imgs_width, imgs_
 	#                                      save_to_dir = '/home/falight/TFE_Cytomine/Learning/tmp/deep_segm/images/augmented_data',
 	#                                      save_format = 'png')
 	imgs_train = imgs_train.astype('float32')
-	mean = np.mean(imgs_train)  # mean for data centering
-	std = np.std(imgs_train)  # std for data normalization
+	# mean = np.mean(imgs_train)  # mean for data centering
+	# std = np.std(imgs_train)  # std for data normalization
 
-	imgs_train -= mean
-	imgs_train /= std
+	# imgs_train -= mean
+	# imgs_train /= std
 	imgs_mask_train = imgs_mask_train.astype('float32')
 
 	# Creating and compiling model
