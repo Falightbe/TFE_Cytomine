@@ -481,7 +481,7 @@ def main(argv):
 
 		# Reshape data structure
 		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
-		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
+		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 1))
 
 
 		# ImageDataGenerator :  two instances with the same arguments
