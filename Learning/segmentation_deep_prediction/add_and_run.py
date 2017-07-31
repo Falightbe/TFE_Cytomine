@@ -240,34 +240,26 @@ def get_unet(imgs_width, imgs_height):
 
 	conv5 = Conv2D(512, (3, 3), activation='relu', padding='same')(pool4)
 	conv5 = Conv2D(512, (3, 3), activation='relu', padding='same')(conv5)
-	pool5 = MaxPooling2D(pool_size = (2, 2))(conv5)
 
-	conv6 = Conv2D(1024, (3, 3), activation = 'relu', padding = 'same')(pool5)
-	conv6 = Conv2D(1024, (3, 3), activation = 'relu', padding = 'same')(conv6)
+	up6 = concatenate([Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(conv5), conv4], axis=3)
+	conv6 = Conv2D(256, (3, 3), activation='relu', padding='same')(up6)
+	conv6 = Conv2D(256, (3, 3), activation='relu', padding='same')(conv6)
 
-	up7 = concatenate([Conv2DTranspose(512, (2, 2), strides = (2, 2), padding = 'same')(conv6), conv5], axis = 3)
-	conv7 = Conv2D(512, (3, 3), activation = 'relu', padding = 'same')(up7)
-	conv7 = Conv2D(512, (3, 3), activation = 'relu', padding = 'same')(conv7)
+	up7 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv6), conv3], axis=3)
+	conv7 = Conv2D(128, (3, 3), activation='relu', padding='same')(up7)
+	conv7 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv7)
 
-	up8 = concatenate([Conv2DTranspose(256, (2, 2), strides = (2, 2), padding = 'same')(conv7), conv4], axis = 3)
-	conv8 = Conv2D(256, (3, 3), activation = 'relu', padding = 'same')(up8)
-	conv8 = Conv2D(256, (3, 3), activation = 'relu', padding = 'same')(conv8)
+	up8 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv7), conv2], axis=3)
+	conv8 = Conv2D(64, (3, 3), activation='relu', padding='same')(up8)
+	conv8 = Conv2D(64, (3, 3), activation='relu', padding='same')(conv8)
 
-	up9 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv8), conv3], axis=3)
-	conv9 = Conv2D(128, (3, 3), activation='relu', padding='same')(up9)
-	conv9 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv9)
+	up9 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv8), conv1], axis=3)
+	conv9 = Conv2D(32, (3, 3), activation='relu', padding='same')(up9)
+	conv9 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv9)
 
-	up10 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv9), conv2], axis=3)
-	conv10 = Conv2D(64, (3, 3), activation='relu', padding='same')(up10)
-	conv10 = Conv2D(64, (3, 3), activation='relu', padding='same')(conv10)
+	conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
 
-	up11 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv10), conv1], axis=3)
-	conv11 = Conv2D(32, (3, 3), activation='relu', padding='same')(up11)
-	conv11 = Conv2D(32, (3, 3), activation='relu', padding='same')(conv11)
-
-	conv12 = Conv2D(1, (1, 1), activation='sigmoid')(conv11)
-
-	model = Model_keras(inputs=[inputs], outputs=[conv12])
+	model = Model_keras(inputs=[inputs], outputs=[conv10])
 
 	model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=['accuracy', dice_coef])
 
@@ -525,7 +517,7 @@ def main(argv):
 		print(parameters)
 
 	# Model name
-	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4"\
+	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}"\
 		.format(parameters['pyxit_n_subwindows'],
 				parameters['pyxit_target_width'],
 				parameters['pyxit_target_height'],
@@ -586,16 +578,16 @@ def main(argv):
 			continue
 		if id_image == 118501032 :
 			continue
-		# if id_image == 181143686 :
-		# 	continue
-		# if id_image == 160963234 :
-		# 	continue
-		# if id_image == 151558171 :
-		# 	continue
-		# if id_image == 149591180 :
-		# 	continue
-		# if id_image == 155193608 :
-		# 	continue
+		if id_image == 181143686 :
+			continue
+		if id_image == 160963234 :
+			continue
+		if id_image == 151558171 :
+			continue
+		if id_image == 149591180 :
+			continue
+		if id_image == 155193608 :
+			continue
 
 		if id_project != previous_id_project:
 			# New connexion to Cytomine
