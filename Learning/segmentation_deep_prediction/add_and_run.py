@@ -579,6 +579,24 @@ def main(argv):
 
 		id_image = int(image_name.split('candidates-')[1].split('-')[0])
 
+
+		if id_image == 95858225:
+			continue
+		if id_image == 82838892 :
+			continue
+		if id_image == 118501032 :
+			continue
+		# if id_image == 181143686 :
+		# 	continue
+		# if id_image == 160963234 :
+		# 	continue
+		# if id_image == 151558171 :
+		# 	continue
+		# if id_image == 149591180 :
+		# 	continue
+		# if id_image == 155193608 :
+		# 	continue
+
 		if id_project != previous_id_project:
 			# New connexion to Cytomine
 			conn = cytomine.Cytomine(parameters["cytomine_host"],
