@@ -500,18 +500,18 @@ def main(argv):
 
 		# Provide the same seed and keyword arguments to the fit and flow methods
 		seed = 1
+		print('Fit image data generator (image)...')
 		image_datagen.fit(_X, augment = True, seed = seed)
+		print('Fit image data generator (mask)...')
 		mask_datagen.fit(_y, augment = True, seed = seed)
 		labels = np.ones((n_subw, 1))
 		print(type(_X))
 		print(type(_y))
 		print(type(labels))
-		print(_X[0 :10])
-		print(_y[0 :10])
-		print(labels[0 :10])
 
+		print('Flow on images...')
 		image_generator = image_datagen.flow(_X, labels, seed = seed, shuffle = False)
-
+		print('Flow on masks...')
 		mask_generator = mask_datagen.flow(_y, labels, seed = seed, shuffle = False)
 
 		# combine generators into one which yields image and masks
