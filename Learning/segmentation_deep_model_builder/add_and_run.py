@@ -108,22 +108,6 @@ def get_unet(imgs_width, imgs_height):
 	return model
 
 
-def preprocess(imgs, imgs_width, imgs_height):
-	imgs_p = np.ndarray((imgs.shape[0], imgs_width, imgs_height, n_channels), dtype=np.uint8)
-	for i in range(imgs.shape[0]):
-		imgs_p[i] = resize(imgs[i], (imgs_width, imgs_height, n_channels), preserve_range=True)
-	imgs_p = imgs_p[..., np.newaxis]
-	return imgs_p
-
-
-def preprocess_mask(imgs, imgs_width, imgs_height):
-	imgs_p = np.ndarray((imgs.shape[0], imgs_width, imgs_height), dtype=np.uint8)
-	for i in range(imgs.shape[0]):
-		imgs_p[i] = resize(imgs[i], (imgs_width, imgs_height), preserve_range=True)
-	imgs_p = imgs_p[..., np.newaxis]
-	return imgs_p
-
-
 def train(imgs_train, imgs_mask_train, model_weights_filename, imgs_width, imgs_height, batch_size = 64, epochs = 30, shuffle = True, validation_split = 0.2):
 	# create_test_data('/home/falight/TFE_Cytomine/Learning/tmp/deep_segm/images')
 	#
@@ -449,7 +433,7 @@ def main(argv):
 
 	if parameters['build_model'] :
 		# Model name
-		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4"\
+		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4_IDG"\
 			.format(parameters['pyxit_n_subwindows'],
 					parameters['pyxit_target_width'],
 					parameters['pyxit_target_height'],
@@ -498,7 +482,9 @@ def main(argv):
 		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
 		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
 
-		# Train FCN
+
+		# ImageDataGenerator :  two instances with the same arguments
+		data_gen_args = dict(rotation_range = 180.,# Train FCN
 		if not os.path.exists(parameters['keras_save_to']) :
 			os.makedirs(parameters['keras_save_to'])
 
@@ -518,6 +504,51 @@ def main(argv):
 		mean_std_save_file = open(mean_std_save_file_path, 'w')
 		mean_std_save_file.write(str(mean)+'\n')
 		mean_std_save_file.write(str(std)+'\n')
+							 width_shift_range = 0.1,
+							 height_shift_range = 0.1,
+							 zoom_range = 0.2,
+							 rescale = 1 / 255,
+							 horizontal_flip = True,
+							 vertical_flip = True)
+		# featurewise_center = True,
+		#  featurewise_std_normalization = True)
+
+		image_datagen = ImageDataGenerator(**data_gen_args)
+		mask_datagen = ImageDataGenerator(**data_gen_args)
+
+		# Provide the same seed and keyword arguments to the fit and flow methods
+		seed = 1
+		image_datagen.fit(_X, augment = True, seed = seed)
+		mask_datagen.fit(_y, augment = True, seed = seed)
+		labels = np.ones((n_subw, 1))
+		print(type(_X))
+		print(type(_y))
+		print(type(labels))
+		print(_X[0 :10])
+		print(_y[0 :10])
+		print(labels[0 :10])
+
+		image_generator = image_datagen.flow(_X, labels, seed = seed, shuffle = False)
+
+		mask_generator = mask_datagen.flow(_y, labels, seed = seed, shuffle = False)
+
+		# combine generators into one which yields image and masks
+		train_generator = zip(image_generator, mask_generator)
+
+		# Creating and compiling model
+		if not os.path.exists(parameters['keras_save_to']) :
+			os.makedirs(parameters['keras_save_to'])
+
+		model_weights_filename = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
+		print('Fitting model...')
+		model = get_unet()
+		model_checkpoint = ModelCheckpoint(model_weights_filename, monitor = 'val_loss', save_best_only = True)
+
+		# Train FCN
+		model.fit_generator(train_generator, steps_per_epoch = 100, epochs = 50, callbacks = [model_checkpoint],
+							verbose = 1)
+
+
 
 
 if __name__ == "__main__":
