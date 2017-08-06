@@ -49,7 +49,7 @@ def main(argv):
 		
 		prj.launch()
 		# Compute statiscal analysis on data
-		stat_directory = prj.path
+		stat_directory = prj.path #"/home/falight/TFE_Cytomine/Project_analysis/tmp/log"
 		if 1 in modes:
 			basic_statistics(prj.project_name, stat_directory, {options.positive_term : "Adenocarcinome", options.roi_term : "Poumon"}, 1, options.roi_term, options.positive_term)
 

@@ -294,7 +294,8 @@ class Project_Analyser(object) :
 		if not (n_annotations_predict) :
 			self.__txt.write(
 				'Image {}, User {}, Job {} : No predicted annotations found\n'.format(image_id, user_id, job_id))
-			self.__image_info_csv.write("\n")
+			if 1 in self.modes :
+				self.__image_info_csv.write("\n")
 			return
 		print "Annotation data :"
 		print "Number of reviewed annotations : {}".format(n_annotations_review)
