@@ -616,6 +616,7 @@ def main(argv):
 		# print(type(_y))
 
 		# ImageDataGenerator :  two instances with the same arguments
+		print("Init data gen")
 		data_gen_args = dict(rotation_range = 180.,
 							 width_shift_range = 0.1,
 							 height_shift_range = 0.1,
