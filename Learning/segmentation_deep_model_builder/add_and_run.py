@@ -401,15 +401,18 @@ def main(argv):
 
 		# Put positive terms under the same term and same for negative terms
 		term_directories = os.listdir(parameters['dir_ls'])
-		pos_path = os.path.join(parameters['dir_ls'], "1")
-		if not os.path.exists(pos_path) :
-			print("Creating positive annotation directory: %s" % pos_path)
-			os.makedirs(pos_path)
+		pos_image_path = os.path.join(parameters['dir_ls'], "1", "image")
+		pos_mask_path = os.path.join(parameters['dir_ls'], "1", "mask")
+		if not os.path.exists(pos_image_path) :
+			print("Creating positive annotation directory: %s" % pos_image_path)
+			os.makedirs(pos_image_path)
 
-		neg_path = os.path.join(parameters['dir_ls'], "0")
-		if not os.path.exists(neg_path) :
-			print("Creating negative annotation directory: %s" % neg_path)
-			os.makedirs(neg_path)
+		neg_image_path = os.path.join(parameters['dir_ls'], "0")
+
+		neg_mask_path = os.path.join(parameters['dir_ls'], "0", "mask")
+		if not os.path.exists(neg_image_path) :
+			print("Creating negative annotation directory: %s" % neg_image_path)
+			os.makedirs(neg_image_path)
 
 		for dir in term_directories :
 			dir_abs = os.path.join(parameters['dir_ls'], dir)
@@ -417,11 +420,19 @@ def main(argv):
 			# Move files
 			if int(dir) in parameters['cytomine_predict_terms'] :
 				for image_file in os.listdir(dir_abs) :
-					os.rename(os.path.join(dir_abs, image_file), os.path.join(pos_path, image_file))
+					os.rename(os.path.join(dir_abs, image_file), os.path.join(pos_image_path, image_file))
+					image = Image.open(os.path.join(pos_image_path, image_file))
+					alpha = image.getdata(band = 3)
+					mask = Image.frombytes("1", image.size, alpha)
+					mask.save(os.path.join(pos_mask_path, image_file),"PNG")
 
 			else:
 				for image_file in os.listdir(dir_abs) :
-					os.rename(os.path.join(dir_abs, image_file), os.path.join(neg_path, image_file))
+					os.rename(os.path.join(dir_abs, image_file), os.path.join(neg_image_path, image_file))
+					image = Image.open(os.path.join(neg_image_path, image_file))
+					alpha = image.getdata(band = 3)
+					mask = Image.frombytes("1", image.size, alpha)
+					mask.save(os.path.join(neg_mask_path, image_file),"PNG")
 
 			# Remove empty directory
 			if int(dir) != 0 and int(dir) != 1:
