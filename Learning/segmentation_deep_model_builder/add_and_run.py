@@ -555,21 +555,21 @@ def main(argv):
 					parameters['cytomine_zoom_level']).replace(".", "")
 		print("Model_name :", model_name)
 
-		pyxit = PyxitClassifier(None,
-								n_subwindows = 1,
-								min_size = 1,
-								max_size = 1,
-								target_width = pyxit_parameters['pyxit_target_width'],
-								target_height = pyxit_parameters['pyxit_target_height'],
-								n_jobs = pyxit_parameters['pyxit_n_jobs'],
-								interpolation = pyxit_parameters['pyxit_interpolation'],
-								transpose = pyxit_parameters['pyxit_transpose'],
-								colorspace = pyxit_parameters['pyxit_colorspace'],
-								fixed_size = pyxit_parameters['pyxit_fixed_size'],
-								random_state = None,
-								verbose = 1,
-								get_output = _get_output_from_mask,
-								parallel_leaf_transform = False)
+		# pyxit = PyxitClassifier(None,
+		# 						n_subwindows = 1,
+		# 						min_size = 1,
+		# 						max_size = 1,
+		# 						target_width = pyxit_parameters['pyxit_target_width'],
+		# 						target_height = pyxit_parameters['pyxit_target_height'],
+		# 						n_jobs = pyxit_parameters['pyxit_n_jobs'],
+		# 						interpolation = pyxit_parameters['pyxit_interpolation'],
+		# 						transpose = pyxit_parameters['pyxit_transpose'],
+		# 						colorspace = pyxit_parameters['pyxit_colorspace'],
+		# 						fixed_size = pyxit_parameters['pyxit_fixed_size'],
+		# 						random_state = None,
+		# 						verbose = 1,
+		# 						get_output = _get_output_from_mask,
+		# 						parallel_leaf_transform = False)
 		# pyxit = PyxitClassifier(None,
 		# 						n_subwindows=pyxit_parameters['pyxit_n_subwindows'],
 		# 						min_size=pyxit_parameters['pyxit_min_size'],
@@ -587,27 +587,27 @@ def main(argv):
 		# 						parallel_leaf_transform=False)
 
 		# Build filenames and classes
-		X, y = build_from_dir(parameters['dir_ls'])
+		# X, y = build_from_dir(parameters['dir_ls'])
 
-		classes = np.unique(y)
-		n_classes = len(classes)
-		y_original = y
-		y = np.searchsorted(classes, y)
-		n_images = len(y)
-		print("Number of images : ", n_images)
-		print("Start extraction of subwindows...")
+		# classes = np.unique(y)
+		# n_classes = len(classes)
+		# y_original = y
+		# y = np.searchsorted(classes, y)
+		# n_images = len(y)
+		# print("Number of images : ", n_images)
+		# print("Start extraction of subwindows...")
 
 		# Extract subwindows
-		_X, _y = pyxit.extract_subwindows(X, y)
-		print("Over")
-		n_subw = len(_y)
-		print("Number of subwindows : ", n_subw)
+		# _X, _y = pyxit.extract_subwindows(X, y)
+		# print("Over")
+		# n_subw = len(_y)
+		# print("Number of subwindows : ", n_subw)
 
 		# Reshape data structure
-		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
-		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 1))
-		print(type(_X))
-		print(type(_y))
+		# _X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
+		# _y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 1))
+		# print(type(_X))
+		# print(type(_y))
 
 		# ImageDataGenerator :  two instances with the same arguments
 		data_gen_args = dict(rotation_range = 180.,
@@ -630,8 +630,8 @@ def main(argv):
 		# print("Fit image data generator (mask)...")
 		# mask_datagen.fit(_y[0:10], augment = True, seed = seed)
 		# labels = np.ones((n_subw, 1)
-		print(type(_X))
-		print(type(_y))
+		# print(type(_X))
+		# print(type(_y))
 		# print(type(labels))
 
 		print('Flow on images...')

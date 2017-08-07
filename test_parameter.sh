@@ -20,7 +20,7 @@ pyxit_colorspace=2
 pyxit_nb_jobs=10
 verbose=true
 cytomine_reviewed=false
-cytomine_zoom_level=1
+cytomine_zoom_level=2
 pyxit_transpose=true
 pyxit_n_subwindows=4 # Tune
 pyxit_fixed_size=true
@@ -38,8 +38,8 @@ keras_shuffle=true
 keras_validation_split=0.2
 
 # Run parameters
-cytomine_dump_annotations=true
-cytomine_dump_annotation_stats=true
+cytomine_dump_annotations=false
+cytomine_dump_annotation_stats=false
 build_model=true
 cytomine_annotation_projects=20207620,21903232,669418,21907448,155194683,7873585 #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7 + PGP
 
@@ -52,7 +52,7 @@ cytomine_reviewed_roi=true
 # Tile and union parameters
 cytomine_min_size=4000
 cytomine_max_size=100000000
-cytomine_tile_size=1024 # Tune
+cytomine_tile_size=512 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
 cytomine_tile_overlap=128 # OSEF ca sert à rien
@@ -93,88 +93,88 @@ project_ids=155194683,155194951,180770924,20207620,7873585
 
 #################################################### Launch python #####################################################
 #python add_and_run.py \
-#python Learning/segmentation_deep_model_builder/add_and_run.py \
-#--cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key \
-#--cytomine_private_key $cytomine_private_key \
-#--cytomine_base_path /api/ \
-#--cytomine_id_software $cytomine_id_software_model_building \
-#--cytomine_working_path $cytomine_working_path \
-#--cytomine_id_project $cytomine_id_project \
-#--cytomine_annotation_projects $cytomine_annotation_projects \
-#--verbose $verbose -z $cytomine_zoom_level \
-#--cytomine_excluded_terms $cytomine_excluded_terms \
-#--cytomine_predict_terms $cytomine_predict_terms \
-#--pyxit_target_width $window_size \
-#--pyxit_target_height $window_size \
-#--pyxit_colorspace $pyxit_colorspace \
-#--pyxit_nb_jobs $pyxit_nb_jobs \
-#--pyxit_n_subwindows $pyxit_n_subwindows \
-#--pyxit_max_size $pyxit_max_size \
-#--pyxit_min_size $pyxit_min_size \
-#--pyxit_transpose $pyxit_transpose \
-#--pyxit_fixed_size $pyxit_fixed_size \
-#--pyxit_interpolation $pyxit_interpolation \
-#--cytomine_reviewed $cytomine_reviewed \
-#--cytomine_dump_annotations $cytomine_dump_annotations \
-#--cytomine_dump_annotation_stats $cytomine_dump_annotation_stats \
-#--build_model $build_model \
-#--keras_batch_size $keras_batch_size \
-#--keras_n_epochs $keras_n_epochs \
-#--keras_shuffle $keras_shuffle \
-#--keras_validation_split $keras_validation_split \
-#--keras_save_to $keras_save_to \
-#--nb_jobs $nb_jobs
+python Learning/segmentation_deep_model_builder/add_and_run.py \
+--cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key \
+--cytomine_private_key $cytomine_private_key \
+--cytomine_base_path /api/ \
+--cytomine_id_software $cytomine_id_software_model_building \
+--cytomine_working_path $cytomine_working_path \
+--cytomine_id_project $cytomine_id_project \
+--cytomine_annotation_projects $cytomine_annotation_projects \
+--verbose $verbose -z $cytomine_zoom_level \
+--cytomine_excluded_terms $cytomine_excluded_terms \
+--cytomine_predict_terms $cytomine_predict_terms \
+--pyxit_target_width $window_size \
+--pyxit_target_height $window_size \
+--pyxit_colorspace $pyxit_colorspace \
+--pyxit_nb_jobs $pyxit_nb_jobs \
+--pyxit_n_subwindows $pyxit_n_subwindows \
+--pyxit_max_size $pyxit_max_size \
+--pyxit_min_size $pyxit_min_size \
+--pyxit_transpose $pyxit_transpose \
+--pyxit_fixed_size $pyxit_fixed_size \
+--pyxit_interpolation $pyxit_interpolation \
+--cytomine_reviewed $cytomine_reviewed \
+--cytomine_dump_annotations $cytomine_dump_annotations \
+--cytomine_dump_annotation_stats $cytomine_dump_annotation_stats \
+--build_model $build_model \
+--keras_batch_size $keras_batch_size \
+--keras_n_epochs $keras_n_epochs \
+--keras_shuffle $keras_shuffle \
+--keras_validation_split $keras_validation_split \
+--keras_save_to $keras_save_to \
+--nb_jobs $nb_jobs
 
 ##python add_and_run.py  \
-python Learning/segmentation_deep_prediction/add_and_run.py \
---cytomine_host $cytomine_host \
---cytomine_public_key $cytomine_public_key \
---cytomine_private_key $cytomine_private_key \
---cytomine_base_path /api/  \
---cytomine_id_software $cytomine_id_software_prediction  \
---cytomine_working_path $cytomine_working_path  \
---cytomine_tile_size $cytomine_tile_size  \
---cytomine_predict_step $cytomine_predict_step  \
---cytomine_tile_overlap $cytomine_tile_overlap  \
---cytomine_tile_min_stddev $cytomine_tile_min_stddev  \
---cytomine_tile_max_mean $cytomine_tile_max_mean  \
---cytomine_union $cytomine_union  \
---cytomine_postproc $cytomine_postproc \
---cytomine_min_size $cytomine_min_size  \
---cytomine_union_min_length $cytomine_union_min_length  \
---cytomine_union_bufferoverlap $cytomine_union_bufferoverlap  \
---cytomine_union_area $cytomine_union_area  \
---cytomine_union_min_point_for_simplify $cytomine_union_min_point_for_simplify   \
---cytomine_union_min_point $cytomine_union_min_point  \
---cytomine_union_max_point $cytomine_union_max_point  \
---cytomine_union_nb_zones_width $cytomine_union_nb_zones_width  \
---cytomine_union_nb_zones_height $cytomine_union_nb_zones_height  \
---cytomine_mask_internal_holes $cytomine_mask_internal_holes  \
---cytomine_count $cytomine_count  \
---pyxit_post_classification $pyxit_post_classification  \
---verbose $verbose  \
---cytomine_predict_projects $cytomine_predict_projects  \
--z $cytomine_zoom_level  \
---cytomine_roi_term $cytomine_roi_term  \
---cytomine_predict_terms $cytomine_predict_terms  \
---pyxit_target_width $window_size  \
---pyxit_target_height $window_size  \
---pyxit_colorspace $pyxit_colorspace  \
---pyxit_nb_jobs $pyxit_nb_jobs  \
---pyxit_n_subwindows $pyxit_n_subwindows  \
---pyxit_transpose $pyxit_transpose  \
---pyxit_fixed_size $pyxit_fixed_size  \
---pyxit_interpolation $pyxit_interpolation  \
---cytomine_reviewed $cytomine_reviewed \
---cytomine_reviewed_roi $cytomine_reviewed_roi  \
---keras_batch_size $keras_batch_size  \
---keras_n_epochs $keras_n_epochs  \
---keras_shuffle $keras_shuffle  \
---keras_validation_split $keras_validation_split  \
---keras_save_to $keras_save_to  \
---startx $startx  \
---starty $starty  \
---nb_jobs $nb_jobs
+#python Learning/segmentation_deep_prediction/add_and_run.py \
+#--cytomine_host $cytomine_host \
+#--cytomine_public_key $cytomine_public_key \
+#--cytomine_private_key $cytomine_private_key \
+#--cytomine_base_path /api/  \
+#--cytomine_id_software $cytomine_id_software_prediction  \
+#--cytomine_working_path $cytomine_working_path  \
+#--cytomine_tile_size $cytomine_tile_size  \
+#--cytomine_predict_step $cytomine_predict_step  \
+#--cytomine_tile_overlap $cytomine_tile_overlap  \
+#--cytomine_tile_min_stddev $cytomine_tile_min_stddev  \
+#--cytomine_tile_max_mean $cytomine_tile_max_mean  \
+#--cytomine_union $cytomine_union  \
+#--cytomine_postproc $cytomine_postproc \
+#--cytomine_min_size $cytomine_min_size  \
+#--cytomine_union_min_length $cytomine_union_min_length  \
+#--cytomine_union_bufferoverlap $cytomine_union_bufferoverlap  \
+#--cytomine_union_area $cytomine_union_area  \
+#--cytomine_union_min_point_for_simplify $cytomine_union_min_point_for_simplify   \
+#--cytomine_union_min_point $cytomine_union_min_point  \
+#--cytomine_union_max_point $cytomine_union_max_point  \
+#--cytomine_union_nb_zones_width $cytomine_union_nb_zones_width  \
+#--cytomine_union_nb_zones_height $cytomine_union_nb_zones_height  \
+#--cytomine_mask_internal_holes $cytomine_mask_internal_holes  \
+#--cytomine_count $cytomine_count  \
+#--pyxit_post_classification $pyxit_post_classification  \
+#--verbose $verbose  \
+#--cytomine_predict_projects $cytomine_predict_projects  \
+#-z $cytomine_zoom_level  \
+#--cytomine_roi_term $cytomine_roi_term  \
+#--cytomine_predict_terms $cytomine_predict_terms  \
+#--pyxit_target_width $window_size  \
+#--pyxit_target_height $window_size  \
+#--pyxit_colorspace $pyxit_colorspace  \
+#--pyxit_nb_jobs $pyxit_nb_jobs  \
+#--pyxit_n_subwindows $pyxit_n_subwindows  \
+#--pyxit_transpose $pyxit_transpose  \
+#--pyxit_fixed_size $pyxit_fixed_size  \
+#--pyxit_interpolation $pyxit_interpolation  \
+#--cytomine_reviewed $cytomine_reviewed \
+#--cytomine_reviewed_roi $cytomine_reviewed_roi  \
+#--keras_batch_size $keras_batch_size  \
+#--keras_n_epochs $keras_n_epochs  \
+#--keras_shuffle $keras_shuffle  \
+#--keras_validation_split $keras_validation_split  \
+#--keras_save_to $keras_save_to  \
+#--startx $startx  \
+#--starty $starty  \
+#--nb_jobs $nb_jobs
 
 #python prediction_analysis.py  \
 #--cytomine_host $cytomine_host  \
