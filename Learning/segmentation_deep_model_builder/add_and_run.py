@@ -427,7 +427,11 @@ def main(argv):
 				print("Positive term")
 				for image_file in os.listdir(dir_abs) :
 					print(image_file)
-					im = Image.open(os.path.join(dir_abs, image_file))
+					try:
+						im = Image.open(os.path.join(dir_abs, image_file))
+					except IOError:
+						"warning filename %s is not an image" % os.path.join(dir_abs, image_file)
+						continue
 					rgb = im.tobytes("raw", "RGB")
 					a = im.tobytes("raw", "A")
 					im.close()
@@ -440,7 +444,11 @@ def main(argv):
 				print("Negative term")
 				for image_file in os.listdir(dir_abs) :
 					print(image_file)
-					im = Image.open(os.path.join(dir_abs, image_file))
+					try:
+						im = Image.open(os.path.join(dir_abs, image_file))
+					except IOError:
+						"warning filename %s is not an image" % os.path.join(dir_abs, image_file)
+						continue
 					rgb = im.tobytes("raw", "RGB")
 					a = im.tobytes("raw", "A")
 					im.close()
@@ -448,6 +456,7 @@ def main(argv):
 					mask = Image.frombytes("L", im.size, a)
 					image.save(os.path.join(neg_image_path, image_file), "PNG")
 					mask.save(os.path.join(neg_mask_path, image_file), "PNG")
+
 
 
 	if parameters['cytomine_dump_annotation_stats'] :
