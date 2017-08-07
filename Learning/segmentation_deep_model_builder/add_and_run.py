@@ -424,8 +424,7 @@ def main(argv):
 			# Move files
 			if int(dir) in parameters['cytomine_predict_terms'] :
 				for image_file in os.listdir(dir_abs) :
-					os.rename(os.path.join(dir_abs, image_file), os.path.join(pos_image_path, image_file))
-					im = Image.open(os.path.join(pos_image_path, image_file))
+					im = Image.open(os.path.join(dir_abs, image_file))
 					rgb = im.tobytes("raw", "RGB")
 					a = im.tobytes("raw", "A")
 					image = Image.frombytes("RGB", im.size, rgb)
@@ -435,8 +434,7 @@ def main(argv):
 
 			else:
 				for image_file in os.listdir(dir_abs) :
-					os.rename(os.path.join(dir_abs, image_file), os.path.join(neg_image_path, image_file))
-					im = Image.open(os.path.join(neg_image_path, image_file))
+					im = Image.open(os.path.join(dir_abs, image_file))
 					rgb = im.tobytes("raw", "RGB")
 					a = im.tobytes("raw", "A")
 					image = Image.frombytes("RGB", im.size, rgb)
