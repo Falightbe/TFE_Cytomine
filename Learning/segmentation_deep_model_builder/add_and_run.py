@@ -499,7 +499,8 @@ def main(argv):
 		# Reshape data structure
 		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
 		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 1))
-
+		print(type(_X))
+		print(type(_y))
 
 		# ImageDataGenerator :  two instances with the same arguments
 		data_gen_args = dict(rotation_range = 180.,
@@ -517,9 +518,9 @@ def main(argv):
 
 		# Provide the same seed and keyword arguments to the fit and flow methods
 		seed = 1
-		print('Fit image data generator (image)...')
+		print("Fit image data generator (image)...")
 		image_datagen.fit(_X, augment = True, seed = seed)
-		print('Fit image data generator (mask)...')
+		print("Fit image data generator (mask)...")
 		mask_datagen.fit(_y, augment = True, seed = seed)
 		labels = np.ones((n_subw, 1))
 		print(type(_X))
