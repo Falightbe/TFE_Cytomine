@@ -20,7 +20,7 @@ pyxit_colorspace=2
 pyxit_nb_jobs=10
 verbose=true
 cytomine_reviewed=false
-cytomine_zoom_level=2
+cytomine_zoom_level=1
 pyxit_transpose=true
 pyxit_n_subwindows=4 # Tune
 pyxit_fixed_size=true
@@ -38,8 +38,8 @@ keras_shuffle=true
 keras_validation_split=0.2
 
 # Run parameters
-cytomine_dump_annotations=false
-cytomine_dump_annotation_stats=false
+cytomine_dump_annotations=true
+cytomine_dump_annotation_stats=true
 build_model=true
 cytomine_annotation_projects=20207620,21903232,669418,21907448,155194683,7873585 #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7 + PGP
 
@@ -53,7 +53,7 @@ cytomine_reviewed_roi=true
 cytomine_min_size=4000
 cytomine_max_size=100000000
 cytomine_zoom_level=2
-cytomine_tile_size=512 # Tune
+cytomine_tile_size=1024 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
 cytomine_tile_overlap=128 # OSEF ca sert à rien
