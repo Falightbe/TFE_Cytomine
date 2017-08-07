@@ -401,15 +401,13 @@ def main(argv):
 
 		# Put positive terms under the same term and same for negative terms
 		term_directories = os.listdir(parameters['dir_ls'])
-		pos_image_path = os.path.join(parameters['dir_ls'], "1", "image")
-		pos_mask_path = os.path.join(parameters['dir_ls'], "1", "mask")
+		pos_image_path = os.path.join(parameters['dir_ls'], "image", "1")
+		pos_mask_path = os.path.join(parameters['dir_ls'], "mask", "1")
+		neg_image_path = os.path.join(parameters['dir_ls'], "image", "0")
+		neg_mask_path = os.path.join(parameters['dir_ls'], "mask", "0")
 		if not os.path.exists(pos_image_path) :
 			print("Creating positive annotation directory: %s" % pos_image_path)
 			os.makedirs(pos_image_path)
-
-		neg_image_path = os.path.join(parameters['dir_ls'], "0")
-
-		neg_mask_path = os.path.join(parameters['dir_ls'], "0", "mask")
 		if not os.path.exists(neg_image_path) :
 			print("Creating negative annotation directory: %s" % neg_image_path)
 			os.makedirs(neg_image_path)
@@ -602,19 +600,29 @@ def main(argv):
 
 		# Provide the same seed and keyword arguments to the fit and flow methods
 		seed = 1
-		print("Fit image data generator (image)...")
-		image_datagen.fit(_X[0:10], augment = True, seed = seed)
-		print("Fit image data generator (mask)...")
-		mask_datagen.fit(_y[0:10], augment = True, seed = seed)
-		labels = np.ones((n_subw, 1))
+		# print("Fit image data generator (image)...")
+		# image_datagen.fit(_X[0:10], augment = True, seed = seed)
+		# print("Fit image data generator (mask)...")
+		# mask_datagen.fit(_y[0:10], augment = True, seed = seed)
+		# labels = np.ones((n_subw, 1)
 		print(type(_X))
 		print(type(_y))
-		print(type(labels))
+		# print(type(labels))
 
 		print('Flow on images...')
-		image_generator = image_datagen.flow(_X, labels, seed = seed, shuffle = False)
+		# image_generator = image_datagen.flow(_X, labels, seed = seed, shuffle = False)
+		image_generator = image_datagen.flow_from_directory(
+			os.path.join(parameters['dir_ls'], "image"),
+			class_mode = None,
+			target_size = (128, 128),
+			seed = seed)
 		print('Flow on masks...')
-		mask_generator = mask_datagen.flow(_y, labels, seed = seed, shuffle = False)
+		# mask_generator = mask_datagen.flow(_y, labels, seed = seed, shuffle = False)
+		mask_generator = mask_datagen.flow_from_directory(
+			os.path.join(parameters['dir_ls'], "mask"),
+			class_mode = None,
+			target_size = (128, 128),
+			seed = seed)
 
 		# combine generators into one which yields image and masks
 		train_generator = zip(image_generator, mask_generator)
@@ -631,7 +639,6 @@ def main(argv):
 		# Train FCN
 		model.fit_generator(train_generator, steps_per_epoch = 100, epochs = 50, callbacks = [model_checkpoint],
 							verbose = 1)
-
 
 
 
