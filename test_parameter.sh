@@ -52,7 +52,6 @@ cytomine_reviewed_roi=true
 # Tile and union parameters
 cytomine_min_size=4000
 cytomine_max_size=100000000
-cytomine_zoom_level=2
 cytomine_tile_size=1024 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
