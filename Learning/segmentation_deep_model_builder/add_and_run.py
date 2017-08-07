@@ -166,7 +166,13 @@ def train(imgs_train, imgs_mask_train, model_weights_filename, imgs_width, imgs_
 			  validation_split=validation_split,
 			  callbacks=[model_checkpoint])
 
-	return mean, std
+	return
+
+
+def combine_generator(gen1, gen2):
+	while True:
+		yield(gen1.next(), gen2.next())
+
 
 def load_model(model_weights_filename, imgs_width, imgs_height):
 	model = get_unet(imgs_width, imgs_height)
@@ -650,7 +656,7 @@ def main(argv):
 			seed = seed)
 
 		# combine generators into one which yields image and masks
-		train_generator = zip(image_generator, mask_generator)
+		train_generator = combine_generator(image_generator, mask_generator)
 
 		# Creating and compiling model
 		if not os.path.exists(parameters['keras_save_to']) :
