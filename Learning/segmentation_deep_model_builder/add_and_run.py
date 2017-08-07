@@ -449,20 +449,35 @@ def main(argv):
 		print("Model_name :", model_name)
 
 		pyxit = PyxitClassifier(None,
-								n_subwindows=pyxit_parameters['pyxit_n_subwindows'],
-								min_size=pyxit_parameters['pyxit_min_size'],
-								max_size=pyxit_parameters['pyxit_max_size'],
-								target_width=pyxit_parameters['pyxit_target_width'],
-								target_height=pyxit_parameters['pyxit_target_height'],
-								n_jobs=pyxit_parameters['pyxit_n_jobs'],
-								interpolation=pyxit_parameters['pyxit_interpolation'],
-								transpose=pyxit_parameters['pyxit_transpose'],
-								colorspace=pyxit_parameters['pyxit_colorspace'],
-								fixed_size=pyxit_parameters['pyxit_fixed_size'],
-								random_state=None,
-								verbose=1,
+								n_subwindows = 1,
+								min_size = 1,
+								max_size = 1,
+								target_width = pyxit_parameters['pyxit_target_width'],
+								target_height = pyxit_parameters['pyxit_target_height'],
+								n_jobs = pyxit_parameters['pyxit_n_jobs'],
+								interpolation = pyxit_parameters['pyxit_interpolation'],
+								transpose = pyxit_parameters['pyxit_transpose'],
+								colorspace = pyxit_parameters['pyxit_colorspace'],
+								fixed_size = pyxit_parameters['pyxit_fixed_size'],
+								random_state = None,
+								verbose = 1,
 								get_output = _get_output_from_mask,
-								parallel_leaf_transform=False)
+								parallel_leaf_transform = False)
+		# pyxit = PyxitClassifier(None,
+		# 						n_subwindows=pyxit_parameters['pyxit_n_subwindows'],
+		# 						min_size=pyxit_parameters['pyxit_min_size'],
+		# 						max_size=pyxit_parameters['pyxit_max_size'],
+		# 						target_width=pyxit_parameters['pyxit_target_width'],
+		# 						target_height=pyxit_parameters['pyxit_target_height'],
+		# 						n_jobs=pyxit_parameters['pyxit_n_jobs'],
+		# 						interpolation=pyxit_parameters['pyxit_interpolation'],
+		# 						transpose=pyxit_parameters['pyxit_transpose'],
+		# 						colorspace=pyxit_parameters['pyxit_colorspace'],
+		# 						fixed_size=pyxit_parameters['pyxit_fixed_size'],
+		# 						random_state=None,
+		# 						verbose=1,
+		# 						get_output = _get_output_from_mask,
+		# 						parallel_leaf_transform=False)
 
 		# Build filenames and classes
 		X, y = build_from_dir(parameters['dir_ls'])
