@@ -144,11 +144,11 @@ def train(imgs_train, imgs_mask_train, model_weights_filename, imgs_width, imgs_
 	#                                      save_to_dir = '/home/falight/TFE_Cytomine/Learning/tmp/deep_segm/images/augmented_data',
 	#                                      save_format = 'png')
 	imgs_train = imgs_train.astype('float32')
-	mean = np.mean(imgs_train)  # mean for data centering
-	std = np.std(imgs_train)  # std for data normalization
+	# mean = np.mean(imgs_train)  # mean for data centering
+	# std = np.std(imgs_train)  # std for data normalization
 
-	imgs_train -= mean
-	imgs_train /= std
+	# imgs_train -= mean
+	# imgs_train /= std
 	imgs_mask_train = imgs_mask_train.astype('float32')
 
 	# Creating and compiling model
@@ -411,6 +411,12 @@ def main(argv):
 		if not os.path.exists(neg_image_path) :
 			print("Creating negative annotation directory: %s" % neg_image_path)
 			os.makedirs(neg_image_path)
+		if not os.path.exists(pos_mask_path) :
+			print("Creating positive annotation directory: %s" % pos_mask_path)
+			os.makedirs(pos_mask_path)
+		if not os.path.exists(neg_mask_path) :
+			print("Creating negative annotation directory: %s" % neg_mask_path)
+			os.makedirs(neg_mask_path)
 
 		for dir in term_directories :
 			dir_abs = os.path.join(parameters['dir_ls'], dir)
@@ -419,18 +425,24 @@ def main(argv):
 			if int(dir) in parameters['cytomine_predict_terms'] :
 				for image_file in os.listdir(dir_abs) :
 					os.rename(os.path.join(dir_abs, image_file), os.path.join(pos_image_path, image_file))
-					image = Image.open(os.path.join(pos_image_path, image_file))
-					alpha = image.getdata(band = 3)
-					mask = Image.frombytes("1", image.size, alpha)
-					mask.save(os.path.join(pos_mask_path, image_file),"PNG")
+					im = Image.open(os.path.join(pos_image_path, image_file))
+					rgb = im.tobytes("raw", "RGB")
+					a = im.tobytes("raw", "A")
+					image = Image.frombytes("RGB", im.size, rgb)
+					mask = Image.frombytes("L", im.size, a)
+					image.save(os.path.join(pos_image_path, image_file), "PNG")
+					mask.save(os.path.join(pos_mask_path, image_file), "PNG")
 
 			else:
 				for image_file in os.listdir(dir_abs) :
 					os.rename(os.path.join(dir_abs, image_file), os.path.join(neg_image_path, image_file))
-					image = Image.open(os.path.join(neg_image_path, image_file))
-					alpha = image.getdata(band = 3)
-					mask = Image.frombytes("1", image.size, alpha)
-					mask.save(os.path.join(neg_mask_path, image_file),"PNG")
+					im = Image.open(os.path.join(neg_image_path, image_file))
+					rgb = im.tobytes("raw", "RGB")
+					a = im.tobytes("raw", "A")
+					image = Image.frombytes("RGB", im.size, rgb)
+					mask = Image.frombytes("L", im.size, a)
+					image.save(os.path.join(neg_image_path, image_file), "PNG")
+					mask.save(os.path.join(neg_mask_path, image_file), "PNG")
 
 			# Remove empty directory
 			if int(dir) != 0 and int(dir) != 1:
@@ -441,82 +453,11 @@ def main(argv):
 		neg_path = os.path.join(parameters['dir_ls'], "0")
 		stats_dumped_annotations(pos_path, neg_path)
 
-	if parameters['build_model'] :
-		# Model name
-		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}"\
-			.format(parameters['pyxit_n_subwindows'],
-					parameters['pyxit_target_width'],
-					parameters['pyxit_target_height'],
-					parameters['pyxit_min_size'],
-					parameters['pyxit_max_size'],
-					parameters['keras_batch_size'],
-					parameters['keras_n_epochs'],
-					parameters['keras_shuffle'],
-					parameters['keras_validation_split'],
-					pyxit_parameters['pyxit_colorspace']).replace(".", "")
-		print("Model_name :", model_name)
 
-		pyxit = PyxitClassifier(None,
-								n_subwindows = pyxit_parameters['pyxit_n_subwindows'],
-								min_size = pyxit_parameters['pyxit_min_size'],
-								max_size = pyxit_parameters['pyxit_max_size'],
-								target_width = pyxit_parameters['pyxit_target_width'],
-								target_height = pyxit_parameters['pyxit_target_height'],
-								n_jobs = pyxit_parameters['pyxit_n_jobs'],
-								interpolation = pyxit_parameters['pyxit_interpolation'],
-								transpose = pyxit_parameters['pyxit_transpose'],
-								colorspace = pyxit_parameters['pyxit_colorspace'],
-								fixed_size = pyxit_parameters['pyxit_fixed_size'],
-								random_state = None,
-								verbose = 1,
-								get_output = _get_output_from_mask,
-								parallel_leaf_transform = False)
 
-		# Build filenames and classes
-		X, y = build_from_dir(parameters['dir_ls'])
-
-		classes = np.unique(y)
-		n_classes = len(classes)
-		y_original = y
-		y = np.searchsorted(classes, y)
-		n_images = len(y)
-		print("Number of images : ", n_images)
-
-		# Extract subwindows
-		_X, _y = pyxit.extract_subwindows(X, y)
-		n_subw = len(_y)
-		print("Number of subwindows : ", n_subw)
-
-		# Reshape data structure
-		_X = np.reshape(_X, (
-		n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
-		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
-
-		# Train FCN
-		if not os.path.exists(parameters['keras_save_to']) :
-			os.makedirs(parameters['keras_save_to'])
-
-		model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
-
-		mean, std = train(_X, _y,
-						  model_weights_file_path,
-						  imgs_width = pyxit_parameters['pyxit_target_width'],
-						  imgs_height = pyxit_parameters['pyxit_target_height'],
-						  batch_size = parameters['keras_batch_size'],
-						  epochs = parameters['keras_n_epochs'],
-						  shuffle = parameters['keras_shuffle'],
-						  validation_split = parameters['keras_validation_split'])
-
-		# Save mean and std used to normalize training data
-		mean_std_save_file_path = os.path.join(parameters['keras_save_to'], "meanstd_" + model_name + ".txt")
-		mean_std_save_file = open(mean_std_save_file_path, 'w')
-		mean_std_save_file.write(str(mean) + '\n')
-		mean_std_save_file.write(str(std) + '\n')
-
-	#
 	# if parameters['build_model'] :
 	# 	# Model name
-	# 	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4_IDG"\
+	# 	model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}"\
 	# 		.format(parameters['pyxit_n_subwindows'],
 	# 				parameters['pyxit_target_width'],
 	# 				parameters['pyxit_target_height'],
@@ -526,14 +467,13 @@ def main(argv):
 	# 				parameters['keras_n_epochs'],
 	# 				parameters['keras_shuffle'],
 	# 				parameters['keras_validation_split'],
-	# 				pyxit_parameters['pyxit_colorspace'],
-	# 				parameters['cytomine_zoom_level']).replace(".", "")
+	# 				pyxit_parameters['pyxit_colorspace']).replace(".", "")
 	# 	print("Model_name :", model_name)
 	#
 	# 	pyxit = PyxitClassifier(None,
-	# 							n_subwindows = 1,
-	# 							min_size = 1,
-	# 							max_size = 1,
+	# 							n_subwindows = pyxit_parameters['pyxit_n_subwindows'],
+	# 							min_size = pyxit_parameters['pyxit_min_size'],
+	# 							max_size = pyxit_parameters['pyxit_max_size'],
 	# 							target_width = pyxit_parameters['pyxit_target_width'],
 	# 							target_height = pyxit_parameters['pyxit_target_height'],
 	# 							n_jobs = pyxit_parameters['pyxit_n_jobs'],
@@ -545,21 +485,6 @@ def main(argv):
 	# 							verbose = 1,
 	# 							get_output = _get_output_from_mask,
 	# 							parallel_leaf_transform = False)
-	# 	# pyxit = PyxitClassifier(None,
-	# 	# 						n_subwindows=pyxit_parameters['pyxit_n_subwindows'],
-	# 	# 						min_size=pyxit_parameters['pyxit_min_size'],
-	# 	# 						max_size=pyxit_parameters['pyxit_max_size'],
-	# 	# 						target_width=pyxit_parameters['pyxit_target_width'],
-	# 	# 						target_height=pyxit_parameters['pyxit_target_height'],
-	# 	# 						n_jobs=pyxit_parameters['pyxit_n_jobs'],
-	# 	# 						interpolation=pyxit_parameters['pyxit_interpolation'],
-	# 	# 						transpose=pyxit_parameters['pyxit_transpose'],
-	# 	# 						colorspace=pyxit_parameters['pyxit_colorspace'],
-	# 	# 						fixed_size=pyxit_parameters['pyxit_fixed_size'],
-	# 	# 						random_state=None,
-	# 	# 						verbose=1,
-	# 	# 						get_output = _get_output_from_mask,
-	# 	# 						parallel_leaf_transform=False)
 	#
 	# 	# Build filenames and classes
 	# 	X, y = build_from_dir(parameters['dir_ls'])
@@ -570,75 +495,164 @@ def main(argv):
 	# 	y = np.searchsorted(classes, y)
 	# 	n_images = len(y)
 	# 	print("Number of images : ", n_images)
-	# 	print("Start extraction of subwindows...")
 	#
 	# 	# Extract subwindows
 	# 	_X, _y = pyxit.extract_subwindows(X, y)
-	# 	print("Over")
 	# 	n_subw = len(_y)
 	# 	print("Number of subwindows : ", n_subw)
 	#
 	# 	# Reshape data structure
-	# 	_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
-	# 	_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 1))
-	# 	print(type(_X))
-	# 	print(type(_y))
+	# 	_X = np.reshape(_X, (
+	# 	n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
+	# 	_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height']))
 	#
-	# 	# ImageDataGenerator :  two instances with the same arguments
-	# 	data_gen_args = dict(rotation_range = 180.,
-	# 						 width_shift_range = 0.1,
-	# 						 height_shift_range = 0.1,
-	# 						 zoom_range = 0.2,
-	# 						 rescale = 1 / 255,
-	# 						 horizontal_flip = True,
-	# 						 vertical_flip = True)
-	# 	# featurewise_center = True,
-	# 	#  featurewise_std_normalization = True)
-	#
-	# 	image_datagen = ImageDataGenerator(**data_gen_args)
-	# 	mask_datagen = ImageDataGenerator(**data_gen_args)
-	#
-	# 	# Provide the same seed and keyword arguments to the fit and flow methods
-	# 	seed = 1
-	# 	# print("Fit image data generator (image)...")
-	# 	# image_datagen.fit(_X[0:10], augment = True, seed = seed)
-	# 	# print("Fit image data generator (mask)...")
-	# 	# mask_datagen.fit(_y[0:10], augment = True, seed = seed)
-	# 	# labels = np.ones((n_subw, 1)
-	# 	print(type(_X))
-	# 	print(type(_y))
-	# 	# print(type(labels))
-	#
-	# 	print('Flow on images...')
-	# 	# image_generator = image_datagen.flow(_X, labels, seed = seed, shuffle = False)
-	# 	image_generator = image_datagen.flow_from_directory(
-	# 		os.path.join(parameters['dir_ls'], "image"),
-	# 		class_mode = None,
-	# 		target_size = (128, 128),
-	# 		seed = seed)
-	# 	print('Flow on masks...')
-	# 	# mask_generator = mask_datagen.flow(_y, labels, seed = seed, shuffle = False)
-	# 	mask_generator = mask_datagen.flow_from_directory(
-	# 		os.path.join(parameters['dir_ls'], "mask"),
-	# 		class_mode = None,
-	# 		target_size = (128, 128),
-	# 		seed = seed)
-	#
-	# 	# combine generators into one which yields image and masks
-	# 	train_generator = zip(image_generator, mask_generator)
-	#
-	# 	# Creating and compiling model
+	# 	# Train FCN
 	# 	if not os.path.exists(parameters['keras_save_to']) :
 	# 		os.makedirs(parameters['keras_save_to'])
 	#
-	# 	model_weights_filename = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
-	# 	print('Fitting model...')
-	# 	model = get_unet()
-	# 	model_checkpoint = ModelCheckpoint(model_weights_filename, monitor = 'val_loss', save_best_only = True)
+	# 	model_weights_file_path = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
 	#
-	# 	# Train FCN
-	# 	model.fit_generator(train_generator, steps_per_epoch = 100, epochs = 50, callbacks = [model_checkpoint],
-	# 						verbose = 1)
+	# 	mean, std = train(_X, _y,
+	# 					  model_weights_file_path,
+	# 					  imgs_width = pyxit_parameters['pyxit_target_width'],
+	# 					  imgs_height = pyxit_parameters['pyxit_target_height'],
+	# 					  batch_size = parameters['keras_batch_size'],
+	# 					  epochs = parameters['keras_n_epochs'],
+	# 					  shuffle = parameters['keras_shuffle'],
+	# 					  validation_split = parameters['keras_validation_split'])
+	#
+	# 	# Save mean and std used to normalize training data
+	# 	mean_std_save_file_path = os.path.join(parameters['keras_save_to'], "meanstd_" + model_name + ".txt")
+	# 	mean_std_save_file = open(mean_std_save_file_path, 'w')
+	# 	mean_std_save_file.write(str(mean) + '\n')
+	# 	mean_std_save_file.write(str(std) + '\n')
+
+
+	if parameters['build_model'] :
+		# Model name
+		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4_IDG"\
+			.format(parameters['pyxit_n_subwindows'],
+					parameters['pyxit_target_width'],
+					parameters['pyxit_target_height'],
+					parameters['pyxit_min_size'],
+					parameters['pyxit_max_size'],
+					parameters['keras_batch_size'],
+					parameters['keras_n_epochs'],
+					parameters['keras_shuffle'],
+					parameters['keras_validation_split'],
+					pyxit_parameters['pyxit_colorspace'],
+					parameters['cytomine_zoom_level']).replace(".", "")
+		print("Model_name :", model_name)
+
+		pyxit = PyxitClassifier(None,
+								n_subwindows = 1,
+								min_size = 1,
+								max_size = 1,
+								target_width = pyxit_parameters['pyxit_target_width'],
+								target_height = pyxit_parameters['pyxit_target_height'],
+								n_jobs = pyxit_parameters['pyxit_n_jobs'],
+								interpolation = pyxit_parameters['pyxit_interpolation'],
+								transpose = pyxit_parameters['pyxit_transpose'],
+								colorspace = pyxit_parameters['pyxit_colorspace'],
+								fixed_size = pyxit_parameters['pyxit_fixed_size'],
+								random_state = None,
+								verbose = 1,
+								get_output = _get_output_from_mask,
+								parallel_leaf_transform = False)
+		# pyxit = PyxitClassifier(None,
+		# 						n_subwindows=pyxit_parameters['pyxit_n_subwindows'],
+		# 						min_size=pyxit_parameters['pyxit_min_size'],
+		# 						max_size=pyxit_parameters['pyxit_max_size'],
+		# 						target_width=pyxit_parameters['pyxit_target_width'],
+		# 						target_height=pyxit_parameters['pyxit_target_height'],
+		# 						n_jobs=pyxit_parameters['pyxit_n_jobs'],
+		# 						interpolation=pyxit_parameters['pyxit_interpolation'],
+		# 						transpose=pyxit_parameters['pyxit_transpose'],
+		# 						colorspace=pyxit_parameters['pyxit_colorspace'],
+		# 						fixed_size=pyxit_parameters['pyxit_fixed_size'],
+		# 						random_state=None,
+		# 						verbose=1,
+		# 						get_output = _get_output_from_mask,
+		# 						parallel_leaf_transform=False)
+
+		# Build filenames and classes
+		X, y = build_from_dir(parameters['dir_ls'])
+
+		classes = np.unique(y)
+		n_classes = len(classes)
+		y_original = y
+		y = np.searchsorted(classes, y)
+		n_images = len(y)
+		print("Number of images : ", n_images)
+		print("Start extraction of subwindows...")
+
+		# Extract subwindows
+		_X, _y = pyxit.extract_subwindows(X, y)
+		print("Over")
+		n_subw = len(_y)
+		print("Number of subwindows : ", n_subw)
+
+		# Reshape data structure
+		_X = np.reshape(_X, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], n_channels))
+		_y = np.reshape(_y, (n_subw, pyxit_parameters['pyxit_target_width'], pyxit_parameters['pyxit_target_height'], 1))
+		print(type(_X))
+		print(type(_y))
+
+		# ImageDataGenerator :  two instances with the same arguments
+		data_gen_args = dict(rotation_range = 180.,
+							 width_shift_range = 0.1,
+							 height_shift_range = 0.1,
+							 zoom_range = 0.2,
+							 rescale = 1 / 255,
+							 horizontal_flip = True,
+							 vertical_flip = True)
+		# featurewise_center = True,
+		#  featurewise_std_normalization = True)
+
+		image_datagen = ImageDataGenerator(**data_gen_args)
+		mask_datagen = ImageDataGenerator(**data_gen_args)
+
+		# Provide the same seed and keyword arguments to the fit and flow methods
+		seed = 1
+		# print("Fit image data generator (image)...")
+		# image_datagen.fit(_X[0:10], augment = True, seed = seed)
+		# print("Fit image data generator (mask)...")
+		# mask_datagen.fit(_y[0:10], augment = True, seed = seed)
+		# labels = np.ones((n_subw, 1)
+		print(type(_X))
+		print(type(_y))
+		# print(type(labels))
+
+		print('Flow on images...')
+		# image_generator = image_datagen.flow(_X, labels, seed = seed, shuffle = False)
+		image_generator = image_datagen.flow_from_directory(
+			os.path.join(parameters['dir_ls'], "image"),
+			class_mode = None,
+			target_size = (128, 128),
+			seed = seed)
+		print('Flow on masks...')
+		# mask_generator = mask_datagen.flow(_y, labels, seed = seed, shuffle = False)
+		mask_generator = mask_datagen.flow_from_directory(
+			os.path.join(parameters['dir_ls'], "mask"),
+			class_mode = None,
+			target_size = (128, 128),
+			seed = seed)
+
+		# combine generators into one which yields image and masks
+		train_generator = zip(image_generator, mask_generator)
+
+		# Creating and compiling model
+		if not os.path.exists(parameters['keras_save_to']) :
+			os.makedirs(parameters['keras_save_to'])
+
+		model_weights_filename = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
+		print('Fitting model...')
+		model = get_unet()
+		model_checkpoint = ModelCheckpoint(model_weights_filename, monitor = 'val_loss', save_best_only = True)
+
+		# Train FCN
+		model.fit_generator(train_generator, steps_per_epoch = 100, epochs = 50, callbacks = [model_checkpoint],
+							verbose = 1)
 
 
 
