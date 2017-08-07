@@ -20,7 +20,7 @@ pyxit_colorspace=2
 pyxit_nb_jobs=10
 verbose=true
 cytomine_reviewed=false
-cytomine_zoom_level=3
+cytomine_zoom_level=1
 pyxit_transpose=true
 pyxit_n_subwindows=4 # Tune
 pyxit_fixed_size=true
@@ -52,7 +52,7 @@ cytomine_reviewed_roi=true
 # Tile and union parameters
 cytomine_min_size=4000
 cytomine_max_size=100000000
-cytomine_tile_size=512 # Tune
+cytomine_tile_size=1024 # Tune
 cytomine_tile_min_stddev=5
 cytomine_tile_max_mean=250
 cytomine_tile_overlap=128 # OSEF ca sert à rien
