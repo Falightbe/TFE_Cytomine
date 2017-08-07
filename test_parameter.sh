@@ -38,10 +38,10 @@ keras_shuffle=true
 keras_validation_split=0.2
 
 # Run parameters
-cytomine_dump_annotations=true
-cytomine_dump_annotation_stats=true
-build_model=false
-cytomine_annotation_projects=20207620,21903232,669418,21907448,155194683 #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7 + PGP
+cytomine_dump_annotations=false
+cytomine_dump_annotation_stats=false
+build_model=true
+cytomine_annotation_projects=20207620,21903232,669418,21907448,155194683,7873585 #AS6 et AGAR23 et AGAR15-POUMON + AGAR25 + AGIC7 + PGP
 #
 
 ###################################################### Prediction ######################################################
@@ -126,7 +126,7 @@ python Learning/segmentation_deep_model_builder/add_and_run.py \
 --keras_save_to $keras_save_to \
 --nb_jobs $nb_jobs
 
-#python add_and_run.py  \
+##python add_and_run.py  \
 #python Learning/segmentation_deep_prediction/add_and_run.py \
 #--cytomine_host $cytomine_host \
 #--cytomine_public_key $cytomine_public_key \
