@@ -488,6 +488,7 @@ def main(argv):
 		y = np.searchsorted(classes, y)
 		n_images = len(y)
 		print("Number of images : ", n_images)
+		print("Start extraction of subwindows...")
 
 		# Extract subwindows
 		_X, _y = pyxit.extract_subwindows(X, y)
