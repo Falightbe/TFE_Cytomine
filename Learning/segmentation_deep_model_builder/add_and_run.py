@@ -440,7 +440,7 @@ def main(argv):
 
 	if parameters['build_model'] :
 		# Model name
-		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}_until4x4"\
+		model_name = "nsubw{}_winsize{}x{}_minsize{}_maxsize{}_batchsize{}_epochs{}_shuffle{}_valsplit{}_colorspace{}_zoom{}"\
 			.format(parameters['pyxit_n_subwindows'],
 					parameters['pyxit_target_width'],
 					parameters['pyxit_target_height'],
