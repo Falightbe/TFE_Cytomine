@@ -476,6 +476,7 @@ def main(argv):
 
 		# Extract subwindows
 		_X, _y = pyxit.extract_subwindows(X, y)
+		print("Over")
 		n_subw = len(_y)
 		print("Number of subwindows : ", n_subw)
 
