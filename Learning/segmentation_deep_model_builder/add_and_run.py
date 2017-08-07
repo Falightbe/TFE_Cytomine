@@ -665,7 +665,7 @@ def main(argv):
 
 		model_weights_filename = os.path.join(parameters['keras_save_to'], "weights_" + model_name + ".h5")
 		print('Fitting model...')
-		model = get_unet()
+		model = get_unet(128, 128)
 		model_checkpoint = ModelCheckpoint(model_weights_filename, monitor = 'val_loss', save_best_only = True)
 
 		# Train FCN
