@@ -1087,33 +1087,6 @@ def main(argv):
 
 	job = conn.update_job_status(job, status = job.TERMINATED, progress = 100, status_comment =  "Finish Job..")
 
-
-
-
-	# Prediction analysis
-	# projects = map(int, options.project_ids.split(','))
-	# modes = [1, 2]
-	# directory = os.path.join(parameters['cytomine_working_path'], 'analysis_{}'.format(strftime("%Y-%m-%d-%H:%M:%S", localtime())))
-	# for p_id in projects :
-	# 	# Build data in local directory
-	# 	prj = Project_Analyser(parameters['cytomine_host'], public_key = parameters['cytomine_public_key'], private_key = parameters['cytomine_private_key'],
-	# 						   base_path = parameters['cytomine_base_path'], working_path = parameters['cytomine_working_path'], project_id = p_id,
-	# 						   modes = modes,
-	# 						   directory = directory, roi_term = parameters['cytomine_roi_term'],
-	# 						   positive_term = parameters['cytomine_predicted_annotation_term'], roi_zoom = 5,
-	# 						   positive_user_job_id = job.userJob)
-	#
-	# 	prj.launch()
-	# 	# Compute statiscal analysis on data
-	# 	stat_directory = prj.path
-	# 	basic_statistics(prj.project_name, stat_directory,
-	# 					 {parameters['cytomine_predicted_annotation_term'] : "Adenocarcinome", options.roi_term : "Poumon"}, 1,
-	# 					 parameters['cytomine_roi_term'], parameters['cytomine_predicted_annotation_term'])
-	#
-	# 	blob_size_statistics(prj.project_name, stat_directory)
-	#
-	# 	color_statistics(prj.project_name, stat_directory)
-
 	# Write in log file
 	print(average_image_time)
 	print(i_image)

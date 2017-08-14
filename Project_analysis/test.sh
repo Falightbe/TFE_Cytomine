@@ -13,6 +13,6 @@ analyse_roi=0 # whether we analyse predictions for ROI or not
 positive_term=20202
 userjob_id=206831012
 project_ids=155194683,155194951,180770924,20207620,7873585
-image_file="log3.csv"
+image_file="ConvTrans.csv"
 cat $image_file
 python prediction_analysis.py --cytomine_host $cytomine_host --cytomine_public_key $cytomine_public_key --cytomine_private_key $cytomine_private_key --cytomine_base_path /api/ --cytomine_working_path $working_path --project_ids $project_ids --roi_term $roi_term --positive_term $positive_term --modes $modes --directory $directory --image_file $image_file
